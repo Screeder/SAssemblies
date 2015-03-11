@@ -1,5 +1,8 @@
 SAssemblies.sln
-Wards/Install.bat
-Wards/bin/
-Wards/obj/
+SWards/Install.bat
+SWards/bin/
+SWards/obj/
+SDetectors/Install.bat
+SDetectors/bin/
+SDetectors/obj/
 Git.txt

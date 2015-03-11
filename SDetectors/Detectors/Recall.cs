@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using LeagueSharp;
 using LeagueSharp.Common;
 
-namespace SAwareness.Detectors
+namespace SAssemblies.Detectors
 {
     internal class Recall
     {

@@ -7,7 +7,7 @@ using LeagueSharp;
 using LeagueSharp.Common;
 using SharpDX;
 
-namespace SAwareness.Detectors
+namespace SAssemblies.Detectors
 {
     class FoWSpellEnemy
     {

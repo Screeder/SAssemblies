@@ -5,9 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using LeagueSharp;
 using LeagueSharp.Common;
-using SAwareness.Wards;
 
-namespace SAwareness.Wards
+namespace SAssemblies.Wards
 {
     class FowWardPlacement
     {

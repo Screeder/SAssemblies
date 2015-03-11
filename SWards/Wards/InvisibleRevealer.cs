@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using LeagueSharp;
 using LeagueSharp.Common;
 
-namespace SAwareness.Wards
+namespace SAssemblies.Wards
 {
     class InvisibleRevealer
     {

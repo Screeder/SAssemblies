@@ -8,7 +8,7 @@ using LeagueSharp;
 using LeagueSharp.Common;
 using SharpDX;
 
-namespace SAwareness.Wards
+namespace SAssemblies.Wards
 {
     class WardCorrector
     {
@@ -137,7 +137,6 @@ namespace SAwareness.Wards
 
         void Spellbook_OnCastSpell(Spellbook sender, SpellbookCastSpellEventArgs args)
         {
-            //throw new NotImplementedException();
             if (!IsActive())
                 return;
 

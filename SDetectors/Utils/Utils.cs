@@ -31,7 +31,7 @@ using ResourceManager = System.Resources.ResourceManager;
 
 //Erstelle ein Thread, rufe darin die sich im event eingeschrieben methoden auf
 
-namespace SAwareness
+namespace SAssemblies
 {
     class Menu
     {

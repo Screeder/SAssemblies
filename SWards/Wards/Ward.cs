@@ -4,10 +4,12 @@ using System.IO;
 using System.Linq;
 using LeagueSharp;
 using LeagueSharp.Common;
+using SAssemblies;
 using SharpDX;
 using Color = System.Drawing.Color;
+using Menu = SAssemblies.Menu;
 
-namespace SAwareness.Wards
+namespace SAssemblies.Wards
 {
     internal class Ward
     {

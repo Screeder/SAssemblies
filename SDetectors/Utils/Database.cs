@@ -3,7 +3,7 @@ using LeagueSharp;
 using LeagueSharp.Common;
 using SharpDX;
 
-namespace SAwareness
+namespace SAssemblies
 {
     //by Lexxes
     internal class Database

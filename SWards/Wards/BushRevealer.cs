@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 using LeagueSharp;
 using LeagueSharp.Common;
 using SharpDX;
+using Menu = SAssemblies.Menu;
 
-namespace SAwareness.Wards
+namespace SAssemblies.Wards
 {
     internal class BushRevealer //By Beaving & Blm95
     {

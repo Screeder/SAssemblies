@@ -9,11 +9,11 @@ using LeagueSharp.Common;
 using SharpDX;
 using Color = System.Drawing.Color;
 
-namespace SAwareness.Detectors
+namespace SAssemblies.Detectors
 {
     class Vision
     {
-        public static Menu.MenuItemSettings VisionDetector = new Menu.MenuItemSettings(typeof(SAwareness.Detectors.Vision));
+        public static Menu.MenuItemSettings VisionDetector = new Menu.MenuItemSettings(typeof(Detectors.Vision));
 
         public enum ObjectType
         {

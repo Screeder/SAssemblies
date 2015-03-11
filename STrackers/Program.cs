@@ -12,15 +12,16 @@ namespace SAssemblies
 {
     class MainMenu : Menu
     {
-        public static MenuItemSettings Timers;
-        public static MenuItemSettings JungleTimer;
-        public static MenuItemSettings RelictTimer;
-        public static MenuItemSettings HealthTimer;
-        public static MenuItemSettings InhibitorTimer;
-        public static MenuItemSettings SummonerTimer;
-        public static MenuItemSettings ImmuneTimer;
-        public static MenuItemSettings AltarTimer;
-        public static MenuItemSettings SpellTimer;
+        public static MenuItemSettings Tracker;
+        public static MenuItemSettings UiTracker;
+        public static MenuItemSettings UimTracker;
+        public static MenuItemSettings SsCallerTracker;
+        public static MenuItemSettings WaypointTracker;
+        public static MenuItemSettings CloneTracker;
+        public static MenuItemSettings GankTracker;
+        public static MenuItemSettings DestinationTracker;
+        public static MenuItemSettings KillableTracker;
+        public static MenuItemSettings JunglerTracker;
     }
 
     class Program
@@ -50,15 +51,17 @@ namespace SAssemblies
                 Menu.MenuItemSettings tempSettings;
                 var menu = new LeagueSharp.Common.Menu("SAwareness", "SAwareness", true);
 
-                MainMenu.Timers = Timers.Timer.SetupMenu(menu);
-                MainMenu.AltarTimer = Timers.Altar.SetupMenu(MainMenu.Timers.Menu);
-                MainMenu.HealthTimer = Timers.Health.SetupMenu(MainMenu.Timers.Menu);
-                MainMenu.ImmuneTimer = Timers.Immune.SetupMenu(MainMenu.Timers.Menu);
-                MainMenu.InhibitorTimer = Timers.Inhibitor.SetupMenu(MainMenu.Timers.Menu);
-                MainMenu.JungleTimer = Timers.Jungle.SetupMenu(MainMenu.Timers.Menu);
-                MainMenu.RelictTimer = Timers.Relic.SetupMenu(MainMenu.Timers.Menu);
-                MainMenu.SummonerTimer = Timers.Summoner.SetupMenu(MainMenu.Timers.Menu);
-                MainMenu.SpellTimer = Timers.Spell.SetupMenu(MainMenu.Timers.Menu);
+                MainMenu.Tracker = Trackers.Tracker.SetupMenu(menu);
+                MainMenu.GankTracker = Trackers.Gank.SetupMenu(MainMenu.Tracker.Menu);
+                MainMenu.CloneTracker = Trackers.Clone.SetupMenu(MainMenu.Tracker.Menu);
+                MainMenu.DestinationTracker = Trackers.Destination.SetupMenu(MainMenu.Tracker.Menu);
+                MainMenu.KillableTracker = Trackers.Killable.SetupMenu(MainMenu.Tracker.Menu);
+                MainMenu.SsCallerTracker = Trackers.SsCaller.SetupMenu(MainMenu.Tracker.Menu);
+                MainMenu.UiTracker = Trackers.Ui.SetupMenu(MainMenu.Tracker.Menu);
+                MainMenu.UimTracker = Trackers.Uim.SetupMenu(MainMenu.Tracker.Menu);
+                MainMenu.WaypointTracker = Trackers.Waypoint.SetupMenu(MainMenu.Tracker.Menu);
+                MainMenu.JunglerTracker = Trackers.Jungler.SetupMenu(MainMenu.Tracker.Menu);
+                //MainMenu.CrowdControlTracker = Trackers.CrowdControl.SetupMenu(MainMenu.Tracker.Menu);
 
                 Menu.GlobalSettings.Menu =
                     menu.AddSubMenu(new LeagueSharp.Common.Menu("Global Settings", "SAwarenessGlobalSettings"));

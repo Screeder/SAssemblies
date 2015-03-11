@@ -241,6 +241,79 @@ namespace SAssemblies
         }
     }
 
+    internal static class SummonerSpells
+    {
+        public static SpellSlot GetIgniteSlot()
+        {
+            foreach (SpellDataInst spell in ObjectManager.Player.Spellbook.Spells)
+            {
+                if (spell.Name.ToLower().Contains("dot") && spell.State == SpellState.Ready)
+                    return spell.Slot;
+            }
+            return SpellSlot.Unknown;
+        }
+
+        public static SpellSlot GetSmiteSlot()
+        {
+            foreach (SpellDataInst spell in ObjectManager.Player.Spellbook.Spells)
+            {
+                if (spell.Name.ToLower().Contains("smite") && spell.State == SpellState.Ready)
+                    return spell.Slot;
+            }
+            return SpellSlot.Unknown;
+        }
+
+        public static SpellSlot GetHealSlot()
+        {
+            foreach (SpellDataInst spell in ObjectManager.Player.Spellbook.Spells)
+            {
+                if (spell.Name.ToLower().Contains("heal") && spell.State == SpellState.Ready)
+                    return spell.Slot;
+            }
+            return SpellSlot.Unknown;
+        }
+
+        public static SpellSlot GetBarrierSlot()
+        {
+            foreach (SpellDataInst spell in ObjectManager.Player.Spellbook.Spells)
+            {
+                if (spell.Name.ToLower().Contains("barrier") && spell.State == SpellState.Ready)
+                    return spell.Slot;
+            }
+            return SpellSlot.Unknown;
+        }
+
+        public static SpellSlot GetExhaustSlot()
+        {
+            foreach (SpellDataInst spell in ObjectManager.Player.Spellbook.Spells)
+            {
+                if (spell.Name.ToLower().Contains("exhaust") && spell.State == SpellState.Ready)
+                    return spell.Slot;
+            }
+            return SpellSlot.Unknown;
+        }
+
+        public static SpellSlot GetCleanseSlot()
+        {
+            foreach (SpellDataInst spell in ObjectManager.Player.Spellbook.Spells)
+            {
+                if (spell.Name.ToLower().Contains("boost") && spell.State == SpellState.Ready)
+                    return spell.Slot;
+            }
+            return SpellSlot.Unknown;
+        }
+
+        public static SpellSlot GetFlashSlot()
+        {
+            foreach (SpellDataInst spell in ObjectManager.Player.Spellbook.Spells)
+            {
+                if (spell.Name.ToLower().Contains("flash") && spell.State == SpellState.Ready)
+                    return spell.Slot;
+            }
+            return SpellSlot.Unknown;
+        }
+    }
+
     internal class Downloader
     {
         public delegate void DownloadFinished(object sender, DlEventArgs args);

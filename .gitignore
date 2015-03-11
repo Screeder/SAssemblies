@@ -1,11 +1,14 @@
 SAssemblies.sln
-SWards/Install.bat
-SWards/bin/
-SWards/obj/
 SDetectors/Install.bat
 SDetectors/bin/
 SDetectors/obj/
 STimers/Install.bat
 STimers/bin/
 STimers/obj/
+STrackers/Install.bat
+STrackers/bin/
+STrackers/obj/
+SWards/Install.bat
+SWards/bin/
+SWards/obj/
 Git.txt

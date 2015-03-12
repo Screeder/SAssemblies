@@ -120,18 +120,18 @@ namespace SAssemblies.Wards
 
         private static void SetupMainMenu()
         {
-            var menu = new LeagueSharp.Common.Menu("SAwarenessWardCorrector", "SAwarenessWardsWardCorrector", true);
+            var menu = new LeagueSharp.Common.Menu("SAssembliesWardCorrector", "SAssembliesWardsWardCorrector", true);
             SetupMenu(menu);
             menu.AddToMainMenu();
         }
 
         public static Menu.MenuItemSettings SetupMenu(LeagueSharp.Common.Menu menu)
         {
-            WardCorrector_Wards.Menu = menu.AddSubMenu(new LeagueSharp.Common.Menu(Language.GetString("WARDS_WARDCORRECTOR_MAIN"), "SAwarenessWardsWardCorrector"));
+            WardCorrector_Wards.Menu = menu.AddSubMenu(new LeagueSharp.Common.Menu(Language.GetString("WARDS_WARDCORRECTOR_MAIN"), "SAssembliesWardsWardCorrector"));
             WardCorrector_Wards.MenuItems.Add(
-                WardCorrector_Wards.Menu.AddItem(new MenuItem("SAwarenessWardsWardCorrectorKey", Language.GetString("WARDS_WARDCORRECTOR_TRINKET")).SetValue(new KeyBind(52, KeyBindType.Press))));
+                WardCorrector_Wards.Menu.AddItem(new MenuItem("SAssembliesWardsWardCorrectorKey", Language.GetString("WARDS_WARDCORRECTOR_TRINKET")).SetValue(new KeyBind(52, KeyBindType.Press))));
             WardCorrector_Wards.MenuItems.Add(
-                WardCorrector_Wards.Menu.AddItem(new MenuItem("SAwarenessWardsWardCorrectorActive", Language.GetString("GLOBAL_ACTIVE")).SetValue(false)));
+                WardCorrector_Wards.Menu.AddItem(new MenuItem("SAssembliesWardsWardCorrectorActive", Language.GetString("GLOBAL_ACTIVE")).SetValue(false)));
             return WardCorrector_Wards;
         }
 
@@ -287,7 +287,7 @@ namespace SAssemblies.Wards
             if (MenuGUI.IsChatOpen)
                 return;
             uint trinketKey =
-                WardCorrector_Wards.GetMenuItem("SAwarenessWardsWardCorrectorKey").GetValue<KeyBind>().Key;
+                WardCorrector_Wards.GetMenuItem("SAssembliesWardsWardCorrectorKey").GetValue<KeyBind>().Key;
             if (args.Msg == WM_KEYDOWN)
             {
                 //Console.WriteLine("Hero: " + ObjectManager.Player.ServerPosition);

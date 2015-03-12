@@ -153,7 +153,7 @@ namespace SAssemblies
 
     internal static class Log
     {
-        public static String File = "C:\\SAwareness.log";
+        public static String File = "C:\\SAssemblies.log";
         public static String Prefix = "Packet";
 
         public static void LogString(String text, String file = null, String prefix = null)
@@ -526,7 +526,7 @@ namespace SAssemblies
             var champion = AirGeneratedContent.Champions[baseSkinName];
             if (champion == null)
             {
-                Console.Write("SAwareness: Can not get champion: " + baseSkinName);
+                Console.Write("SAssemblies: Can not get champion: " + baseSkinName);
                 return null;
             }
             String imageStr = null;
@@ -991,7 +991,7 @@ namespace SAssemblies
             string loc = Path.Combine(new[]
             {
                 Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "LeagueSharp", "Assemblies", "cache",
-                "SAwareness", subFolder, name  + ".png"
+                "SAssemblies", subFolder, name  + ".png"
             });
             try
             {
@@ -1010,10 +1010,10 @@ namespace SAssemblies
             string loc = Path.Combine(new[]
             {
                 Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "LeagueSharp", "Assemblies", "cache",
-                "SAwareness", subFolder, name  + ".png"
+                "SAssemblies", subFolder, name  + ".png"
             });
             Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "LeagueSharp",
-                        "Assemblies", "cache", "SAwareness", subFolder));
+                        "Assemblies", "cache", "SAssemblies", subFolder));
             File.WriteAllBytes(loc, bitmap/*(byte[])new ImageConverter().ConvertTo(bitmap, typeof(byte[]))*/);
         }
 
@@ -1026,7 +1026,7 @@ namespace SAssemblies
             string loc = Path.Combine(new[]
             {
                 Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "LeagueSharp", "Assemblies", "cache",
-                "SAwareness", subFolder, name  + ".png"
+                "SAssemblies", subFolder, name  + ".png"
             });
             try
             {
@@ -1437,7 +1437,7 @@ namespace SAssemblies
             string loc = Path.Combine(new[]
             {
                 Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "LeagueSharp", "Assemblies", "cache",
-                "SAwareness", subFolder, name  + ".png"
+                "SAssemblies", subFolder, name  + ".png"
             });
             try
             {
@@ -1456,10 +1456,10 @@ namespace SAssemblies
             string loc = Path.Combine(new[]
             {
                 Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "LeagueSharp", "Assemblies", "cache",
-                "SAwareness", subFolder, name  + ".png"
+                "SAssemblies", subFolder, name  + ".png"
             });
             Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "LeagueSharp",
-                        "Assemblies", "cache", "SAwareness", subFolder));
+                        "Assemblies", "cache", "SAssemblies", subFolder));
             File.WriteAllBytes(loc, bitmap/*(byte[])new ImageConverter().ConvertTo(bitmap, typeof(byte[]))*/);
         }
 
@@ -1472,7 +1472,7 @@ namespace SAssemblies
             string loc = Path.Combine(new[]
             {
                 Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "LeagueSharp", "Assemblies", "cache",
-                "SAwareness", subFolder, name  + ".png"
+                "SAssemblies", subFolder, name  + ".png"
             });
             try
             {
@@ -1885,12 +1885,12 @@ namespace SAssemblies
                 if (speech.Value.State == SynthesizerState.Ready && !speaking)
                 {
                     if (speech.Value.Volume !=
-                        Menu.GlobalSettings.GetMenuItem("SAwarenessGlobalSettingsVoiceVolume")
+                        Menu.GlobalSettings.GetMenuItem("SAssembliesGlobalSettingsVoiceVolume")
                             .GetValue<Slider>()
                             .Value)
                     {
                         speech.Value.Volume =
-                            Menu.GlobalSettings.GetMenuItem("SAwarenessGlobalSettingsVoiceVolume")
+                            Menu.GlobalSettings.GetMenuItem("SAssembliesGlobalSettingsVoiceVolume")
                                 .GetValue<Slider>()
                                 .Value;
                     }

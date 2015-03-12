@@ -24,7 +24,7 @@ namespace SAssemblies.Detectors
 
         private static void SetupMainMenu()
         {
-            var menu = new LeagueSharp.Common.Menu("SAwareness", "SAwareness", true);
+            var menu = new LeagueSharp.Common.Menu("SAssemblies", "SAssemblies", true);
             SetupMenu(menu);
             menu.AddToMainMenu();
         }
@@ -32,8 +32,8 @@ namespace SAssemblies.Detectors
         public static Menu.MenuItemSettings SetupMenu(LeagueSharp.Common.Menu menu)
         {
             Language.SetLanguage();
-            Detectors.Menu = menu.AddSubMenu(new LeagueSharp.Common.Menu(Language.GetString("DETECTORS_DETECTOR_MAIN"), "SAwarenessDetectors"));
-            Detectors.MenuItems.Add(Detectors.Menu.AddItem(new MenuItem("SAwarenessDetectorsActive", Language.GetString("GLOBAL_ACTIVE")).SetValue(false)));
+            Detectors.Menu = menu.AddSubMenu(new LeagueSharp.Common.Menu(Language.GetString("DETECTORS_DETECTOR_MAIN"), "SAssembliesDetectors"));
+            Detectors.MenuItems.Add(Detectors.Menu.AddItem(new MenuItem("SAssembliesDetectorsActive", Language.GetString("GLOBAL_ACTIVE")).SetValue(false)));
             return Detectors;
         }
     }

@@ -14,12 +14,9 @@ namespace SAssemblies
 {
     class MainMenu : Menu
     {
-        public static MenuItemSettings Detector;
-        public static MenuItemSettings VisionDetector;
-        public static MenuItemSettings RecallDetector;
-        public static MenuItemSettings GankDetector;
-        public static MenuItemSettings DisconnectDetector;
-        public static MenuItemSettings FoWSpellEnemyDetector;
+        public static MenuItemSettings Health;
+        public static MenuItemSettings TurretHealth;
+        public static MenuItemSettings InhibitorHealth;
     }
 
     class Program
@@ -37,7 +34,7 @@ namespace SAssemblies
         private async static void Game_OnGameLoad(EventArgs args)
         {
             CreateMenu();
-            Game.PrintChat("SDetectors loaded!");
+            Game.PrintChat("SHealths loaded!");
             new Thread(GameOnOnGameUpdate).Start();
         }
 
@@ -47,14 +44,11 @@ namespace SAssemblies
             try
             {
                 Menu.MenuItemSettings tempSettings;
-                var menu = new LeagueSharp.Common.Menu("SDetectors", "SDetectors", true);
+                var menu = new LeagueSharp.Common.Menu("SHealths", "SHealths", true);
 
-                MainMenu.Detector = Detectors.Detector.SetupMenu(menu);
-                MainMenu.VisionDetector = Detectors.Vision.SetupMenu(MainMenu.Detector.Menu);
-                MainMenu.RecallDetector = Detectors.Recall.SetupMenu(MainMenu.Detector.Menu);
-                MainMenu.GankDetector = Detectors.Gank.SetupMenu(MainMenu.Detector.Menu);
-                //MainMenu.DisconnectDetector = Detectors.DisReconnect.SetupMenu(MainMenu.Detector.Menu);
-                MainMenu.FoWSpellEnemyDetector = Detectors.FoWSpellEnemy.SetupMenu(MainMenu.Detector.Menu);
+                MainMenu.Health = Healths.Health.SetupMenu(menu);
+                MainMenu.InhibitorHealth = Healths.Inhibitor.SetupMenu(MainMenu.Health.Menu);
+                MainMenu.TurretHealth = Healths.Turret.SetupMenu(MainMenu.Health.Menu);
 
                 Menu.GlobalSettings.Menu =
                     menu.AddSubMenu(new LeagueSharp.Common.Menu("Global Settings", "SAssembliesGlobalSettings"));

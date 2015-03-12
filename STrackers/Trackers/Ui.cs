@@ -52,48 +52,48 @@ namespace SAssemblies.Trackers
         public Ui()
         {
             //if (
-            //    UiTracker.GetMenuSettings("SAwarenessUITrackerEnemyTracker")
-            //        .GetMenuItem("SAwarenessUITrackerEnemyTrackerXPos")
+            //    UiTracker.GetMenuSettings("SAssembliesUITrackerEnemyTracker")
+            //        .GetMenuItem("SAssembliesUITrackerEnemyTrackerXPos")
             //        .GetValue<Slider>()
             //        .Value == 0)
             //{
-            //    UiTracker.GetMenuSettings("SAwarenessUITrackerEnemyTracker")
-            //        .GetMenuItem("SAwarenessUITrackerEnemyTrackerXPos")
+            //    UiTracker.GetMenuSettings("SAssembliesUITrackerEnemyTracker")
+            //        .GetMenuItem("SAssembliesUITrackerEnemyTrackerXPos")
             //        .SetValue(new Slider((int)_screen.X, Drawing.Width, 0));
             //}
             //if (
-            //    UiTracker.GetMenuSettings("SAwarenessUITrackerEnemyTracker")
-            //        .GetMenuItem("SAwarenessUITrackerEnemyTrackerYPos")
+            //    UiTracker.GetMenuSettings("SAssembliesUITrackerEnemyTracker")
+            //        .GetMenuItem("SAssembliesUITrackerEnemyTrackerYPos")
             //        .GetValue<Slider>()
             //        .Value == 0)
             //{
-            //    UiTracker.GetMenuSettings("SAwarenessUITrackerEnemyTracker")
-            //        .GetMenuItem("SAwarenessUITrackerEnemyTrackerYPos")
+            //    UiTracker.GetMenuSettings("SAssembliesUITrackerEnemyTracker")
+            //        .GetMenuItem("SAssembliesUITrackerEnemyTrackerYPos")
             //        .SetValue(new Slider((int)_screen.Y, Drawing.Height, 0));
             //}
             //if (
-            //    UiTracker.GetMenuSettings("SAwarenessUITrackerAllyTracker")
-            //        .GetMenuItem("SAwarenessUITrackerAllyTrackerXPos")
+            //    UiTracker.GetMenuSettings("SAssembliesUITrackerAllyTracker")
+            //        .GetMenuItem("SAssembliesUITrackerAllyTrackerXPos")
             //        .GetValue<Slider>()
             //        .Value == 0)
             //{
-            //    UiTracker.GetMenuSettings("SAwarenessUITrackerAllyTracker")
-            //        .GetMenuItem("SAwarenessUITrackerAllyTrackerXPos")
+            //    UiTracker.GetMenuSettings("SAssembliesUITrackerAllyTracker")
+            //        .GetMenuItem("SAssembliesUITrackerAllyTrackerXPos")
             //        .SetValue(new Slider((int)110, Drawing.Width, 0));
             //}
             //if (
-            //    UiTracker.GetMenuSettings("SAwarenessUITrackerAllyTracker")
-            //        .GetMenuItem("SAwarenessUITrackerAllyTrackerYPos")
+            //    UiTracker.GetMenuSettings("SAssembliesUITrackerAllyTracker")
+            //        .GetMenuItem("SAssembliesUITrackerAllyTrackerYPos")
             //        .GetValue<Slider>()
             //        .Value == 0)
             //{
-            //    UiTracker.GetMenuSettings("SAwarenessUITrackerAllyTracker")
-            //        .GetMenuItem("SAwarenessUITrackerAllyTrackerYPos")
+            //    UiTracker.GetMenuSettings("SAssembliesUITrackerAllyTracker")
+            //        .GetMenuItem("SAssembliesUITrackerAllyTrackerYPos")
             //        .SetValue(new Slider((int)_screen.Y, Drawing.Height, 0));
             //}
 
             float percentScale =
-                    (float)UiTracker.GetMenuItem("SAwarenessUITrackerScale").GetValue<Slider>().Value / 100;
+                    (float)UiTracker.GetMenuItem("SAssembliesUITrackerScale").GetValue<Slider>().Value / 100;
 
             int i = 0;
             foreach (Obj_AI_Hero hero in ObjectManager.Get<Obj_AI_Hero>())
@@ -150,82 +150,82 @@ namespace SAssemblies.Trackers
          public static Menu.MenuItemSettings SetupMenu(LeagueSharp.Common.Menu menu)
          {
              Menu.MenuItemSettings tempSettings;
-             UiTracker.Menu = menu.AddSubMenu(new LeagueSharp.Common.Menu(Language.GetString("TRACKERS_UI_MAIN"), "SAwarenessTrackersUi"));
+             UiTracker.Menu = menu.AddSubMenu(new LeagueSharp.Common.Menu(Language.GetString("TRACKERS_UI_MAIN"), "SAssembliesTrackersUi"));
              //UiTracker.MenuItems.Add(
-             //    UiTracker.Menu.AddItem(new MenuItem("SAwarenessItemPanelActive", Language.GetString("TRACKERS_UI_ITEMPANEL")).SetValue(false)));
+             //    UiTracker.Menu.AddItem(new MenuItem("SAssembliesItemPanelActive", Language.GetString("TRACKERS_UI_ITEMPANEL")).SetValue(false)));
              UiTracker.MenuItems.Add(
-                 UiTracker.Menu.AddItem(new MenuItem("SAwarenessUITrackerScale", Language.GetString("TRACKERS_UI_SCALE")).SetValue(new Slider(100, 100, 0))));
-             tempSettings = UiTracker.AddMenuItemSettings(Language.GetString("TRACKERS_UI_ENEMY"), "SAwarenessUITrackerEnemyTracker");
+                 UiTracker.Menu.AddItem(new MenuItem("SAssembliesUITrackerScale", Language.GetString("TRACKERS_UI_SCALE")).SetValue(new Slider(100, 100, 0))));
+             tempSettings = UiTracker.AddMenuItemSettings(Language.GetString("TRACKERS_UI_ENEMY"), "SAssembliesUITrackerEnemyTracker");
              tempSettings.MenuItems.Add(
-                 tempSettings.Menu.AddItem(new MenuItem("SAwarenessUITrackerEnemyTrackerXPos", Language.GetString("TRACKERS_UI_GLOBAL_POSITION_X")).SetValue(new Slider((int)_screen.X, Drawing.Width, 0))));
+                 tempSettings.Menu.AddItem(new MenuItem("SAssembliesUITrackerEnemyTrackerXPos", Language.GetString("TRACKERS_UI_GLOBAL_POSITION_X")).SetValue(new Slider((int)_screen.X, Drawing.Width, 0))));
              tempSettings.MenuItems.Add(
-                 tempSettings.Menu.AddItem(new MenuItem("SAwarenessUITrackerEnemyTrackerYPos", Language.GetString("TRACKERS_UI_GLOBAL_POSITION_Y")).SetValue(new Slider((int)_screen.Y, Drawing.Height, 0))));
+                 tempSettings.Menu.AddItem(new MenuItem("SAssembliesUITrackerEnemyTrackerYPos", Language.GetString("TRACKERS_UI_GLOBAL_POSITION_Y")).SetValue(new Slider((int)_screen.Y, Drawing.Height, 0))));
              tempSettings.MenuItems.Add(
-                 tempSettings.Menu.AddItem(new MenuItem("SAwarenessUITrackerEnemyTrackerMode", Language.GetString("GLOBAL_MODE")).SetValue(new StringList(new[]
+                 tempSettings.Menu.AddItem(new MenuItem("SAssembliesUITrackerEnemyTrackerMode", Language.GetString("GLOBAL_MODE")).SetValue(new StringList(new[]
                  {
                      Language.GetString("TRACKERS_UI_GLOBAL_MODE_SIDE"), 
                      Language.GetString("TRACKERS_UI_GLOBAL_MODE_UNIT"), 
                      Language.GetString("TRACKERS_UI_GLOBAL_MODE_BOTH")
                  }))));
              tempSettings.MenuItems.Add(
-                 tempSettings.Menu.AddItem(new MenuItem("SAwarenessUITrackerEnemyTrackerSideDisplayMode", Language.GetString("TRACKERS_UI_GLOBAL_MODE_SIDE_DISPLAY")).SetValue(new StringList(new[]
+                 tempSettings.Menu.AddItem(new MenuItem("SAssembliesUITrackerEnemyTrackerSideDisplayMode", Language.GetString("TRACKERS_UI_GLOBAL_MODE_SIDE_DISPLAY")).SetValue(new StringList(new[]
                      {
                          Language.GetString("TRACKERS_UI_GLOBAL_MODE_SIDEHEAD_DEFAULT"), 
                          Language.GetString("TRACKERS_UI_GLOBAL_MODE_SIDEHEAD_SIMPLE"), 
                          Language.GetString("TRACKERS_UI_GLOBAL_MODE_SIDEHEAD_LEAGUE")
                      }))));
              tempSettings.MenuItems.Add(
-                 tempSettings.Menu.AddItem(new MenuItem("SAwarenessUITrackerEnemyTrackerHeadMode", Language.GetString("TRACKERS_UI_GLOBAL_MODE_UNIT_MODE")).SetValue(new StringList(new[]
+                 tempSettings.Menu.AddItem(new MenuItem("SAssembliesUITrackerEnemyTrackerHeadMode", Language.GetString("TRACKERS_UI_GLOBAL_MODE_UNIT_MODE")).SetValue(new StringList(new[]
                  {
                      Language.GetString("TRACKERS_UI_GLOBAL_MODE_HEAD_SMALL"), 
                      Language.GetString("TRACKERS_UI_GLOBAL_MODE_HEAD_BIG")
                  }))));
              tempSettings.MenuItems.Add(
-                 tempSettings.Menu.AddItem(new MenuItem("SAwarenessUITrackerEnemyTrackerHeadDisplayMode", Language.GetString("TRACKERS_UI_GLOBAL_MODE_UNIT_DISPLAY")).SetValue(new StringList(new[]
+                 tempSettings.Menu.AddItem(new MenuItem("SAssembliesUITrackerEnemyTrackerHeadDisplayMode", Language.GetString("TRACKERS_UI_GLOBAL_MODE_UNIT_DISPLAY")).SetValue(new StringList(new[]
                  {
                      Language.GetString("TRACKERS_UI_GLOBAL_MODE_SIDEHEAD_DEFAULT"), 
                      Language.GetString("TRACKERS_UI_GLOBAL_MODE_SIDEHEAD_SIMPLE")
                  }))));
              tempSettings.MenuItems.Add(
-                 tempSettings.Menu.AddItem(new MenuItem("SAwarenessUITrackerEnemyTrackerActive", Language.GetString("GLOBAL_ACTIVE")).SetValue(false)));
-             tempSettings = UiTracker.AddMenuItemSettings(Language.GetString("TRACKERS_UI_ALLY"), "SAwarenessUITrackerAllyTracker");
+                 tempSettings.Menu.AddItem(new MenuItem("SAssembliesUITrackerEnemyTrackerActive", Language.GetString("GLOBAL_ACTIVE")).SetValue(false)));
+             tempSettings = UiTracker.AddMenuItemSettings(Language.GetString("TRACKERS_UI_ALLY"), "SAssembliesUITrackerAllyTracker");
              tempSettings.MenuItems.Add(
-                 tempSettings.Menu.AddItem(new MenuItem("SAwarenessUITrackerAllyTrackerXPos", Language.GetString("TRACKERS_UI_GLOBAL_POSITION_X")).SetValue(new Slider(110, Drawing.Width, 0))));
+                 tempSettings.Menu.AddItem(new MenuItem("SAssembliesUITrackerAllyTrackerXPos", Language.GetString("TRACKERS_UI_GLOBAL_POSITION_X")).SetValue(new Slider(110, Drawing.Width, 0))));
              tempSettings.MenuItems.Add(
-                 tempSettings.Menu.AddItem(new MenuItem("SAwarenessUITrackerAllyTrackerYPos", Language.GetString("TRACKERS_UI_GLOBAL_POSITION_Y")).SetValue(new Slider((int)_screen.Y, Drawing.Height, 0))));
+                 tempSettings.Menu.AddItem(new MenuItem("SAssembliesUITrackerAllyTrackerYPos", Language.GetString("TRACKERS_UI_GLOBAL_POSITION_Y")).SetValue(new Slider((int)_screen.Y, Drawing.Height, 0))));
              tempSettings.MenuItems.Add(
-                 tempSettings.Menu.AddItem(new MenuItem("SAwarenessUITrackerAllyTrackerMode", Language.GetString("GLOBAL_MODE")).SetValue(new StringList(new[]
+                 tempSettings.Menu.AddItem(new MenuItem("SAssembliesUITrackerAllyTrackerMode", Language.GetString("GLOBAL_MODE")).SetValue(new StringList(new[]
                      {
                          Language.GetString("TRACKERS_UI_GLOBAL_MODE_SIDE"), 
                          Language.GetString("TRACKERS_UI_GLOBAL_MODE_UNIT"), 
                          Language.GetString("TRACKERS_UI_GLOBAL_MODE_BOTH")
                      }))));
              tempSettings.MenuItems.Add(
-                 tempSettings.Menu.AddItem(new MenuItem("SAwarenessUITrackerAllyTrackerSideDisplayMode", Language.GetString("TRACKERS_UI_GLOBAL_MODE_SIDE_DISPLAY")).SetValue(new StringList(new[]
+                 tempSettings.Menu.AddItem(new MenuItem("SAssembliesUITrackerAllyTrackerSideDisplayMode", Language.GetString("TRACKERS_UI_GLOBAL_MODE_SIDE_DISPLAY")).SetValue(new StringList(new[]
                      {
                          Language.GetString("TRACKERS_UI_GLOBAL_MODE_SIDEHEAD_DEFAULT"), 
                          Language.GetString("TRACKERS_UI_GLOBAL_MODE_SIDEHEAD_SIMPLE"), 
                          Language.GetString("TRACKERS_UI_GLOBAL_MODE_SIDEHEAD_LEAGUE")
                      }))));
              tempSettings.MenuItems.Add(
-                 tempSettings.Menu.AddItem(new MenuItem("SAwarenessUITrackerAllyTrackerHeadMode", Language.GetString("TRACKERS_UI_GLOBAL_MODE_UNIT_MODE")).SetValue(new StringList(new[]
+                 tempSettings.Menu.AddItem(new MenuItem("SAssembliesUITrackerAllyTrackerHeadMode", Language.GetString("TRACKERS_UI_GLOBAL_MODE_UNIT_MODE")).SetValue(new StringList(new[]
                      {
                          Language.GetString("TRACKERS_UI_GLOBAL_MODE_HEAD_SMALL"), 
                          Language.GetString("TRACKERS_UI_GLOBAL_MODE_HEAD_BIG")
                      }))));
              tempSettings.MenuItems.Add(
-                 tempSettings.Menu.AddItem(new MenuItem("SAwarenessUITrackerAllyTrackerHeadDisplayMode", Language.GetString("TRACKERS_UI_GLOBAL_MODE_UNIT_DISPLAY")).SetValue(new StringList(new[]
+                 tempSettings.Menu.AddItem(new MenuItem("SAssembliesUITrackerAllyTrackerHeadDisplayMode", Language.GetString("TRACKERS_UI_GLOBAL_MODE_UNIT_DISPLAY")).SetValue(new StringList(new[]
                      {
                          Language.GetString("TRACKERS_UI_GLOBAL_MODE_SIDEHEAD_DEFAULT"), 
                          Language.GetString("TRACKERS_UI_GLOBAL_MODE_SIDEHEAD_SIMPLE")
                      }))));
              tempSettings.MenuItems.Add(
-                 tempSettings.Menu.AddItem(new MenuItem("SAwarenessUITrackerAllyTrackerActive", Language.GetString("GLOBAL_ACTIVE")).SetValue(false)));
-             //Menu.UiTracker.MenuItems.Add(Menu.UiTracker.Menu.AddItem(new LeagueSharp.Common.MenuItem("SAwarenessUITrackerCameraMoveActive", "Camera move active").SetValue(false)));
+                 tempSettings.Menu.AddItem(new MenuItem("SAssembliesUITrackerAllyTrackerActive", Language.GetString("GLOBAL_ACTIVE")).SetValue(false)));
+             //Menu.UiTracker.MenuItems.Add(Menu.UiTracker.Menu.AddItem(new LeagueSharp.Common.MenuItem("SAssembliesUITrackerCameraMoveActive", "Camera move active").SetValue(false)));
              UiTracker.MenuItems.Add(
-                 UiTracker.Menu.AddItem(new MenuItem("SAwarenessUITrackerPingActive", Language.GetString("TRACKERS_UI_PING")).SetValue(false)));
+                 UiTracker.Menu.AddItem(new MenuItem("SAssembliesUITrackerPingActive", Language.GetString("TRACKERS_UI_PING")).SetValue(false)));
              UiTracker.MenuItems.Add(
-                 UiTracker.Menu.AddItem(new MenuItem("SAwarenessTrackersUiActive", Language.GetString("GLOBAL_ACTIVE")).SetValue(false)));
+                 UiTracker.Menu.AddItem(new MenuItem("SAssembliesTrackersUiActive", Language.GetString("GLOBAL_ACTIVE")).SetValue(false)));
              return UiTracker;
          }
 
@@ -286,19 +286,19 @@ namespace SAssemblies.Trackers
                 if (message == WindowsMessages.WM_MOUSEMOVE)
                 {
                     var curSliderX =
-                        UiTracker.GetMenuSettings("SAwarenessUITrackerEnemyTracker")
-                            .GetMenuItem("SAwarenessUITrackerEnemyTrackerXPos")
+                        UiTracker.GetMenuSettings("SAssembliesUITrackerEnemyTracker")
+                            .GetMenuItem("SAssembliesUITrackerEnemyTrackerXPos")
                             .GetValue<Slider>();
                     var curSliderY =
-                        UiTracker.GetMenuSettings("SAwarenessUITrackerEnemyTracker")
-                            .GetMenuItem("SAwarenessUITrackerEnemyTrackerYPos")
+                        UiTracker.GetMenuSettings("SAssembliesUITrackerEnemyTracker")
+                            .GetMenuItem("SAssembliesUITrackerEnemyTrackerYPos")
                             .GetValue<Slider>();
-                    UiTracker.GetMenuSettings("SAwarenessUITrackerEnemyTracker")
-                        .GetMenuItem("SAwarenessUITrackerEnemyTrackerXPos")
+                    UiTracker.GetMenuSettings("SAssembliesUITrackerEnemyTracker")
+                        .GetMenuItem("SAssembliesUITrackerEnemyTrackerXPos")
                         .SetValue(new Slider((int) (curSliderX.Value + cursorPos.X - _lastCursorPos.X),
                             curSliderX.MinValue, curSliderX.MaxValue));
-                    UiTracker.GetMenuSettings("SAwarenessUITrackerEnemyTracker")
-                        .GetMenuItem("SAwarenessUITrackerEnemyTrackerYPos")
+                    UiTracker.GetMenuSettings("SAssembliesUITrackerEnemyTracker")
+                        .GetMenuItem("SAssembliesUITrackerEnemyTrackerYPos")
                         .SetValue(new Slider((int) (curSliderY.Value + cursorPos.Y - _lastCursorPos.Y),
                             curSliderY.MinValue, curSliderY.MaxValue));
                     _lastCursorPos = cursorPos;
@@ -318,19 +318,19 @@ namespace SAssemblies.Trackers
                 if (message == WindowsMessages.WM_MOUSEMOVE)
                 {
                     var curSliderX =
-                        UiTracker.GetMenuSettings("SAwarenessUITrackerAllyTracker")
-                            .GetMenuItem("SAwarenessUITrackerAllyTrackerXPos")
+                        UiTracker.GetMenuSettings("SAssembliesUITrackerAllyTracker")
+                            .GetMenuItem("SAssembliesUITrackerAllyTrackerXPos")
                             .GetValue<Slider>();
                     var curSliderY =
-                        UiTracker.GetMenuSettings("SAwarenessUITrackerAllyTracker")
-                            .GetMenuItem("SAwarenessUITrackerAllyTrackerYPos")
+                        UiTracker.GetMenuSettings("SAssembliesUITrackerAllyTracker")
+                            .GetMenuItem("SAssembliesUITrackerAllyTrackerYPos")
                             .GetValue<Slider>();
-                    UiTracker.GetMenuSettings("SAwarenessUITrackerAllyTracker")
-                        .GetMenuItem("SAwarenessUITrackerAllyTrackerXPos")
+                    UiTracker.GetMenuSettings("SAssembliesUITrackerAllyTracker")
+                        .GetMenuItem("SAssembliesUITrackerAllyTrackerXPos")
                         .SetValue(new Slider((int) (curSliderX.Value + cursorPos.X - _lastCursorPos.X),
                             curSliderX.MinValue, curSliderX.MaxValue));
-                    UiTracker.GetMenuSettings("SAwarenessUITrackerAllyTracker")
-                        .GetMenuItem("SAwarenessUITrackerAllyTrackerYPos")
+                    UiTracker.GetMenuSettings("SAssembliesUITrackerAllyTracker")
+                        .GetMenuItem("SAssembliesUITrackerAllyTrackerYPos")
                         .SetValue(new Slider((int) (curSliderY.Value + cursorPos.Y - _lastCursorPos.Y),
                             curSliderY.MinValue, curSliderY.MaxValue));
                     _lastCursorPos = cursorPos;
@@ -362,7 +362,7 @@ namespace SAssemblies.Trackers
                         _champSize.Height))
                     {
                         //TODO: Add Camera move
-                        if (UiTracker.GetMenuItem("SAwarenessUITrackerPingActive").GetValue<bool>())
+                        if (UiTracker.GetMenuItem("SAssembliesUITrackerPingActive").GetValue<bool>())
                         {
                             Packet.S2C.Ping.Encoded(new Packet.S2C.Ping.Struct(enemy.Key.ServerPosition.X,
                                 enemy.Key.ServerPosition.Y, 0, 0, Packet.PingType.Normal)).Process();
@@ -375,48 +375,48 @@ namespace SAssemblies.Trackers
         public async static Task Init()
         {
             if (
-                UiTracker.GetMenuSettings("SAwarenessUITrackerEnemyTracker")
-                    .GetMenuItem("SAwarenessUITrackerEnemyTrackerXPos")
+                UiTracker.GetMenuSettings("SAssembliesUITrackerEnemyTracker")
+                    .GetMenuItem("SAssembliesUITrackerEnemyTrackerXPos")
                     .GetValue<Slider>()
                     .Value == 0)
             {
-                UiTracker.GetMenuSettings("SAwarenessUITrackerEnemyTracker")
-                    .GetMenuItem("SAwarenessUITrackerEnemyTrackerXPos")
+                UiTracker.GetMenuSettings("SAssembliesUITrackerEnemyTracker")
+                    .GetMenuItem("SAssembliesUITrackerEnemyTrackerXPos")
                     .SetValue(new Slider((int) _screen.X, Drawing.Width, 0));
             }
             if (
-                UiTracker.GetMenuSettings("SAwarenessUITrackerEnemyTracker")
-                    .GetMenuItem("SAwarenessUITrackerEnemyTrackerYPos")
+                UiTracker.GetMenuSettings("SAssembliesUITrackerEnemyTracker")
+                    .GetMenuItem("SAssembliesUITrackerEnemyTrackerYPos")
                     .GetValue<Slider>()
                     .Value == 0)
             {
-                UiTracker.GetMenuSettings("SAwarenessUITrackerEnemyTracker")
-                    .GetMenuItem("SAwarenessUITrackerEnemyTrackerYPos")
+                UiTracker.GetMenuSettings("SAssembliesUITrackerEnemyTracker")
+                    .GetMenuItem("SAssembliesUITrackerEnemyTrackerYPos")
                     .SetValue(new Slider((int) _screen.Y, Drawing.Height, 0));
             }
             if (
-                UiTracker.GetMenuSettings("SAwarenessUITrackerAllyTracker")
-                    .GetMenuItem("SAwarenessUITrackerAllyTrackerXPos")
+                UiTracker.GetMenuSettings("SAssembliesUITrackerAllyTracker")
+                    .GetMenuItem("SAssembliesUITrackerAllyTrackerXPos")
                     .GetValue<Slider>()
                     .Value == 0)
             {
-                UiTracker.GetMenuSettings("SAwarenessUITrackerAllyTracker")
-                    .GetMenuItem("SAwarenessUITrackerAllyTrackerXPos")
+                UiTracker.GetMenuSettings("SAssembliesUITrackerAllyTracker")
+                    .GetMenuItem("SAssembliesUITrackerAllyTrackerXPos")
                     .SetValue(new Slider((int) 110, Drawing.Width, 0));
             }
             if (
-                UiTracker.GetMenuSettings("SAwarenessUITrackerAllyTracker")
-                    .GetMenuItem("SAwarenessUITrackerAllyTrackerYPos")
+                UiTracker.GetMenuSettings("SAssembliesUITrackerAllyTracker")
+                    .GetMenuItem("SAssembliesUITrackerAllyTrackerYPos")
                     .GetValue<Slider>()
                     .Value == 0)
             {
-                UiTracker.GetMenuSettings("SAwarenessUITrackerAllyTracker")
-                    .GetMenuItem("SAwarenessUITrackerAllyTrackerYPos")
+                UiTracker.GetMenuSettings("SAssembliesUITrackerAllyTracker")
+                    .GetMenuItem("SAssembliesUITrackerAllyTrackerYPos")
                     .SetValue(new Slider((int) _screen.Y, Drawing.Height, 0));
             }
 
             float percentScale =
-                    (float)UiTracker.GetMenuItem("SAwarenessUITrackerScale").GetValue<Slider>().Value / 100;
+                    (float)UiTracker.GetMenuItem("SAssembliesUITrackerScale").GetValue<Slider>().Value / 100;
 
             int i = 0;
             foreach (Obj_AI_Hero hero in ObjectManager.Get<Obj_AI_Hero>())
@@ -919,7 +919,7 @@ namespace SAssemblies.Trackers
                 {
                     return Tracker.Trackers.GetActive() && UiTracker.GetActive() &&
                            GetMode(hero.IsEnemy).SelectedIndex != 1 &&
-                           item.Value > 0.0f && UiTracker.GetMenuItem("SAwarenessItemPanelActive").GetValue<bool>() &&
+                           item.Value > 0.0f && UiTracker.GetMenuItem("SAssembliesItemPanelActive").GetValue<bool>() &&
                            GetUiActive(hero.IsEnemy) && GetSideDisplayMode(hero.IsEnemy).SelectedIndex == 0 && champ.Draw(true);
                 };
                 item.Text[0].OutLined = true;
@@ -1864,7 +1864,7 @@ namespace SAssemblies.Trackers
                 item.Text[0].VisibleCondition = sender =>
                 {
                     return Tracker.Trackers.GetActive() && UiTracker.GetActive() && GetMode(hero.IsEnemy).SelectedIndex != 1 &&
-                        item.Value > 0.0f && UiTracker.GetMenuItem("SAwarenessItemPanelActive").GetValue<bool>() &&
+                        item.Value > 0.0f && UiTracker.GetMenuItem("SAssembliesItemPanelActive").GetValue<bool>() &&
                         GetUiActive(hero.IsEnemy) && GetSideDisplayMode(hero.IsEnemy).SelectedIndex == 0;
                 };
                 item.Text[0].OutLined = true;
@@ -2263,11 +2263,11 @@ namespace SAssemblies.Trackers
         {
             if (enemy)
             {
-                return UiTracker.GetMenuSettings("SAwarenessUITrackerEnemyTracker").GetActive();
+                return UiTracker.GetMenuSettings("SAssembliesUITrackerEnemyTracker").GetActive();
             }
             else
             {
-                return UiTracker.GetMenuSettings("SAwarenessUITrackerAllyTracker").GetActive();
+                return UiTracker.GetMenuSettings("SAssembliesUITrackerAllyTracker").GetActive();
             }
         }
 
@@ -2275,14 +2275,14 @@ namespace SAssemblies.Trackers
         {
             if (enemy)
             {
-                return UiTracker.GetMenuSettings("SAwarenessUITrackerEnemyTracker")
-                        .GetMenuItem("SAwarenessUITrackerEnemyTrackerMode")
+                return UiTracker.GetMenuSettings("SAssembliesUITrackerEnemyTracker")
+                        .GetMenuItem("SAssembliesUITrackerEnemyTrackerMode")
                         .GetValue<StringList>();
             }
             else
             {
-                return UiTracker.GetMenuSettings("SAwarenessUITrackerAllyTracker")
-                        .GetMenuItem("SAwarenessUITrackerAllyTrackerMode")
+                return UiTracker.GetMenuSettings("SAssembliesUITrackerAllyTracker")
+                        .GetMenuItem("SAssembliesUITrackerAllyTrackerMode")
                         .GetValue<StringList>();
             }
         }
@@ -2291,14 +2291,14 @@ namespace SAssemblies.Trackers
         {
             if (enemy)
             {
-                return UiTracker.GetMenuSettings("SAwarenessUITrackerEnemyTracker")
-                        .GetMenuItem("SAwarenessUITrackerEnemyTrackerSideDisplayMode")
+                return UiTracker.GetMenuSettings("SAssembliesUITrackerEnemyTracker")
+                        .GetMenuItem("SAssembliesUITrackerEnemyTrackerSideDisplayMode")
                         .GetValue<StringList>();
             }
             else
             {
-                return UiTracker.GetMenuSettings("SAwarenessUITrackerAllyTracker")
-                        .GetMenuItem("SAwarenessUITrackerAllyTrackerSideDisplayMode")
+                return UiTracker.GetMenuSettings("SAssembliesUITrackerAllyTracker")
+                        .GetMenuItem("SAssembliesUITrackerAllyTrackerSideDisplayMode")
                         .GetValue<StringList>();
             }
         }
@@ -2307,14 +2307,14 @@ namespace SAssemblies.Trackers
         {
             if (enemy)
             {
-                return UiTracker.GetMenuSettings("SAwarenessUITrackerEnemyTracker")
-                        .GetMenuItem("SAwarenessUITrackerEnemyTrackerHeadMode")
+                return UiTracker.GetMenuSettings("SAssembliesUITrackerEnemyTracker")
+                        .GetMenuItem("SAssembliesUITrackerEnemyTrackerHeadMode")
                         .GetValue<StringList>();
             }
             else
             {
-                return UiTracker.GetMenuSettings("SAwarenessUITrackerAllyTracker")
-                        .GetMenuItem("SAwarenessUITrackerAllyTrackerHeadMode")
+                return UiTracker.GetMenuSettings("SAssembliesUITrackerAllyTracker")
+                        .GetMenuItem("SAssembliesUITrackerAllyTrackerHeadMode")
                         .GetValue<StringList>();
             }
         }
@@ -2323,14 +2323,14 @@ namespace SAssemblies.Trackers
         {
             if (enemy)
             {
-                return UiTracker.GetMenuSettings("SAwarenessUITrackerEnemyTracker")
-                        .GetMenuItem("SAwarenessUITrackerEnemyTrackerHeadDisplayMode")
+                return UiTracker.GetMenuSettings("SAssembliesUITrackerEnemyTracker")
+                        .GetMenuItem("SAssembliesUITrackerEnemyTrackerHeadDisplayMode")
                         .GetValue<StringList>();
             }
             else
             {
-                return UiTracker.GetMenuSettings("SAwarenessUITrackerAllyTracker")
-                        .GetMenuItem("SAwarenessUITrackerAllyTrackerHeadDisplayMode")
+                return UiTracker.GetMenuSettings("SAssembliesUITrackerAllyTracker")
+                        .GetMenuItem("SAssembliesUITrackerAllyTrackerHeadDisplayMode")
                         .GetValue<StringList>();
             }
         }
@@ -2349,30 +2349,30 @@ namespace SAssemblies.Trackers
             if (calcEenemy)
             {
                 heroes = _enemies;
-                percentScale = (float) UiTracker.GetMenuItem("SAwarenessUITrackerScale").GetValue<Slider>().Value/
+                percentScale = (float) UiTracker.GetMenuItem("SAssembliesUITrackerScale").GetValue<Slider>().Value/
                                100;
                 mode =
-                    UiTracker.GetMenuSettings("SAwarenessUITrackerEnemyTracker")
-                        .GetMenuItem("SAwarenessUITrackerEnemyTrackerMode")
+                    UiTracker.GetMenuSettings("SAssembliesUITrackerEnemyTracker")
+                        .GetMenuItem("SAssembliesUITrackerEnemyTrackerMode")
                         .GetValue<StringList>();
                 modeHead =
-                    UiTracker.GetMenuSettings("SAwarenessUITrackerEnemyTracker")
-                        .GetMenuItem("SAwarenessUITrackerEnemyTrackerHeadMode")
+                    UiTracker.GetMenuSettings("SAssembliesUITrackerEnemyTracker")
+                        .GetMenuItem("SAssembliesUITrackerEnemyTrackerHeadMode")
                         .GetValue<StringList>();
                 modeDisplay =
-                    UiTracker.GetMenuSettings("SAwarenessUITrackerEnemyTracker")
-                        .GetMenuItem("SAwarenessUITrackerEnemyTrackerSideDisplayMode")
+                    UiTracker.GetMenuSettings("SAssembliesUITrackerEnemyTracker")
+                        .GetMenuItem("SAssembliesUITrackerEnemyTrackerSideDisplayMode")
                         .GetValue<StringList>();
                 count = 0;
                 xOffset =
-                    UiTracker.GetMenuSettings("SAwarenessUITrackerEnemyTracker")
-                        .GetMenuItem("SAwarenessUITrackerEnemyTrackerXPos")
+                    UiTracker.GetMenuSettings("SAssembliesUITrackerEnemyTracker")
+                        .GetMenuItem("SAssembliesUITrackerEnemyTrackerXPos")
                         .GetValue<Slider>()
                         .Value;
                 _oldEx = xOffset;
                 yOffset =
-                    UiTracker.GetMenuSettings("SAwarenessUITrackerEnemyTracker")
-                        .GetMenuItem("SAwarenessUITrackerEnemyTrackerYPos")
+                    UiTracker.GetMenuSettings("SAssembliesUITrackerEnemyTracker")
+                        .GetMenuItem("SAssembliesUITrackerEnemyTrackerYPos")
                         .GetValue<Slider>()
                         .Value;
                 _oldEy = yOffset;
@@ -2381,30 +2381,30 @@ namespace SAssemblies.Trackers
             else
             {
                 heroes = _allies;
-                percentScale = (float) UiTracker.GetMenuItem("SAwarenessUITrackerScale").GetValue<Slider>().Value/
+                percentScale = (float) UiTracker.GetMenuItem("SAssembliesUITrackerScale").GetValue<Slider>().Value/
                                100;
                 mode =
-                    UiTracker.GetMenuSettings("SAwarenessUITrackerAllyTracker")
-                        .GetMenuItem("SAwarenessUITrackerAllyTrackerMode")
+                    UiTracker.GetMenuSettings("SAssembliesUITrackerAllyTracker")
+                        .GetMenuItem("SAssembliesUITrackerAllyTrackerMode")
                         .GetValue<StringList>();
                 modeHead =
-                    UiTracker.GetMenuSettings("SAwarenessUITrackerAllyTracker")
-                        .GetMenuItem("SAwarenessUITrackerAllyTrackerHeadMode")
+                    UiTracker.GetMenuSettings("SAssembliesUITrackerAllyTracker")
+                        .GetMenuItem("SAssembliesUITrackerAllyTrackerHeadMode")
                         .GetValue<StringList>();
                 modeDisplay =
-                    UiTracker.GetMenuSettings("SAwarenessUITrackerAllyTracker")
-                        .GetMenuItem("SAwarenessUITrackerAllyTrackerSideDisplayMode")
+                    UiTracker.GetMenuSettings("SAssembliesUITrackerAllyTracker")
+                        .GetMenuItem("SAssembliesUITrackerAllyTrackerSideDisplayMode")
                         .GetValue<StringList>();
                 count = 0;
                 xOffset =
-                    UiTracker.GetMenuSettings("SAwarenessUITrackerAllyTracker")
-                        .GetMenuItem("SAwarenessUITrackerAllyTrackerXPos")
+                    UiTracker.GetMenuSettings("SAssembliesUITrackerAllyTracker")
+                        .GetMenuItem("SAssembliesUITrackerAllyTrackerXPos")
                         .GetValue<Slider>()
                         .Value;
                 _oldAx = xOffset;
                 yOffset =
-                    UiTracker.GetMenuSettings("SAwarenessUITrackerAllyTracker")
-                        .GetMenuItem("SAwarenessUITrackerAllyTrackerYPos")
+                    UiTracker.GetMenuSettings("SAssembliesUITrackerAllyTracker")
+                        .GetMenuItem("SAssembliesUITrackerAllyTrackerYPos")
                         .GetValue<Slider>()
                         .Value;
                 _oldAy = yOffset;
@@ -2850,7 +2850,7 @@ namespace SAssemblies.Trackers
             else
             {
                 float percentScale =
-                    (float)UiTracker.GetMenuItem("SAwarenessUITrackerScale").GetValue<Slider>().Value / 100;
+                    (float)UiTracker.GetMenuItem("SAssembliesUITrackerScale").GetValue<Slider>().Value / 100;
                 if (method == UpdateMethod.Side)
                 {
                     sprite.Sprite.PositionUpdate = delegate
@@ -2913,7 +2913,7 @@ namespace SAssemblies.Trackers
             else
             {
                 float percentScale =
-                    (float)UiTracker.GetMenuItem("SAwarenessUITrackerScale").GetValue<Slider>().Value / 100;
+                    (float)UiTracker.GetMenuItem("SAssembliesUITrackerScale").GetValue<Slider>().Value / 100;
                 if (method == UpdateMethod.Side)
                 {
                     sprite.Sprite.PositionUpdate = delegate
@@ -2974,7 +2974,7 @@ namespace SAssemblies.Trackers
             else
             {
                 float percentScale =
-                    (float)UiTracker.GetMenuItem("SAwarenessUITrackerScale").GetValue<Slider>().Value / 100;
+                    (float)UiTracker.GetMenuItem("SAssembliesUITrackerScale").GetValue<Slider>().Value / 100;
                 sprite.Sprite.PositionUpdate = delegate
                 {
                     return new Vector2(size.Width, size.Height);
@@ -2989,11 +2989,11 @@ namespace SAssemblies.Trackers
 
         private void UpdateItems(bool enemy)
         {
-            //if (!Menu.UiTracker.GetMenuItem("SAwarenessItemPanelActive").GetValue<bool>())
+            //if (!Menu.UiTracker.GetMenuItem("SAssembliesItemPanelActive").GetValue<bool>())
             //    return;
             ////var loc = Assembly.GetExecutingAssembly().Location;
             ////loc = loc.Remove(loc.LastIndexOf("\\", StringComparison.Ordinal));
-            ////loc = loc + "\\Sprites\\SAwareness\\";
+            ////loc = loc + "\\Sprites\\SAssemblies\\";
 
             //Dictionary<Obj_AI_Hero, ChampInfos> heroes;
 

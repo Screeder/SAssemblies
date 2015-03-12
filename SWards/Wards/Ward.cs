@@ -53,7 +53,7 @@ namespace SAssemblies.Wards
 
         private static void SetupMainMenu()
         {
-            var menu = new LeagueSharp.Common.Menu("SAwareness", "SAwarenessWards", true);
+            var menu = new LeagueSharp.Common.Menu("SAssemblies", "SAssembliesWards", true);
             SetupMenu(menu);
             menu.AddToMainMenu();
         }
@@ -61,8 +61,8 @@ namespace SAssemblies.Wards
         public static Menu.MenuItemSettings SetupMenu(LeagueSharp.Common.Menu menu)
         {
             Language.SetLanguage();
-            Wards.Menu = menu.AddSubMenu(new LeagueSharp.Common.Menu("Wards", "SAwarenessWards"));
-            Wards.MenuItems.Add(Wards.Menu.AddItem(new MenuItem("SAwarenessWardsActive", Language.GetString("GLOBAL_ACTIVE")).SetValue(false)));
+            Wards.Menu = menu.AddSubMenu(new LeagueSharp.Common.Menu("Wards", "SAssembliesWards"));
+            Wards.MenuItems.Add(Wards.Menu.AddItem(new MenuItem("SAssembliesWardsActive", Language.GetString("GLOBAL_ACTIVE")).SetValue(false)));
             return Wards;
         }
 

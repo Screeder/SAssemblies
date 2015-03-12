@@ -46,7 +46,7 @@ namespace SAssemblies
             try
             {
                 Menu.MenuItemSettings tempSettings;
-                var menu = new LeagueSharp.Common.Menu("SAwareness", "SAwareness", true);
+                var menu = new LeagueSharp.Common.Menu("SWards", "SWards", true);
 
                 MainMenu.Wards = Wards.Ward.SetupMenu(menu);
                 MainMenu.BushRevealer = Wards.BushRevealer.SetupMenu(MainMenu.Wards.Menu);
@@ -55,13 +55,13 @@ namespace SAssemblies
                 //MainMenu.FowWardPlacement = Wards.FowWardPlacement.SetupMenu(MainMenu.Wards.Menu);
 
                 Menu.GlobalSettings.Menu =
-                    menu.AddSubMenu(new LeagueSharp.Common.Menu("Global Settings", "SAwarenessGlobalSettings"));
+                    menu.AddSubMenu(new LeagueSharp.Common.Menu("Global Settings", "SAssembliesGlobalSettings"));
                 Menu.GlobalSettings.MenuItems.Add(
                     Menu.GlobalSettings.Menu.AddItem(
-                        new MenuItem("SAwarenessGlobalSettingsServerChatPingActive", "Server Chat/Ping").SetValue(false)));
+                        new MenuItem("SAssembliesGlobalSettingsServerChatPingActive", "Server Chat/Ping").SetValue(false)));
                 Menu.GlobalSettings.MenuItems.Add(
                     Menu.GlobalSettings.Menu.AddItem(
-                        new MenuItem("SAwarenessGlobalSettingsVoiceVolume", "Voice Volume").SetValue(new Slider(100, 0, 100))));
+                        new MenuItem("SAssembliesGlobalSettingsVoiceVolume", "Voice Volume").SetValue(new Slider(100, 0, 100))));
 
                 menu.AddItem(new MenuItem("By Screeder", "By Screeder V0.8.0.4"));
                 menu.AddToMainMenu();
@@ -111,7 +111,7 @@ namespace SAssemblies
                         }
                         catch (Exception e)
                         {
-                            Console.WriteLine("SAwareness: " + e + "\n" + p.ToString());
+                            Console.WriteLine("SAssemblies: " + e + "\n" + p.ToString());
                             threadActive = false;
                         }
                     }
@@ -119,7 +119,7 @@ namespace SAssemblies
             }
             catch (Exception e)
             {
-                Console.WriteLine("SAwareness: " + e);
+                Console.WriteLine("SAssemblies: " + e);
                 threadActive = false;
             }
         }

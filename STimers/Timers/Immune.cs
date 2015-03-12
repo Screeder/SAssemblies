@@ -85,11 +85,11 @@ namespace SAssemblies.Timers
 
         public static Menu.MenuItemSettings SetupMenu(LeagueSharp.Common.Menu menu)
         {
-            ImmuneTimer.Menu = menu.AddSubMenu(new LeagueSharp.Common.Menu(Language.GetString("TIMERS_IMMUNE_MAIN"), "SAwarenessTimersImmune"));
+            ImmuneTimer.Menu = menu.AddSubMenu(new LeagueSharp.Common.Menu(Language.GetString("TIMERS_IMMUNE_MAIN"), "SAssembliesTimersImmune"));
             ImmuneTimer.MenuItems.Add(
-                ImmuneTimer.Menu.AddItem(new MenuItem("SAwarenessTimersImmuneSpeech", Language.GetString("GLOBAL_VOICE")).SetValue(false)));
+                ImmuneTimer.Menu.AddItem(new MenuItem("SAssembliesTimersImmuneSpeech", Language.GetString("GLOBAL_VOICE")).SetValue(false)));
             ImmuneTimer.MenuItems.Add(
-                ImmuneTimer.Menu.AddItem(new MenuItem("SAwarenessTimersImmuneActive", Language.GetString("GLOBAL_ACTIVE")).SetValue(false)));
+                ImmuneTimer.Menu.AddItem(new MenuItem("SAssembliesTimersImmuneActive", Language.GetString("GLOBAL_ACTIVE")).SetValue(false)));
             return ImmuneTimer;
         }
 
@@ -129,7 +129,7 @@ namespace SAssemblies.Timers
                             {
                                 ability.Key.Target = hero;
                             }
-                            if (ImmuneTimer.GetMenuItem("SAwarenessTimersImmuneSpeech").GetValue<bool>())
+                            if (ImmuneTimer.GetMenuItem("SAssembliesTimersImmuneSpeech").GetValue<bool>())
                             {
                                 if (ability.Key.Target != null)
                                 {

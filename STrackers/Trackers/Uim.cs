@@ -54,13 +54,13 @@ namespace SAssemblies.Trackers
 
         public static Menu.MenuItemSettings SetupMenu(LeagueSharp.Common.Menu menu)
         {
-            UimTracker.Menu = menu.AddSubMenu(new LeagueSharp.Common.Menu(Language.GetString("TRACKERS_UIM_MAIN"), "SAwarenessTrackersUim"));
+            UimTracker.Menu = menu.AddSubMenu(new LeagueSharp.Common.Menu(Language.GetString("TRACKERS_UIM_MAIN"), "SAssembliesTrackersUim"));
             UimTracker.MenuItems.Add(
-                UimTracker.Menu.AddItem(new MenuItem("SAwarenessTrackersUimScale", Language.GetString("TRACKERS_UIM_SCALE")).SetValue(new Slider(100, 100, 0))));
+                UimTracker.Menu.AddItem(new MenuItem("SAssembliesTrackersUimScale", Language.GetString("TRACKERS_UIM_SCALE")).SetValue(new Slider(100, 100, 0))));
             UimTracker.MenuItems.Add(
-                UimTracker.Menu.AddItem(new MenuItem("SAwarenessTrackersUimShowSS", Language.GetString("TRACKERS_UIM_TIME")).SetValue(false)));
+                UimTracker.Menu.AddItem(new MenuItem("SAssembliesTrackersUimShowSS", Language.GetString("TRACKERS_UIM_TIME")).SetValue(false)));
             UimTracker.MenuItems.Add(
-                UimTracker.Menu.AddItem(new MenuItem("SAwarenessTrackersUimActive", Language.GetString("GLOBAL_ACTIVE")).SetValue(false)));
+                UimTracker.Menu.AddItem(new MenuItem("SAssembliesTrackersUimActive", Language.GetString("GLOBAL_ACTIVE")).SetValue(false)));
             return UimTracker;
         }
 
@@ -125,7 +125,7 @@ namespace SAssemblies.Trackers
 
             lastGameUpdateTime = Environment.TickCount;
 
-            float percentScale = (float)UimTracker.GetMenuItem("SAwarenessTrackersUimScale").GetValue<Slider>().Value / 100;
+            float percentScale = (float)UimTracker.GetMenuItem("SAssembliesTrackersUimScale").GetValue<Slider>().Value / 100;
             foreach (var enemy in _enemies)
             {
                 if (enemy.Key.IsVisible)
@@ -196,7 +196,7 @@ namespace SAssemblies.Trackers
         //private async static Task<InternalUimTracker> CreateImage(Obj_AI_Hero hero, InternalUimTracker champ)
         //{
         //    float percentScale =
-        //            (float)UimTracker.GetMenuItem("SAwarenessTrackersUimScale").GetValue<Slider>().Value / 100;
+        //            (float)UimTracker.GetMenuItem("SAssembliesTrackersUimScale").GetValue<Slider>().Value / 100;
         //    Task<SpriteHelper.SpriteInfo> taskInfo = SpriteHelper.LoadTextureAsync(
         //        hero.ChampionName, champ.SpriteInfo, SpriteHelper.DownloadType.Champion);
         //    champ.SpriteInfo = await taskInfo;

@@ -30,9 +30,9 @@ namespace SAssemblies.Trackers
 
         public static Menu.MenuItemSettings SetupMenu(LeagueSharp.Common.Menu menu)
         {
-            CloneTracker.Menu = menu.AddSubMenu(new LeagueSharp.Common.Menu(Language.GetString("TRACKERS_CLONE_MAIN"), "SAwarenessTrackersClone"));
+            CloneTracker.Menu = menu.AddSubMenu(new LeagueSharp.Common.Menu(Language.GetString("TRACKERS_CLONE_MAIN"), "SAssembliesTrackersClone"));
             CloneTracker.MenuItems.Add(
-                CloneTracker.Menu.AddItem(new MenuItem("SAwarenessTrackersCloneActive", Language.GetString("GLOBAL_ACTIVE")).SetValue(false)));
+                CloneTracker.Menu.AddItem(new MenuItem("SAssembliesTrackersCloneActive", Language.GetString("GLOBAL_ACTIVE")).SetValue(false)));
             return CloneTracker;
         }
 

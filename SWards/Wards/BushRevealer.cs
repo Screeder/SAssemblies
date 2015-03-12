@@ -39,18 +39,18 @@ namespace SAssemblies.Wards
 
         private static void SetupMainMenu()
         {
-            var menu = new LeagueSharp.Common.Menu("SAwarenessBushRevealer", "SAwarenessWardsBushRevealer", true);
+            var menu = new LeagueSharp.Common.Menu("SAssembliesBushRevealer", "SAssembliesWardsBushRevealer", true);
             SetupMenu(menu);
             menu.AddToMainMenu();
         }
 
         public static Menu.MenuItemSettings SetupMenu(LeagueSharp.Common.Menu menu)
         {
-            BushRevealerWard.Menu = menu.AddSubMenu(new LeagueSharp.Common.Menu(Language.GetString("WARDS_BUSHREVEALER_MAIN"), "SAwarenessWardsBushRevealer"));
+            BushRevealerWard.Menu = menu.AddSubMenu(new LeagueSharp.Common.Menu(Language.GetString("WARDS_BUSHREVEALER_MAIN"), "SAssembliesWardsBushRevealer"));
             BushRevealerWard.MenuItems.Add(
-                BushRevealerWard.Menu.AddItem(new MenuItem("SAwarenessWardsBushRevealerKey", Language.GetString("GLOBAL_KEY")).SetValue(new KeyBind(32, KeyBindType.Press))));
+                BushRevealerWard.Menu.AddItem(new MenuItem("SAssembliesWardsBushRevealerKey", Language.GetString("GLOBAL_KEY")).SetValue(new KeyBind(32, KeyBindType.Press))));
             BushRevealerWard.MenuItems.Add(
-                BushRevealerWard.Menu.AddItem(new MenuItem("SAwarenessWardsBushRevealerActive", Language.GetString("GLOBAL_ACTIVE")).SetValue(false)));
+                BushRevealerWard.Menu.AddItem(new MenuItem("SAssembliesWardsBushRevealerActive", Language.GetString("GLOBAL_ACTIVE")).SetValue(false)));
             BushRevealerWard.MenuItems.Add(
                 BushRevealerWard.Menu.AddItem(new MenuItem("By Beaving & Blm95", "By Beaving & Blm95")));
             return BushRevealerWard;
@@ -72,7 +72,7 @@ namespace SAssemblies.Wards
             if (ward == null)
                 return;
 
-            if (BushRevealerWard.GetMenuItem("SAwarenessWardsBushRevealerKey").GetValue<KeyBind>().Active)
+            if (BushRevealerWard.GetMenuItem("SAssembliesWardsBushRevealerKey").GetValue<KeyBind>().Active)
             {
                 foreach (Obj_AI_Hero enemy in _playerInfo.Where(x =>
                     x.Player.IsValid &&

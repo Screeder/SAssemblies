@@ -69,16 +69,16 @@ namespace SAssemblies.Wards
 
         private static void SetupMainMenu()
         {
-            var menu = new LeagueSharp.Common.Menu("SAwarenessFowWardPlacement", "SAwarenessWardsFowWardPlacement", true);
+            var menu = new LeagueSharp.Common.Menu("SAssembliesFowWardPlacement", "SAssembliesWardsFowWardPlacement", true);
             SetupMenu(menu);
             menu.AddToMainMenu();
         }
 
         public static Menu.MenuItemSettings SetupMenu(LeagueSharp.Common.Menu menu)
         {
-            FowWardPlacementWard.Menu = menu.AddSubMenu(new LeagueSharp.Common.Menu(Language.GetString("WARDS_FOWWARDPLACEMENT_MAIN"), "SAwarenessWardsFowWardPlacement"));
+            FowWardPlacementWard.Menu = menu.AddSubMenu(new LeagueSharp.Common.Menu(Language.GetString("WARDS_FOWWARDPLACEMENT_MAIN"), "SAssembliesWardsFowWardPlacement"));
             FowWardPlacementWard.MenuItems.Add(
-                FowWardPlacementWard.Menu.AddItem(new MenuItem("SAwarenessWardsFowWardPlacementActive", Language.GetString("GLOBAL_ACTIVE")).SetValue(false)));
+                FowWardPlacementWard.Menu.AddItem(new MenuItem("SAssembliesWardsFowWardPlacementActive", Language.GetString("GLOBAL_ACTIVE")).SetValue(false)));
             return FowWardPlacementWard;
         }
 

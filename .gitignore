@@ -1,7 +1,16 @@
 SAssemblies.sln
+SActivators/Install.bat
+SActivators/bin/
+SActivators/obj/
 SDetectors/Install.bat
 SDetectors/bin/
 SDetectors/obj/
+SHealths/Install.bat
+SHealths/bin/
+SHealths/obj/
+SMiscs/Install.bat
+SMiscs/bin/
+SMiscs/obj/
 STimers/Install.bat
 STimers/bin/
 STimers/obj/

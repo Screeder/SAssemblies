@@ -76,11 +76,11 @@ namespace SAssemblies.Trackers
 
         public static Menu.MenuItemSettings SetupMenu(LeagueSharp.Common.Menu menu)
         {
-            KillableTracker.Menu = menu.AddSubMenu(new LeagueSharp.Common.Menu(Language.GetString("TRACKERS_KILLABLE_MAIN"), "SAwarenessTrackersKillable"));
+            KillableTracker.Menu = menu.AddSubMenu(new LeagueSharp.Common.Menu(Language.GetString("TRACKERS_KILLABLE_MAIN"), "SAssembliesTrackersKillable"));
             KillableTracker.MenuItems.Add(
-                KillableTracker.Menu.AddItem(new MenuItem("SAwarenessTrackersKillableSpeech", Language.GetString("GLOBAL_VOICE")).SetValue(false)));
+                KillableTracker.Menu.AddItem(new MenuItem("SAssembliesTrackersKillableSpeech", Language.GetString("GLOBAL_VOICE")).SetValue(false)));
             KillableTracker.MenuItems.Add(
-                KillableTracker.Menu.AddItem(new MenuItem("SAwarenessTrackersKillableActive", Language.GetString("GLOBAL_ACTIVE")).SetValue(false)));
+                KillableTracker.Menu.AddItem(new MenuItem("SAssembliesTrackersKillableActive", Language.GetString("GLOBAL_ACTIVE")).SetValue(false)));
             return KillableTracker;
         }
 
@@ -182,7 +182,7 @@ namespace SAssemblies.Trackers
         {
             if (killable != null)
             {
-                if (KillableTracker.GetMenuItem("SAwarenessTrackersKillableSpeech").GetValue<bool>() && !killable.Spoken && hero.IsVisible && !hero.IsDead)
+                if (KillableTracker.GetMenuItem("SAssembliesTrackersKillableSpeech").GetValue<bool>() && !killable.Spoken && hero.IsVisible && !hero.IsDead)
                 {
                     Speech.Speak("Killable " + hero.ChampionName);
                     killable.Spoken = true;

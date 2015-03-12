@@ -46,24 +46,24 @@ namespace SAssemblies.Wards
 
         private static void SetupMainMenu()
         {
-            var menu = new LeagueSharp.Common.Menu("SAwarenessInvisibleRevealer", "SAwarenessWardsInvisibleRevealer", true);
+            var menu = new LeagueSharp.Common.Menu("SAssembliesInvisibleRevealer", "SAssembliesWardsInvisibleRevealer", true);
             SetupMenu(menu);
             menu.AddToMainMenu();
         }
 
         public static Menu.MenuItemSettings SetupMenu(LeagueSharp.Common.Menu menu)
         {
-            InvisibleRevealerWard.Menu = menu.AddSubMenu(new LeagueSharp.Common.Menu(Language.GetString("WARDS_INVISIBLEREVEALER_MAIN"), "SAwarenessWardsInvisibleRevealer"));
+            InvisibleRevealerWard.Menu = menu.AddSubMenu(new LeagueSharp.Common.Menu(Language.GetString("WARDS_INVISIBLEREVEALER_MAIN"), "SAssembliesWardsInvisibleRevealer"));
             InvisibleRevealerWard.MenuItems.Add(
-                InvisibleRevealerWard.Menu.AddItem(new MenuItem("SAwarenessWardsInvisibleRevealerMode", Language.GetString("GLOBAL_MODE")).SetValue(new StringList(new[]
+                InvisibleRevealerWard.Menu.AddItem(new MenuItem("SAssembliesWardsInvisibleRevealerMode", Language.GetString("GLOBAL_MODE")).SetValue(new StringList(new[]
                 {
                     Language.GetString("WARDS_INVISIBLEREVEALER_MODE_MANUAL"), 
                     Language.GetString("WARDS_INVISIBLEREVEALER_MODE_AUTOMATIC")
                 }))));
             InvisibleRevealerWard.MenuItems.Add(
-                InvisibleRevealerWard.Menu.AddItem(new MenuItem("SAwarenessWardsInvisibleRevealerKey", Language.GetString("GLOBAL_KEY")).SetValue(new KeyBind(32, KeyBindType.Press))));
+                InvisibleRevealerWard.Menu.AddItem(new MenuItem("SAssembliesWardsInvisibleRevealerKey", Language.GetString("GLOBAL_KEY")).SetValue(new KeyBind(32, KeyBindType.Press))));
             InvisibleRevealerWard.MenuItems.Add(
-                InvisibleRevealerWard.Menu.AddItem(new MenuItem("SAwarenessWardsInvisibleRevealerActive", Language.GetString("GLOBAL_ACTIVE")).SetValue(false)));
+                InvisibleRevealerWard.Menu.AddItem(new MenuItem("SAssembliesWardsInvisibleRevealerActive", Language.GetString("GLOBAL_ACTIVE")).SetValue(false)));
             return InvisibleRevealerWard;
         }
 
@@ -73,7 +73,7 @@ namespace SAssemblies.Wards
                 return;
 
             var mode =
-                InvisibleRevealerWard.GetMenuItem("SAwarenessWardsInvisibleRevealerMode")
+                InvisibleRevealerWard.GetMenuItem("SAssembliesWardsInvisibleRevealerMode")
                     .GetValue<StringList>();
 
             if (sender.IsEnemy && sender.IsValid && !sender.IsDead)
@@ -83,7 +83,7 @@ namespace SAssemblies.Wards
                     _lastTimeVayne = Environment.TickCount + 6000 + 2000 * args.Level;
                 }
                 if (mode.SelectedIndex == 0 &&
-                    InvisibleRevealerWard.GetMenuItem("SAwarenessWardsInvisibleRevealerKey").GetValue<KeyBind>().Active ||
+                    InvisibleRevealerWard.GetMenuItem("SAssembliesWardsInvisibleRevealerKey").GetValue<KeyBind>().Active ||
                     mode.SelectedIndex == 1)
                 {
                     if (_spellList.Exists(x => x.ToLower().Contains(args.SData.Name.ToLower())))

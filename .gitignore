@@ -21,3 +21,5 @@ SWards/Install.bat
 SWards/bin/
 SWards/obj/
 Git.txt
+
+#Taken out due to not working (buggy) features

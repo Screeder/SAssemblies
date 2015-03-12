@@ -38,7 +38,7 @@ namespace SAssemblies
         private async static void Game_OnGameLoad(EventArgs args)
         {
             CreateMenu();
-            Game.PrintChat("STrackers loaded!");
+            Game.PrintChat("STimers loaded!");
             new Thread(GameOnOnGameUpdate).Start();
         }
 
@@ -48,7 +48,7 @@ namespace SAssemblies
             try
             {
                 Menu.MenuItemSettings tempSettings;
-                var menu = new LeagueSharp.Common.Menu("STrackers", "STrackers", true);
+                var menu = new LeagueSharp.Common.Menu("STimers", "STimers", true);
 
                 MainMenu.Timers = Timers.Timer.SetupMenu(menu);
                 MainMenu.AltarTimer = Timers.Altar.SetupMenu(MainMenu.Timers.Menu);

@@ -64,17 +64,17 @@ namespace SAssemblies.Miscs
 
         public static Menu.MenuItemSettings SetupMenu(LeagueSharp.Common.Menu menu)
         {
-            AntiLaternMisc.Menu = menu.AddSubMenu(new LeagueSharp.Common.Menu(Language.GetString("MISCS_ANTILATERN_MAIN"), "SAwarenessMiscsAntiLatern"));
+            AntiLaternMisc.Menu = menu.AddSubMenu(new LeagueSharp.Common.Menu(Language.GetString("MISCS_ANTILATERN_MAIN"), "SAssembliesMiscsAntiLatern"));
             AntiLaternMisc.MenuItems.Add(
-                AntiLaternMisc.Menu.AddItem(new MenuItem("SAwarenessMiscsAntiLaternKey", Language.GetString("GLOBAL_KEY")).SetValue(new KeyBind(84, KeyBindType.Press))));
+                AntiLaternMisc.Menu.AddItem(new MenuItem("SAssembliesMiscsAntiLaternKey", Language.GetString("GLOBAL_KEY")).SetValue(new KeyBind(84, KeyBindType.Press))));
             AntiLaternMisc.MenuItems.Add(
-                AntiLaternMisc.Menu.AddItem(new MenuItem("SAwarenessMiscsAntiLaternActive", Language.GetString("GLOBAL_ACTIVE")).SetValue(false)));
+                AntiLaternMisc.Menu.AddItem(new MenuItem("SAssembliesMiscsAntiLaternActive", Language.GetString("GLOBAL_ACTIVE")).SetValue(false)));
             return AntiLaternMisc;
         }
 
         private void Game_OnGameUpdate(EventArgs args)
         {
-            if (!IsActive() || !AntiLaternMisc.GetMenuItem("SAwarenessMiscsAntiLaternKey").GetValue<KeyBind>().Active || lastGameUpdateTime + new Random().Next(500, 1000) > Environment.TickCount
+            if (!IsActive() || !AntiLaternMisc.GetMenuItem("SAssembliesMiscsAntiLaternKey").GetValue<KeyBind>().Active || lastGameUpdateTime + new Random().Next(500, 1000) > Environment.TickCount
                 || lastTimeUsed + 6000 > Environment.TickCount)
                 return;
 

@@ -83,9 +83,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\DLL\Evade.dll" />
-    <Content Include="Resources\DLL\LeagueSharp.GameFiles.dll" />
-    <Content Include="Resources\DLL\Newtonsoft.Json.dll" />
+    <EmbeddedResource Include="Resources\DLL\Evade.dll" />
+    <EmbeddedResource Include="Resources\DLL\LeagueSharp.GameFiles.dll" />
+    <EmbeddedResource Include="Resources\DLL\Newtonsoft.Json.dll" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\TRANSLATIONS\Translation-de-DE.resx" />

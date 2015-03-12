@@ -30,9 +30,9 @@ namespace SAssemblies.Miscs
 
         public static Menu.MenuItemSettings SetupMenu(LeagueSharp.Common.Menu menu)
         {
-            MinionLocationMisc.Menu = menu.AddSubMenu(new LeagueSharp.Common.Menu(Language.GetString("MISCS_MINIONLOCATION_MAIN"), "SAwarenessMiscsMinionLocation"));
+            MinionLocationMisc.Menu = menu.AddSubMenu(new LeagueSharp.Common.Menu(Language.GetString("MISCS_MINIONLOCATION_MAIN"), "SAssembliesMiscsMinionLocation"));
             MinionLocationMisc.MenuItems.Add(
-                MinionLocationMisc.Menu.AddItem(new MenuItem("SAwarenessMiscsMinionLocationActive", Language.GetString("GLOBAL_ACTIVE")).SetValue(false)));
+                MinionLocationMisc.Menu.AddItem(new MenuItem("SAssembliesMiscsMinionLocationActive", Language.GetString("GLOBAL_ACTIVE")).SetValue(false)));
             return MinionLocationMisc;
         }
 

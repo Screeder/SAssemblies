@@ -45,7 +45,7 @@ namespace SAssemblies.Miscs
             };
             MainFrame.Sprite.VisibleCondition = delegate
             {
-                return Misc.Miscs.GetActive() && EloDisplayerMisc.GetActive() && EloDisplayerMisc.GetMenuItem("SAwarenessMiscsEloDisplayerKey").GetValue<KeyBind>().Active;
+                return Misc.Miscs.GetActive() && EloDisplayerMisc.GetActive() && EloDisplayerMisc.GetMenuItem("SAssembliesMiscsEloDisplayerKey").GetValue<KeyBind>().Active;
             };
             MainFrame.Sprite.Add(1);
         }
@@ -117,11 +117,11 @@ namespace SAssemblies.Miscs
 
         public static Menu.MenuItemSettings SetupMenu(LeagueSharp.Common.Menu menu)
         {
-            EloDisplayerMisc.Menu = menu.AddSubMenu(new LeagueSharp.Common.Menu(Language.GetString("MISCS_ELODISPLAYER_MAIN"), "SAwarenessMiscsEloDisplayer"));
+            EloDisplayerMisc.Menu = menu.AddSubMenu(new LeagueSharp.Common.Menu(Language.GetString("MISCS_ELODISPLAYER_MAIN"), "SAssembliesMiscsEloDisplayer"));
             EloDisplayerMisc.MenuItems.Add(
-                EloDisplayerMisc.Menu.AddItem(new LeagueSharp.Common.MenuItem("SAwarenessMiscsEloDisplayerKey", Language.GetString("GLOBAL_KEY")).SetValue(new KeyBind(9, KeyBindType.Toggle))));
+                EloDisplayerMisc.Menu.AddItem(new LeagueSharp.Common.MenuItem("SAssembliesMiscsEloDisplayerKey", Language.GetString("GLOBAL_KEY")).SetValue(new KeyBind(9, KeyBindType.Toggle))));
             EloDisplayerMisc.MenuItems.Add(
-                EloDisplayerMisc.Menu.AddItem(new LeagueSharp.Common.MenuItem("SAwarenessMiscsEloDisplayerActive", Language.GetString("GLOBAL_ACTIVE")).SetValue(false)));
+                EloDisplayerMisc.Menu.AddItem(new LeagueSharp.Common.MenuItem("SAssembliesMiscsEloDisplayerActive", Language.GetString("GLOBAL_ACTIVE")).SetValue(false)));
             return EloDisplayerMisc;
         }
 
@@ -216,7 +216,7 @@ namespace SAssemblies.Miscs
                 };
                 champ.SummonerIcon.Sprite.Sprite.VisibleCondition = delegate
                 {
-                    return Misc.Miscs.GetActive() && EloDisplayerMisc.GetActive() && EloDisplayerMisc.GetMenuItem("SAwarenessMiscsEloDisplayerKey").GetValue<KeyBind>().Active
+                    return Misc.Miscs.GetActive() && EloDisplayerMisc.GetActive() && EloDisplayerMisc.GetMenuItem("SAssembliesMiscsEloDisplayerKey").GetValue<KeyBind>().Active
                         && champ.IsFinished();
                 };
                 champ.SummonerIcon.Sprite.Sprite.Add(2);
@@ -236,7 +236,7 @@ namespace SAssemblies.Miscs
             //    };
             //    champ.MasteriesSprite.Sprite.Sprite.VisibleCondition = delegate
             //    {
-            //        return Misc.Miscs.GetActive() && EloDisplayerMisc.GetActive() && EloDisplayerMisc.GetMenuItem("SAwarenessMiscsEloDisplayerKey").GetValue<KeyBind>().Active
+            //        return Misc.Miscs.GetActive() && EloDisplayerMisc.GetActive() && EloDisplayerMisc.GetMenuItem("SAssembliesMiscsEloDisplayerKey").GetValue<KeyBind>().Active
             //            && champ.IsFinished();
             //    };
             //    champ.MasteriesSprite.Sprite.Sprite.Add(2);
@@ -287,7 +287,7 @@ namespace SAssemblies.Miscs
                 };
                 champ.Divison.Text.VisibleCondition = sender =>
                 {
-                    return Misc.Miscs.GetActive() && EloDisplayerMisc.GetActive() && EloDisplayerMisc.GetMenuItem("SAwarenessMiscsEloDisplayerKey").GetValue<KeyBind>().Active
+                    return Misc.Miscs.GetActive() && EloDisplayerMisc.GetActive() && EloDisplayerMisc.GetMenuItem("SAssembliesMiscsEloDisplayerKey").GetValue<KeyBind>().Active
                         && champ.IsFinished();
                 };
                 champ.Divison.Text.OutLined = true;
@@ -312,7 +312,7 @@ namespace SAssemblies.Miscs
                 };
                 champ.RankedStatistics.Text.VisibleCondition = sender =>
                 {
-                    return Misc.Miscs.GetActive() && EloDisplayerMisc.GetActive() && EloDisplayerMisc.GetMenuItem("SAwarenessMiscsEloDisplayerKey").GetValue<KeyBind>().Active
+                    return Misc.Miscs.GetActive() && EloDisplayerMisc.GetActive() && EloDisplayerMisc.GetMenuItem("SAssembliesMiscsEloDisplayerKey").GetValue<KeyBind>().Active
                         && champ.IsFinished();
                 };
                 champ.RankedStatistics.Text.OutLined = true;
@@ -337,7 +337,7 @@ namespace SAssemblies.Miscs
                 };
                 champ.MMR.Text.VisibleCondition = sender =>
                 {
-                    return Misc.Miscs.GetActive() && EloDisplayerMisc.GetActive() && EloDisplayerMisc.GetMenuItem("SAwarenessMiscsEloDisplayerKey").GetValue<KeyBind>().Active
+                    return Misc.Miscs.GetActive() && EloDisplayerMisc.GetActive() && EloDisplayerMisc.GetMenuItem("SAssembliesMiscsEloDisplayerKey").GetValue<KeyBind>().Active
                         && champ.IsFinished();
                 };
                 champ.MMR.Text.OutLined = true;
@@ -362,7 +362,7 @@ namespace SAssemblies.Miscs
                 };
                 champ.RecentStatistics.Text.VisibleCondition = sender =>
                 {
-                    return Misc.Miscs.GetActive() && EloDisplayerMisc.GetActive() && EloDisplayerMisc.GetMenuItem("SAwarenessMiscsEloDisplayerKey").GetValue<KeyBind>().Active
+                    return Misc.Miscs.GetActive() && EloDisplayerMisc.GetActive() && EloDisplayerMisc.GetMenuItem("SAssembliesMiscsEloDisplayerKey").GetValue<KeyBind>().Active
                         && champ.IsFinished();
                 };
                 champ.RecentStatistics.Text.OutLined = true;
@@ -387,7 +387,7 @@ namespace SAssemblies.Miscs
                 };
                 champ.ChampionGames.Text.VisibleCondition = sender =>
                 {
-                    return Misc.Miscs.GetActive() && EloDisplayerMisc.GetActive() && EloDisplayerMisc.GetMenuItem("SAwarenessMiscsEloDisplayerKey").GetValue<KeyBind>().Active
+                    return Misc.Miscs.GetActive() && EloDisplayerMisc.GetActive() && EloDisplayerMisc.GetMenuItem("SAssembliesMiscsEloDisplayerKey").GetValue<KeyBind>().Active
                         && champ.IsFinished();
                 };
                 champ.ChampionGames.Text.OutLined = true;
@@ -412,7 +412,7 @@ namespace SAssemblies.Miscs
                 };
                 champ.OverallKDA.Text.VisibleCondition = sender =>
                 {
-                    return Misc.Miscs.GetActive() && EloDisplayerMisc.GetActive() && EloDisplayerMisc.GetMenuItem("SAwarenessMiscsEloDisplayerKey").GetValue<KeyBind>().Active
+                    return Misc.Miscs.GetActive() && EloDisplayerMisc.GetActive() && EloDisplayerMisc.GetMenuItem("SAssembliesMiscsEloDisplayerKey").GetValue<KeyBind>().Active
                         && champ.IsFinished();
                 };
                 champ.OverallKDA.Text.OutLined = true;
@@ -437,7 +437,7 @@ namespace SAssemblies.Miscs
                 };
                 champ.ChampionKDA.Text.VisibleCondition = sender =>
                 {
-                    return Misc.Miscs.GetActive() && EloDisplayerMisc.GetActive() && EloDisplayerMisc.GetMenuItem("SAwarenessMiscsEloDisplayerKey").GetValue<KeyBind>().Active
+                    return Misc.Miscs.GetActive() && EloDisplayerMisc.GetActive() && EloDisplayerMisc.GetMenuItem("SAssembliesMiscsEloDisplayerKey").GetValue<KeyBind>().Active
                         && champ.IsFinished();
                 };
                 champ.ChampionKDA.Text.OutLined = true;
@@ -479,7 +479,7 @@ namespace SAssemblies.Miscs
             };
             champ.SummonerName.Text.VisibleCondition = sender =>
             {
-                return Misc.Miscs.GetActive() && EloDisplayerMisc.GetActive() && EloDisplayerMisc.GetMenuItem("SAwarenessMiscsEloDisplayerKey").GetValue<KeyBind>().Active
+                return Misc.Miscs.GetActive() && EloDisplayerMisc.GetActive() && EloDisplayerMisc.GetMenuItem("SAssembliesMiscsEloDisplayerKey").GetValue<KeyBind>().Active
                         && champ.IsFinished();
             };
             champ.SummonerName.Text.OutLined = true;
@@ -496,7 +496,7 @@ namespace SAssemblies.Miscs
             };
             champ.ChampionName.Text.VisibleCondition = sender =>
             {
-                return Misc.Miscs.GetActive() && EloDisplayerMisc.GetActive() && EloDisplayerMisc.GetMenuItem("SAwarenessMiscsEloDisplayerKey").GetValue<KeyBind>().Active
+                return Misc.Miscs.GetActive() && EloDisplayerMisc.GetActive() && EloDisplayerMisc.GetMenuItem("SAssembliesMiscsEloDisplayerKey").GetValue<KeyBind>().Active
                         && champ.IsFinished();
             };
             champ.ChampionName.Text.OutLined = true;
@@ -513,7 +513,7 @@ namespace SAssemblies.Miscs
             };
             champ.Masteries.Text.VisibleCondition = sender =>
             {
-                return Misc.Miscs.GetActive() && EloDisplayerMisc.GetActive() && EloDisplayerMisc.GetMenuItem("SAwarenessMiscsEloDisplayerKey").GetValue<KeyBind>().Active
+                return Misc.Miscs.GetActive() && EloDisplayerMisc.GetActive() && EloDisplayerMisc.GetMenuItem("SAssembliesMiscsEloDisplayerKey").GetValue<KeyBind>().Active
                         && champ.IsFinished();
             };
             champ.Masteries.Text.OutLined = true;
@@ -530,7 +530,7 @@ namespace SAssemblies.Miscs
             };
             champ.Runes.Text.VisibleCondition = sender =>
             {
-                return Misc.Miscs.GetActive() && EloDisplayerMisc.GetActive() && EloDisplayerMisc.GetMenuItem("SAwarenessMiscsEloDisplayerKey").GetValue<KeyBind>().Active
+                return Misc.Miscs.GetActive() && EloDisplayerMisc.GetActive() && EloDisplayerMisc.GetMenuItem("SAssembliesMiscsEloDisplayerKey").GetValue<KeyBind>().Active
                         && champ.IsFinished();
             };
             champ.Runes.Text.OutLined = true;

@@ -29,9 +29,9 @@ namespace SAssemblies.Miscs
 
         public static Menu.MenuItemSettings SetupMenu(LeagueSharp.Common.Menu menu)
         {
-            RealTimeMisc.Menu = menu.AddSubMenu(new LeagueSharp.Common.Menu(Language.GetString("MISCS_REALTIME_MAIN"), "SAwarenessMiscsRealTime"));
+            RealTimeMisc.Menu = menu.AddSubMenu(new LeagueSharp.Common.Menu(Language.GetString("MISCS_REALTIME_MAIN"), "SAssembliesMiscsRealTime"));
             RealTimeMisc.MenuItems.Add(
-                RealTimeMisc.Menu.AddItem(new MenuItem("SAwarenessMiscsRealTimeActive", Language.GetString("GLOBAL_ACTIVE")).SetValue(false)));
+                RealTimeMisc.Menu.AddItem(new MenuItem("SAssembliesMiscsRealTimeActive", Language.GetString("GLOBAL_ACTIVE")).SetValue(false)));
             return RealTimeMisc;
         }
 

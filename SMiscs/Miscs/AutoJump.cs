@@ -65,17 +65,17 @@ namespace SAssemblies.Miscs
 
         public static Menu.MenuItemSettings SetupMenu(LeagueSharp.Common.Menu menu)
         {
-            AutoJumpMisc.Menu = menu.AddSubMenu(new LeagueSharp.Common.Menu(Language.GetString("MISCS_AUTOJUMP_MAIN"), "SAwarenessMiscsAutoJump"));
+            AutoJumpMisc.Menu = menu.AddSubMenu(new LeagueSharp.Common.Menu(Language.GetString("MISCS_AUTOJUMP_MAIN"), "SAssembliesMiscsAutoJump"));
             AutoJumpMisc.MenuItems.Add(
-                AutoJumpMisc.Menu.AddItem(new MenuItem("SAwarenessMiscsAutoJumpKey", Language.GetString("GLOBAL_KEY")).SetValue(new KeyBind(85, KeyBindType.Press))));
+                AutoJumpMisc.Menu.AddItem(new MenuItem("SAssembliesMiscsAutoJumpKey", Language.GetString("GLOBAL_KEY")).SetValue(new KeyBind(85, KeyBindType.Press))));
             AutoJumpMisc.MenuItems.Add(
-                AutoJumpMisc.Menu.AddItem(new MenuItem("SAwarenessMiscsAutoJumpActive", Language.GetString("GLOBAL_ACTIVE")).SetValue(false)));
+                AutoJumpMisc.Menu.AddItem(new MenuItem("SAssembliesMiscsAutoJumpActive", Language.GetString("GLOBAL_ACTIVE")).SetValue(false)));
             return AutoJumpMisc;
         }
 
         private void Game_OnGameUpdate(EventArgs args)
         {
-            if (!IsActive() || !AutoJumpMisc.GetMenuItem("SAwarenessMiscsAutoJumpKey").GetValue<KeyBind>().Active ||
+            if (!IsActive() || !AutoJumpMisc.GetMenuItem("SAssembliesMiscsAutoJumpKey").GetValue<KeyBind>().Active ||
                 !_jumpSpell.IsReady() || lastGameUpdateTime + new Random().Next(500, 1000) > Environment.TickCount)
                 return;
 
@@ -115,7 +115,7 @@ namespace SAssemblies.Miscs
 
         private void Obj_AI_Base_OnCreate(GameObject sender, EventArgs args)
         {
-            if (!IsActive() || !AutoJumpMisc.GetMenuItem("SAwarenessMiscsAutoJumpKey").GetValue<KeyBind>().Active ||
+            if (!IsActive() || !AutoJumpMisc.GetMenuItem("SAssembliesMiscsAutoJumpKey").GetValue<KeyBind>().Active ||
                 !_jumpSpell.IsReady())
                 return;
             if (sender.Name.Contains("SightWard") || sender.Name.Contains("VisionWard"))

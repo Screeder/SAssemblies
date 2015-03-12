@@ -30,9 +30,9 @@ namespace SAssemblies.Miscs
 
         public static Menu.MenuItemSettings SetupMenu(LeagueSharp.Common.Menu menu)
         {
-            ShowPingMisc.Menu = menu.AddSubMenu(new LeagueSharp.Common.Menu(Language.GetString("MISCS_SHOWPING_MAIN"), "SAwarenessMiscsShowPing"));
+            ShowPingMisc.Menu = menu.AddSubMenu(new LeagueSharp.Common.Menu(Language.GetString("MISCS_SHOWPING_MAIN"), "SAssembliesMiscsShowPing"));
             ShowPingMisc.MenuItems.Add(
-                ShowPingMisc.Menu.AddItem(new MenuItem("SAwarenessMiscsShowPingActive", Language.GetString("GLOBAL_ACTIVE")).SetValue(false)));
+                ShowPingMisc.Menu.AddItem(new MenuItem("SAssembliesMiscsShowPingActive", Language.GetString("GLOBAL_ACTIVE")).SetValue(false)));
             return ShowPingMisc;
         }
 

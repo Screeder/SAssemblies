@@ -30,11 +30,11 @@ namespace SAssemblies.Miscs
 
         public static Menu.MenuItemSettings SetupMenu(LeagueSharp.Common.Menu menu)
         {
-            SafeMovementMisc.Menu = menu.AddSubMenu(new LeagueSharp.Common.Menu(Language.GetString("MISCS_SAFEMOVEMENT_MAIN"), "SAwarenessMiscsSafeMovement"));
+            SafeMovementMisc.Menu = menu.AddSubMenu(new LeagueSharp.Common.Menu(Language.GetString("MISCS_SAFEMOVEMENT_MAIN"), "SAssembliesMiscsSafeMovement"));
             SafeMovementMisc.MenuItems.Add(
-                SafeMovementMisc.Menu.AddItem(new MenuItem("SAwarenessMiscsSafeMovementBlockIntervall", Language.GetString("MISCS_SAFEMOVEMENT_BLOCKINTERVAL")).SetValue(new Slider(20, 1000, 0))));
+                SafeMovementMisc.Menu.AddItem(new MenuItem("SAssembliesMiscsSafeMovementBlockIntervall", Language.GetString("MISCS_SAFEMOVEMENT_BLOCKINTERVAL")).SetValue(new Slider(20, 1000, 0))));
             SafeMovementMisc.MenuItems.Add(
-                SafeMovementMisc.Menu.AddItem(new MenuItem("SAwarenessMiscsSafeMovementActive", Language.GetString("GLOBAL_ACTIVE")).SetValue(false)));
+                SafeMovementMisc.Menu.AddItem(new MenuItem("SAssembliesMiscsSafeMovementActive", Language.GetString("GLOBAL_ACTIVE")).SetValue(false)));
             return SafeMovementMisc;
         }
 
@@ -48,7 +48,7 @@ namespace SAssemblies.Miscs
 
             decimal milli = DateTime.Now.Ticks / (decimal)TimeSpan.TicksPerMillisecond;
             if (milli - _lastSend <
-                            SafeMovementMisc.GetMenuItem("SAwarenessMiscsSafeMovementBlockIntervall")
+                            SafeMovementMisc.GetMenuItem("SAssembliesMiscsSafeMovementBlockIntervall")
                                 .GetValue<Slider>()
                                 .Value)
             {
@@ -78,7 +78,7 @@ namespace SAssemblies.Miscs
                     if (move.SourceNetworkId == ObjectManager.Player.NetworkId)
                     {
                         if (milli - _lastSend <
-                            SafeMovementMisc.GetMenuItem("SAwarenessMiscsSafeMovementBlockIntervall")
+                            SafeMovementMisc.GetMenuItem("SAssembliesMiscsSafeMovementBlockIntervall")
                                 .GetValue<Slider>()
                                 .Value)
                         {

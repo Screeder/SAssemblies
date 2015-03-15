@@ -52,7 +52,7 @@ namespace SAssemblies
                 MainMenu.BushRevealer = Wards.BushRevealer.SetupMenu(MainMenu.Wards.Menu);
                 MainMenu.InvisibleRevealer = Wards.InvisibleRevealer.SetupMenu(MainMenu.Wards.Menu);
                 MainMenu.WardCorrector = Wards.WardCorrector.SetupMenu(MainMenu.Wards.Menu);
-                //MainMenu.FowWardPlacement = Wards.FowWardPlacement.SetupMenu(MainMenu.Wards.Menu);
+                MainMenu.FowWardPlacement = Wards.FowWardPlacement.SetupMenu(MainMenu.Wards.Menu);
 
                 Menu.GlobalSettings.Menu =
                     menu.AddSubMenu(new LeagueSharp.Common.Menu("Global Settings", "SAssembliesGlobalSettings"));

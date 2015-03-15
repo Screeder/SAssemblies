@@ -36,8 +36,8 @@ namespace SAssemblies.Healths
             Healths.MenuItems.Add(
                 Healths.Menu.AddItem(new MenuItem("SAssembliesHealthsMode", Language.GetString("GLOBAL_MODE")).SetValue(new StringList(new[]
                 {
-                    Language.GetString("HEALTHS_MODE_PERCENT"), 
-                    Language.GetString("HEALTHS_MODE_VALUE")
+                    Language.GetString("GLOBAL_MODE_PERCENT"), 
+                    Language.GetString("GLOBAL_MODE_VALUE")
                 }))));
             Healths.MenuItems.Add(Healths.Menu.AddItem(new MenuItem("SAssembliesHealthsActive", Language.GetString("GLOBAL_ACTIVE")).SetValue(false)));
             return Healths;

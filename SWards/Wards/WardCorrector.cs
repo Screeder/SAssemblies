@@ -196,7 +196,7 @@ namespace SAssemblies.Wards
         private bool IsWard(Spellbook spellBook, SpellbookCastSpellEventArgs args)
         {
             return
-                Ward.WardItems.Exists(
+                SAssemblies.Ward.WardItems.Exists(
                     y =>
                         y.Id ==
                         (int)
@@ -362,11 +362,11 @@ namespace SAssemblies.Wards
                 {
                     if (inventoryItem != null)
                     {
-                        foreach (Ward.WardItem wardItem in Ward.WardItems)
+                        foreach (SAssemblies.Ward.WardItem wardItem in SAssemblies.Ward.WardItems)
                         {
                             if ((int)inventoryItem.Id == wardItem.Id &&
-                                wardItem.Type != Ward.WardType.Temp &&
-                                wardItem.Type != Ward.WardType.TempVision &&
+                                wardItem.Type != SAssemblies.Ward.WardType.Temp &&
+                                wardItem.Type != SAssemblies.Ward.WardType.TempVision &&
                                 ObjectManager.Player.Spellbook.CanUseSpell(_latestSpellSlot) == SpellState.Ready ||
                                 ObjectManager.Player.Spellbook.CanUseSpell(_latestSpellSlot) == (SpellState)1)
                             {

@@ -17,20 +17,20 @@ namespace SAssemblies.Wards
 
         private int lastGameUpdateTime = 0;
 
-        public class ExpandedWardItem : Ward.WardItem
+        public class ExpandedWardItem : SAssemblies.Ward.WardItem
         {
             public int Stacks;
             public int Charges;
             public bool Cd;
 
-            public ExpandedWardItem(int id, string name, string spellName, int range, int duration, Ward.WardType type, int stacks, int charges)
+            public ExpandedWardItem(int id, string name, string spellName, int range, int duration, SAssemblies.Ward.WardType type, int stacks, int charges)
                 : base(id, name, spellName, range, duration, type)
             {
                 Stacks = stacks;
                 Charges = charges;
             }
 
-            public ExpandedWardItem(Ward.WardItem ward, int stacks, int charges)
+            public ExpandedWardItem(SAssemblies.Ward.WardItem ward, int stacks, int charges)
                 : base(ward.Id, ward.Name, ward.SpellName, ward.Range, ward.Duration, ward.Type)
             {
                 Stacks = stacks;
@@ -97,7 +97,7 @@ namespace SAssemblies.Wards
                 {
                     foreach (var wardItem in enemy.Value.ToArray())
                     {
-                        if ((int)item.Id == wardItem.Id && wardItem.Type != Ward.WardType.Temp && wardItem.Type != Ward.WardType.TempVision && hero.Spellbook.CanUseSpell(item.SpellSlot) == SpellState.Ready)
+                        if ((int)item.Id == wardItem.Id && wardItem.Type != SAssemblies.Ward.WardType.Temp && wardItem.Type != SAssemblies.Ward.WardType.TempVision && hero.Spellbook.CanUseSpell(item.SpellSlot) == SpellState.Ready)
                         {
                             /*if (item.Charges < wardItem.Charges || item.Stacks < wardItem.Stacks)
                                 Console.Write("");*/
@@ -127,15 +127,15 @@ namespace SAssemblies.Wards
                     foreach (var wardItem in enemy.Value.ToArray())
                     {
                         if ((int)item.Id == wardItem.Id && (item.Charges > wardItem.Charges || item.Stacks > wardItem.Stacks) &&
-                            wardItem.Type != Ward.WardType.Temp && wardItem.Type != Ward.WardType.TempVision && hero.Spellbook.CanUseSpell(item.SpellSlot) == SpellState.Ready)
+                            wardItem.Type != SAssemblies.Ward.WardType.Temp && wardItem.Type != SAssemblies.Ward.WardType.TempVision && hero.Spellbook.CanUseSpell(item.SpellSlot) == SpellState.Ready)
                         {
                             wards.Add(wardItem);
                         }
                         checkedWards.Add(wardItem.Id);
                     }
-                    foreach (var ward in Ward.WardItems)
+                    foreach (var ward in SAssemblies.Ward.WardItems)
                     {
-                        if ((int)item.Id == ward.Id && ward.Type != Ward.WardType.Temp && ward.Type != Ward.WardType.TempVision && hero.Spellbook.CanUseSpell(item.SpellSlot) == SpellState.Ready &&
+                        if ((int)item.Id == ward.Id && ward.Type != SAssemblies.Ward.WardType.Temp && ward.Type != SAssemblies.Ward.WardType.TempVision && hero.Spellbook.CanUseSpell(item.SpellSlot) == SpellState.Ready &&
                             (enemy.Value.Find(wardItem => wardItem.Id == ward.Id) == null))
                         {
                             wards.Add(new ExpandedWardItem(ward, item.Stacks, item.Charges));
@@ -155,9 +155,9 @@ namespace SAssemblies.Wards
             List<ExpandedWardItem> wards = new List<ExpandedWardItem>();
             foreach (var item in hero.InventoryItems)
             {
-                foreach (var wardItem in Ward.WardItems)
+                foreach (var wardItem in SAssemblies.Ward.WardItems)
                 {
-                    if ((int)item.Id == wardItem.Id && wardItem.Type != Ward.WardType.Temp && wardItem.Type != Ward.WardType.TempVision)
+                    if ((int)item.Id == wardItem.Id && wardItem.Type != SAssemblies.Ward.WardType.Temp && wardItem.Type != SAssemblies.Ward.WardType.TempVision)
                     {
                         wards.Add(new ExpandedWardItem(wardItem, item.Stacks, item.Charges));
                     }
@@ -171,9 +171,9 @@ namespace SAssemblies.Wards
             List<ExpandedWardItem> wards = new List<ExpandedWardItem>();
             foreach (var item in hero.InventoryItems)
             {
-                foreach (var wardItem in Ward.WardItems)
+                foreach (var wardItem in SAssemblies.Ward.WardItems)
                 {
-                    if ((int)item.Id == wardItem.Id && wardItem.Type != Ward.WardType.Temp && wardItem.Type != Ward.WardType.TempVision && hero.Spellbook.CanUseSpell(item.SpellSlot) == SpellState.Ready)
+                    if ((int)item.Id == wardItem.Id && wardItem.Type != SAssemblies.Ward.WardType.Temp && wardItem.Type != SAssemblies.Ward.WardType.TempVision && hero.Spellbook.CanUseSpell(item.SpellSlot) == SpellState.Ready)
                     {
                         wards.Add(new ExpandedWardItem(wardItem, item.Stacks, item.Charges));
                     }

@@ -304,6 +304,16 @@ namespace SAssemblies
             return SpellSlot.Unknown;
         }
 
+        public static SpellSlot GetClairvoyanceSlot()
+        {
+            foreach (SpellDataInst spell in ObjectManager.Player.Spellbook.Spells)
+            {
+                if (spell.Name.ToLower().Contains("clairvoyance") && spell.State == SpellState.Ready)
+                    return spell.Slot;
+            }
+            return SpellSlot.Unknown;
+        }
+
         public static SpellSlot GetFlashSlot()
         {
             foreach (SpellDataInst spell in ObjectManager.Player.Spellbook.Spells)

@@ -57,8 +57,8 @@ namespace SAssemblies.Wards
             InvisibleRevealerWard.MenuItems.Add(
                 InvisibleRevealerWard.Menu.AddItem(new MenuItem("SAssembliesWardsInvisibleRevealerMode", Language.GetString("GLOBAL_MODE")).SetValue(new StringList(new[]
                 {
-                    Language.GetString("WARDS_INVISIBLEREVEALER_MODE_MANUAL"), 
-                    Language.GetString("WARDS_INVISIBLEREVEALER_MODE_AUTOMATIC")
+                    Language.GetString("GLOBAL_MODE_MANUAL"), 
+                    Language.GetString("GLOBAL_MODE_AUTOMATIC")
                 }))));
             InvisibleRevealerWard.MenuItems.Add(
                 InvisibleRevealerWard.Menu.AddItem(new MenuItem("SAssembliesWardsInvisibleRevealerKey", Language.GetString("GLOBAL_KEY")).SetValue(new KeyBind(32, KeyBindType.Press))));
@@ -90,10 +90,10 @@ namespace SAssemblies.Wards
                     {
                         if (_lastTimeWarded == 0 || Environment.TickCount - _lastTimeWarded > 500)
                         {
-                            Ward.WardItem wardItem =
-                                Ward.WardItems.First(
+                            SAssemblies.Ward.WardItem wardItem =
+                                SAssemblies.Ward.WardItems.First(
                                     x =>
-                                        Items.HasItem(x.Id) && Items.CanUseItem(x.Id) && (x.Type == Ward.WardType.Vision || x.Type == Ward.WardType.TempVision));
+                                        Items.HasItem(x.Id) && Items.CanUseItem(x.Id) && (x.Type == SAssemblies.Ward.WardType.Vision || x.Type == SAssemblies.Ward.WardType.TempVision));
                             if (wardItem == null)
                                 return;
                             if (sender.ServerPosition.Distance(ObjectManager.Player.ServerPosition) > wardItem.Range)

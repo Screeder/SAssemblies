@@ -39,7 +39,7 @@ namespace SAssemblies.Wards
 
         private static void SetupMainMenu()
         {
-            var menu = new LeagueSharp.Common.Menu("SAssembliesBushRevealer", "SAssembliesWardsBushRevealer", true);
+            var menu = new LeagueSharp.Common.Menu("SBushRevealer", "SAssembliesSWardsBushRevealer", true);
             SetupMenu(menu);
             menu.AddToMainMenu();
         }
@@ -68,7 +68,7 @@ namespace SAssemblies.Wards
             foreach (PlayerInfo playerInfo in _playerInfo.Where(x => x.Player.IsVisible))
                 playerInfo.LastSeen = time;
 
-            Ward.WardItem ward = Ward.GetWardItem();
+            SAssemblies.Ward.WardItem ward = SAssemblies.Ward.GetWardItem();
             if (ward == null)
                 return;
 
@@ -88,7 +88,7 @@ namespace SAssemblies.Wards
                     {
                         if (_lastTimeWarded == 0 || Environment.TickCount - _lastTimeWarded > 500)
                         {
-                            InventorySlot wardSlot = Ward.GetWardSlot();
+                            InventorySlot wardSlot = SAssemblies.Ward.GetWardSlot();
 
                             if (wardSlot != null && wardSlot.Id != ItemId.Unknown)
                             {

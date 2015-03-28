@@ -1,1 +1,0 @@
-copy /y "H:\GitHub\SAssemblies\SWards\bin\Release\Wards.exe" "C:\Users\Screeder93\AppData\Roaming\LeagueSharpB729C54B\Assemblies\F1275CF9Wards.exe"

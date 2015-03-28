@@ -1,6 +1,7 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using LeagueSharp;
@@ -20,6 +21,7 @@ namespace SAssemblies.Wards
         {
             public int Stacks;
             public int Charges;
+            public int Cd;
 
             public ExpandedWardItem(int id, string name, string spellName, int range, int duration, SAssemblies.Ward.WardType type, int stacks, int charges)
                 : base(id, name, spellName, range, duration, type)
@@ -55,8 +57,6 @@ namespace SAssemblies.Wards
         {
             //Game.OnGameUpdate -= Game_OnGameUpdate;
             ThreadHelper.GetInstance().Called -= Game_OnGameUpdate;
-            enemiesUsed = null;
-            enemiesRefilled = null;
         }
 
         public bool IsActive()
@@ -90,14 +90,14 @@ namespace SAssemblies.Wards
             {
                 Obj_AI_Hero hero = enemy.Key;
 				List<ExpandedWardItem> allWards = new List<ExpandedWardItem>(GetWardItems(hero));
-				
-				List<ExpandedWardItem> soldWards = allWards.Except(enemy.Value);
+
+                List<ExpandedWardItem> soldWards = allWards.Except(enemy.Value, new ExpandedWardItemComparer()).ToList();
                 foreach (var wardItem in soldWards)
                 {
                     Game.PrintChat("{0} has used {1}", enemy.Key.ChampionName, wardItem.Name);
                 }
-				
-				List<ExpandedWardItem> boughtWards = enemy.Value.Except(allWards);
+
+                List<ExpandedWardItem> boughtWards = enemy.Value.Except(allWards, new ExpandedWardItemComparer()).ToList();
 				foreach (var wardItem in boughtWards)
                 {
                     Game.PrintChat("{0} got {1}", enemy.Key.ChampionName, wardItem.Name);
@@ -107,9 +107,9 @@ namespace SAssemblies.Wards
 				{
 					foreach (var wardItem in enemy.Value.ToArray())
 					{
-						if (item.Id == wardItem.Id && wardItem.Type != SAssemblies.Ward.WardType.Temp && wardItem.Type != SAssemblies.Ward.WardType.TempVision && hero.Spellbook.CanUseSpell(item.SpellSlot) == SpellState.Ready)
+						if (item.Id == wardItem.Id && wardItem.Type != SAssemblies.Ward.WardType.Temp && wardItem.Type != SAssemblies.Ward.WardType.TempVision)
                         {
-                            if (item.Charges > 0 ? item.Charges >= wardItem.Charges : false || item.Stacks >= wardItem.Stacks) //Check for StackItems etc fail
+                            if ((item.Charges > 0 ? item.Charges < wardItem.Charges : false) || (item.Stacks < wardItem.Stacks)) //Check for StackItems etc fail
                             {
                                 Game.PrintChat("{0} has used {1}", enemy.Key.ChampionName, wardItem.Name);
                             }
@@ -121,23 +121,23 @@ namespace SAssemblies.Wards
                 {
                     foreach (var wardItem in enemy.Value.ToArray())
                     {
-                        if ((int)item.Id == wardItem.Id && (item.Charges > wardItem.Charges || item.Stacks > wardItem.Stacks) &&
-                            wardItem.Type != SAssemblies.Ward.WardType.Temp && wardItem.Type != SAssemblies.Ward.WardType.TempVision && hero.Spellbook.CanUseSpell(item.SpellSlot) == SpellState.Ready)
+                        if ((int)item.Id == wardItem.Id && ((item.Charges > wardItem.Charges || item.Stacks > wardItem.Stacks) && hero.Spellbook.GetSpell(item.SpellSlot).CooldownExpires <= Game.Time) &&
+                            wardItem.Type != SAssemblies.Ward.WardType.Temp && wardItem.Type != SAssemblies.Ward.WardType.TempVision)
                         {
                             Game.PrintChat("{0} got {1}", enemy.Key.ChampionName, wardItem.Name);
                         }
                     }
                     foreach (var ward in SAssemblies.Ward.WardItems)
                     {
-                        if ((int)item.Id == ward.Id && ward.Type != SAssemblies.Ward.WardType.Temp && ward.Type != SAssemblies.Ward.WardType.TempVision && hero.Spellbook.CanUseSpell(item.SpellSlot) == SpellState.Ready &&
+                        if ((int)item.Id == ward.Id && ward.Type != SAssemblies.Ward.WardType.Temp && ward.Type != SAssemblies.Ward.WardType.TempVision &&
                             (enemy.Value.Find(wardItem => wardItem.Id == ward.Id) == null))
                         {
-                            Game.PrintChat("{0} got {1}", enemy.Key.ChampionName, wardItem.Name);
+                            Game.PrintChat("{0} got {1}", enemy.Key.ChampionName, ward.Name);
                         }
                     }
-                }				
+                }
 
-				enemy.Value = allWards;
+                _wards[enemy.Key] = allWards;
             }
         }
 		
@@ -155,6 +155,43 @@ namespace SAssemblies.Wards
                 }
             }
             return wards;
+        }
+
+        class ExpandedWardItemComparer : IEqualityComparer<ExpandedWardItem>
+        {
+            // Products are equal if their names and product numbers are equal.
+            public bool Equals(ExpandedWardItem x, ExpandedWardItem y)
+            {
+
+                //Check whether the compared objects reference the same data.
+                if (Object.ReferenceEquals(x, y)) return true;
+
+                //Check whether any of the compared objects is null.
+                if (Object.ReferenceEquals(x, null) || Object.ReferenceEquals(y, null))
+                    return false;
+
+                //Check whether the products' properties are equal.
+                return x.Id == y.Id;
+            }
+
+            // If Equals() returns true for a pair of objects 
+            // then GetHashCode() must return the same value for these objects.
+
+            public int GetHashCode(ExpandedWardItem product)
+            {
+                //Check whether the object is null
+                if (Object.ReferenceEquals(product, null)) return 0;
+
+                //Get hash code for the Name field if it is not null.
+                int hashProductName = product.Name == null ? 0 : product.Name.GetHashCode();
+
+                //Get hash code for the Code field.
+                int hashProductCode = product.Id.GetHashCode();
+
+                //Calculate the hash code for the product.
+                return hashProductName ^ hashProductCode;
+            }
+
         }
     }
 }

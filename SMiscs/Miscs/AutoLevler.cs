@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using LeagueSharp;
 using LeagueSharp.Common;
+using LeagueSharp.Sandbox;
 using Newtonsoft.Json;
 using SharpDX;
 using SharpDX.Direct3D9;
@@ -479,13 +480,13 @@ namespace SAssemblies.Miscs
         {
             string loc = Path.Combine(new[]
             {
-                Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "LeagueSharp", "Config",
+                SandboxConfig.DataDirectory, "Config",
                 "SAssemblies", "autolevel.conf"
             });
             try
             {
                 String output = JsonConvert.SerializeObject(sLevler);
-                Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "LeagueSharp",
+                Directory.CreateDirectory(Path.Combine(Config.AppDataDirectory,
                         "Config", "SAssemblies"));
                 if (output.Contains("[]"))
                 {
@@ -506,7 +507,7 @@ namespace SAssemblies.Miscs
         {
             string loc = Path.Combine(new[]
             {
-                Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "LeagueSharp", "Config",
+                SandboxConfig.DataDirectory, "Config",
                 "SAssemblies", "autolevel.conf"
             });
             try

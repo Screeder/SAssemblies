@@ -14,10 +14,31 @@ namespace SAwareness.Miscs
     class AntiJump
     {
         public static Menu.MenuItemSettings AntiJumpMisc = new Menu.MenuItemSettings(typeof(AntiJump));
-        public static List<Champs> Champions = new List<Champs>();
+        public static Champ Champion = null;
 
         public AntiJump()
         {
+            switch (ObjectManager.Player.ChampionName)
+            {
+                case "Draven":
+                    Champion = new Champ("Draven", 1000, SpellSlot.E, true);
+                    break;
+
+                case "Thresh":
+                    Champion = new Champ("Thresh", 700, SpellSlot.E, true);
+                    break;
+
+                case "Tristana":
+                    Champion = new Champ("Tristana", 500, SpellSlot.R, false);
+                    break;
+
+                case "Vayne":
+                    Champion = new Champ("Vayne", 500, SpellSlot.E, false);
+                    break;
+
+                default:
+                    return;
+            }
             Obj_AI_Hero.OnPlayAnimation += Obj_AI_Hero_OnPlayAnimation;
         }
 
@@ -48,10 +69,17 @@ namespace SAwareness.Miscs
                 {
                     if (IsJumping(hero, args.Animation))
                     {
-                        //if (_E.IsReady())
-                        //{
-                        //    _E.Cast(unit.Position, PacketCasting());
-                        //}
+                        if (Champion.SpellSlot.IsReady())
+                        {
+                            if (Champion.PosSpell)
+                            {
+                                ObjectManager.Player.Spellbook.CastSpell(Champion.SpellSlot, hero.ServerPosition);
+                            }
+                            else
+                            {
+                                ObjectManager.Player.Spellbook.CastSpell(Champion.SpellSlot, hero);
+                            }
+                        }
                     }
                 }
             }
@@ -62,28 +90,30 @@ namespace SAwareness.Miscs
             switch (champion.ChampionName)
             {
                 case "Rengar":
-                    if (animation.Contains("Spell5") && ObjectManager.Player.Distance(champion) <= 700)
+                    if (animation.Contains("Spell5") && ObjectManager.Player.Distance(champion) <= Champion.Range)
                         return true;
                     break;
 
                 case "Khazix":
-                    if (animation.Contains("Spell3") && ObjectManager.Player.Distance(champion) <= 700)
+                    if (animation.Contains("Spell3") && ObjectManager.Player.Distance(champion) <= Champion.Range)
                         return true;
                     break;
             }
             return false;
         }
 
-        internal class Champs
+        internal class Champ
         {
             public String Name;
             public SpellSlot SpellSlot;
             public int Range;
-            public Champs(string name, int range, SpellSlot spellSlot)
+            public bool PosSpell;
+            public Champ(string name, int range, SpellSlot spellSlot, bool posSpell)
             {
                 Name = name;
                 Range = range;
                 SpellSlot = spellSlot;
+                PosSpell = posSpell;
             }
         }
     }

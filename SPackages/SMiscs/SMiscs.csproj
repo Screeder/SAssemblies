@@ -60,7 +60,7 @@
     <Reference Include="SharpDX.Direct3D9">
       <HintPath>H:\Programme\LeagueSharp\System\SharpDX.Direct3D9.dll</HintPath>
     </Reference>
-	<Reference Include="LeagueSharp.Sandbox, Version=1.0.0.0, Culture=neutral, PublicKeyToken=0c92cb9c3763a33b, processorArchitecture=x86">
+    <Reference Include="LeagueSharp.Sandbox, Version=1.0.0.0, Culture=neutral, PublicKeyToken=0c92cb9c3763a33b, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>H:\Programme\LeagueSharp\System\LeagueSharp.Sandbox.dll</HintPath>
     </Reference>
@@ -133,11 +133,13 @@
     <Content Include="Resources\SPRITES\AutoLevler\SkillOrderGuiSave.png" />
     <Content Include="Resources\SPRITES\AutoLevler\SkillPoint.png" />
     <Content Include="Resources\SPRITES\EloDisplayer\EloGui.png" />
-    <Content Include="Resources\SPRITES\SmartPing\directionindicator.dds" />
-    <Content Include="Resources\SPRITES\SmartPing\pingcomehere.dds" />
-    <Content Include="Resources\SPRITES\SmartPing\pinggetback.dds" />
-    <Content Include="Resources\SPRITES\SmartPing\pingmia.dds" />
-    <Content Include="Resources\SPRITES\SmartPing\pingomw.dds" />
+    <Content Include="Resources\SPRITES\SmartPing\directionindicator.png" />
+    <Content Include="Resources\SPRITES\SmartPing\pingcomehere.png" />
+    <Content Include="Resources\SPRITES\SmartPing\pinggetback.png" />
+    <Content Include="Resources\SPRITES\SmartPing\pingmarker.png" />
+    <Content Include="Resources\SPRITES\SmartPing\pingmarker_red.png" />
+    <Content Include="Resources\SPRITES\SmartPing\pingmia.png" />
+    <Content Include="Resources\SPRITES\SmartPing\pingomw.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

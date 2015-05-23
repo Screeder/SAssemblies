@@ -81,6 +81,7 @@
     <Compile Include="Miscs\AntiLatern.cs" />
     <Compile Include="Miscs\AntiNexusTurret.cs" />
     <Compile Include="Miscs\AntiVisualScreenStealth.cs" />
+    <Compile Include="Miscs\AutoBuy.cs" />
     <Compile Include="Miscs\AutoJump.cs" />
     <Compile Include="Miscs\AutoLatern.cs" />
     <Compile Include="Miscs\AutoLevler.cs" />

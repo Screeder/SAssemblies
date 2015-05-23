@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -8,37 +9,84 @@ using System.Threading.Tasks;
 using LeagueSharp;
 using LeagueSharp.Common;
 using SAssemblies;
+using SAssemblies.Healths;
 using Menu = SAssemblies.Menu;
 
 namespace SAssemblies
 {
     class MainMenu : Menu
     {
-        public static MenuItemSettings Health;
-        public static MenuItemSettings TurretHealth;
-        public static MenuItemSettings InhibitorHealth;
+        private readonly Dictionary<MenuItemSettings, Func<dynamic>> MenuEntries;
+
+        public static MenuItemSettings Health = new MenuItemSettings();
+        public static MenuItemSettings TurretHealth = new MenuItemSettings();
+        public static MenuItemSettings InhibitorHealth = new MenuItemSettings();
+
+        public MainMenu()
+        {
+            MenuEntries =
+            new Dictionary<MenuItemSettings, Func<dynamic>>
+            {
+                { TurretHealth, () => new Turret() },
+                { InhibitorHealth, () => new Inhibitor() },
+            };
+        }
+
+        public Tuple<MenuItemSettings, Func<dynamic>> GetDirEntry(MenuItemSettings menuItem)
+        {
+            return new Tuple<MenuItemSettings, Func<dynamic>>(menuItem, MenuEntries[menuItem]);
+        }
+
+        public Dictionary<MenuItemSettings, Func<dynamic>> GetDirEntries()
+        {
+            return MenuEntries;
+        }
+
+        public void UpdateDirEntry(ref MenuItemSettings oldMenuItem, MenuItemSettings newMenuItem)
+        {
+            Func<dynamic> save = MenuEntries[oldMenuItem];
+            MenuEntries.Remove(oldMenuItem);
+            MenuEntries.Add(newMenuItem, save);
+            oldMenuItem = newMenuItem;
+        }
     }
 
     class Program
     {
 
         private static bool threadActive = true;
-        static void Main(string[] args)
+        private static float lastDebugTime = 0;
+        private MainMenu mainMenu;
+        private static readonly Program instance = new Program();
+
+        public static void Main(string[] args)
         {
             AssemblyResolver.Init();
             AppDomain.CurrentDomain.DomainUnload += delegate { threadActive = false; };
             AppDomain.CurrentDomain.ProcessExit += delegate { threadActive = false; };
+            Instance().Load();
+        }
+
+        public void Load()
+        {
+            mainMenu = new MainMenu();
             CustomEvents.Game.OnGameLoad += Game_OnGameLoad;
         }
 
-        private async static void Game_OnGameLoad(EventArgs args)
+        public static Program Instance()
+        {
+            return instance;
+        }
+
+        private async void Game_OnGameLoad(EventArgs args)
         {
             CreateMenu();
-            Game.PrintChat("SHealths loaded!");
+            Common.ShowNotification("SHealths loaded!", Color.LawnGreen, 5000);
+
             new Thread(GameOnOnGameUpdate).Start();
         }
 
-        private static void CreateMenu()
+        private void CreateMenu()
         {
             //http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
             try
@@ -47,8 +95,8 @@ namespace SAssemblies
                 var menu = new LeagueSharp.Common.Menu("SHealths", "SHealths", true);
 
                 MainMenu.Health = Healths.Health.SetupMenu(menu);
-                MainMenu.InhibitorHealth = Healths.Inhibitor.SetupMenu(MainMenu.Health.Menu);
-                MainMenu.TurretHealth = Healths.Turret.SetupMenu(MainMenu.Health.Menu);
+                mainMenu.UpdateDirEntry(ref MainMenu.InhibitorHealth, Healths.Inhibitor.SetupMenu(MainMenu.Health.Menu));
+                mainMenu.UpdateDirEntry(ref MainMenu.TurretHealth, Turret.SetupMenu(MainMenu.Health.Menu));
 
                 Menu.GlobalSettings.Menu =
                     menu.AddSubMenu(new LeagueSharp.Common.Menu("Global Settings", "SAssembliesGlobalSettings"));
@@ -68,54 +116,51 @@ namespace SAssemblies
             }
         }
 
-        private static void GameOnOnGameUpdate(/*EventArgs args*/)
+        private void GameOnOnGameUpdate(/*EventArgs args*/)
         {
             try
             {
                 while (threadActive)
                 {
-                    Thread.Sleep(100);
-                    Type classType = typeof(MainMenu);
-                    BindingFlags flags = BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly;
-                    FieldInfo[] fields = classType.GetFields(flags);
-                    foreach (FieldInfo p in fields.ToList())
+                    Thread.Sleep(1000);
+
+                    if (mainMenu == null)
+                        continue;
+
+                    foreach (var entry in mainMenu.GetDirEntries())
                     {
+                        var item = entry.Key;
+                        if (item == null)
+                        {
+                            continue;
+                        }
                         try
                         {
-                            var item = (Menu.MenuItemSettings)p.GetValue(null);
-                            if (item == null)
-                            {
-                                continue;
-                            }
                             if (item.GetActive() == false && item.Item != null)
                             {
                                 item.Item = null;
-                                //GC.Collect();
                             }
                             else if (item.GetActive() && item.Item == null && !item.ForceDisable && item.Type != null)
                             {
                                 try
                                 {
-                                    item.Item = System.Activator.CreateInstance(item.Type);
+                                    item.Item = entry.Value();
                                 }
                                 catch (Exception e)
                                 {
                                     Console.WriteLine(e);
-                                    threadActive = false;
                                 }
                             }
                         }
                         catch (Exception e)
                         {
-                            Console.WriteLine("SAssemblies: " + e + "\n" + p.ToString());
-                            threadActive = false;
                         }
                     }
                 }
             }
             catch (Exception e)
             {
-                Console.WriteLine("SAssemblies: " + e);
+                Console.WriteLine("SAwareness: " + e);
                 threadActive = false;
             }
         }

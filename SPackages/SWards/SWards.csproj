@@ -63,7 +63,7 @@
     <Reference Include="SharpDX.Direct3D9">
       <HintPath>H:\Programme\LeagueSharp\System\SharpDX.Direct3D9.dll</HintPath>
     </Reference>
-	<Reference Include="LeagueSharp.Sandbox, Version=1.0.0.0, Culture=neutral, PublicKeyToken=0c92cb9c3763a33b, processorArchitecture=x86">
+    <Reference Include="LeagueSharp.Sandbox, Version=1.0.0.0, Culture=neutral, PublicKeyToken=0c92cb9c3763a33b, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>H:\Programme\LeagueSharp\System\LeagueSharp.Sandbox.dll</HintPath>
     </Reference>
@@ -110,9 +110,7 @@
     <EmbeddedResource Include="Resources\TRANSLATIONS\Translation-fr-FR.resx" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\DLL\Evade.dll" />
-    <EmbeddedResource Include="Resources\DLL\LeagueSharp.GameFiles.dll" />
-    <EmbeddedResource Include="Resources\DLL\Newtonsoft.Json.dll" />
+    <Content Include="Resources\DLL\Newtonsoft.Json.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

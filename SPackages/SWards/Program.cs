@@ -8,39 +8,87 @@ using System.Threading.Tasks;
 using LeagueSharp.Common;
 using LeagueSharp;
 using SAssemblies;
+using SAssemblies.Wards;
 using Menu = SAssemblies.Menu;
+using System.Drawing;
 
 namespace SAssemblies
 {
     class MainMenu : Menu
     {
-        public static MenuItemSettings Wards;
-        public static MenuItemSettings WardCorrector;
-        public static MenuItemSettings BushRevealer;
-        public static MenuItemSettings InvisibleRevealer;
-        public static MenuItemSettings FowWardPlacement;
+        private readonly Dictionary<MenuItemSettings, Func<dynamic>> MenuEntries;
+
+        public static MenuItemSettings Wards = new MenuItemSettings();
+        public static MenuItemSettings WardCorrector = new MenuItemSettings();
+        public static MenuItemSettings BushRevealer = new MenuItemSettings();
+        public static MenuItemSettings InvisibleRevealer = new MenuItemSettings();
+        public static MenuItemSettings FowWardPlacement = new MenuItemSettings();
+
+        public MainMenu()
+        {
+            MenuEntries =
+            new Dictionary<MenuItemSettings, Func<dynamic>>
+            {
+                { WardCorrector, () => new WardCorrector() },
+                { BushRevealer, () => new BushRevealer() },
+                { InvisibleRevealer, () => new InvisibleRevealer() },
+                { FowWardPlacement, () => new FowWardPlacement() },
+            };
+        }
+
+        public Tuple<MenuItemSettings, Func<dynamic>> GetDirEntry(MenuItemSettings menuItem)
+        {
+            return new Tuple<MenuItemSettings, Func<dynamic>>(menuItem, MenuEntries[menuItem]);
+        }
+
+        public Dictionary<MenuItemSettings, Func<dynamic>> GetDirEntries()
+        {
+            return MenuEntries;
+        }
+
+        public void UpdateDirEntry(ref MenuItemSettings oldMenuItem, MenuItemSettings newMenuItem)
+        {
+            Func<dynamic> save = MenuEntries[oldMenuItem];
+            MenuEntries.Remove(oldMenuItem);
+            MenuEntries.Add(newMenuItem, save);
+            oldMenuItem = newMenuItem;
+        }
     }
 
     class Program
     {
 
         private static bool threadActive = true;
+        private MainMenu mainMenu;
+        private static readonly Program instance = new Program();
         static void Main(string[] args)
         {
             AssemblyResolver.Init();
             AppDomain.CurrentDomain.DomainUnload += delegate { threadActive = false; };
             AppDomain.CurrentDomain.ProcessExit += delegate { threadActive = false; };
+            Instance().Load();
+        }
+
+        public void Load()
+        {
+            mainMenu = new MainMenu();
             CustomEvents.Game.OnGameLoad += Game_OnGameLoad;
         }
 
-        private async static void Game_OnGameLoad(EventArgs args)
+        public static Program Instance()
+        {
+            return instance;
+        }
+
+        private async void Game_OnGameLoad(EventArgs args)
         {
             CreateMenu();
-            Game.PrintChat("SWards loaded!");
+            Common.ShowNotification("SWards loaded!", Color.LawnGreen, 5000);
+            
             new Thread(GameOnOnGameUpdate).Start();
         }
 
-        private static void CreateMenu()
+        private void CreateMenu()
         {
             //http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
             try
@@ -49,10 +97,10 @@ namespace SAssemblies
                 var menu = new LeagueSharp.Common.Menu("SWards", "SWards", true);
 
                 MainMenu.Wards = Wards.Ward.SetupMenu(menu);
-                MainMenu.BushRevealer = Wards.BushRevealer.SetupMenu(MainMenu.Wards.Menu);
-                MainMenu.InvisibleRevealer = Wards.InvisibleRevealer.SetupMenu(MainMenu.Wards.Menu);
-                MainMenu.WardCorrector = Wards.WardCorrector.SetupMenu(MainMenu.Wards.Menu);
-                MainMenu.FowWardPlacement = Wards.FowWardPlacement.SetupMenu(MainMenu.Wards.Menu);
+                mainMenu.UpdateDirEntry(ref MainMenu.BushRevealer, BushRevealer.SetupMenu(MainMenu.Wards.Menu));
+                mainMenu.UpdateDirEntry(ref MainMenu.InvisibleRevealer, InvisibleRevealer.SetupMenu(MainMenu.Wards.Menu));
+                mainMenu.UpdateDirEntry(ref MainMenu.WardCorrector, WardCorrector.SetupMenu(MainMenu.Wards.Menu));
+                //mainMenu.UpdateDirEntry(ref MainMenu.FowWardPlacement, Wards.FowWardPlacement.SetupMenu(MainMenu.Wards.Menu));
 
                 Menu.GlobalSettings.Menu =
                     menu.AddSubMenu(new LeagueSharp.Common.Menu("Global Settings", "SAssembliesGlobalSettings"));
@@ -72,54 +120,51 @@ namespace SAssemblies
             }
         }
 
-        private static void GameOnOnGameUpdate(/*EventArgs args*/)
+        private void GameOnOnGameUpdate(/*EventArgs args*/)
         {
             try
             {
                 while (threadActive)
                 {
-                    Thread.Sleep(100);
-                    Type classType = typeof(MainMenu);
-                    BindingFlags flags = BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly;
-                    FieldInfo[] fields = classType.GetFields(flags);
-                    foreach (FieldInfo p in fields.ToList())
+                    Thread.Sleep(1000);
+
+                    if (mainMenu == null)
+                        continue;
+
+                    foreach (var entry in mainMenu.GetDirEntries())
                     {
+                        var item = entry.Key;
+                        if (item == null)
+                        {
+                            continue;
+                        }
                         try
                         {
-                            var item = (Menu.MenuItemSettings)p.GetValue(null);
-                            if (item == null)
-                            {
-                                continue;
-                            }
                             if (item.GetActive() == false && item.Item != null)
                             {
                                 item.Item = null;
-                                //GC.Collect();
                             }
                             else if (item.GetActive() && item.Item == null && !item.ForceDisable && item.Type != null)
                             {
                                 try
                                 {
-                                    item.Item = System.Activator.CreateInstance(item.Type);
+                                    item.Item = entry.Value();
                                 }
                                 catch (Exception e)
                                 {
                                     Console.WriteLine(e);
-                                    threadActive = false;
                                 }
                             }
                         }
                         catch (Exception e)
                         {
-                            Console.WriteLine("SAssemblies: " + e + "\n" + p.ToString());
-                            threadActive = false;
                         }
                     }
                 }
             }
             catch (Exception e)
             {
-                Console.WriteLine("SAssemblies: " + e);
+                Console.WriteLine("SAwareness: " + e);
                 threadActive = false;
             }
         }

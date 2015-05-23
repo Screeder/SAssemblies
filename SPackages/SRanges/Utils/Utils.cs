@@ -19,9 +19,6 @@ using System.Xml.Serialization;
 using ClipperLib;
 using LeagueSharp;
 using LeagueSharp.Common;
-using LeagueSharp.GameFiles.AirClient;
-using LeagueSharp.GameFiles.GameClient;
-using LeagueSharp.GameFiles.Tools;
 using LeagueSharp.Sandbox;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -417,399 +414,399 @@ namespace SAssemblies
         }
     }
 
-    public class RafLoader
-    {
-        private static bool loading = false;
-        private static bool loaded = false;
-        public static float LastLoadTime = 0;
+    //public class RafLoader
+    //{
+    //    private static bool loading = false;
+    //    private static bool loaded = false;
+    //    public static float LastLoadTime = 0;
 
-        public enum ImageList
-        {
-            None,
-            Champion,
-            ChampionCircle,
-            SpellPassive,
-            SpellQ,
-            SpellW,
-            SpellE,
-            SpellR,
-            SpellSummoner1,
-            SpellSummoner2
-        }
+    //    public enum ImageList
+    //    {
+    //        None,
+    //        Champion,
+    //        ChampionCircle,
+    //        SpellPassive,
+    //        SpellQ,
+    //        SpellW,
+    //        SpellE,
+    //        SpellR,
+    //        SpellSummoner1,
+    //        SpellSummoner2
+    //    }
 
-        static RafLoader()
-        {
-            //new Thread(InitLoader).Start();
-        }
+    //    static RafLoader()
+    //    {
+    //        //new Thread(InitLoader).Start();
+    //    }
 
-        public static void InitLoader()
-        {
-            if (!loading && !loaded)
-            {
-                loading = true;
-                AirGeneratedContent.Init();
-            }
-        }
+    //    public static void InitLoader()
+    //    {
+    //        if (!loading && !loaded)
+    //        {
+    //            loading = true;
+    //            AirGeneratedContent.Init();
+    //        }
+    //    }
 
-        private static bool IsLoaded()
-        {
-            if (AirGeneratedContent.Items == null || AirGeneratedContent.Items.Count == 0)
-            {
-                loading = true;
-                AirGeneratedContent.Init();
-            }
-            if (AirGeneratedContent.Items != null)
-            {
-                loading = false;
-                loaded = true;
-                return true;
-            }
-            return false;
-        }
+    //    private static bool IsLoaded()
+    //    {
+    //        if (AirGeneratedContent.Items == null || AirGeneratedContent.Items.Count == 0)
+    //        {
+    //            loading = true;
+    //            AirGeneratedContent.Init();
+    //        }
+    //        if (AirGeneratedContent.Items != null)
+    //        {
+    //            loading = false;
+    //            loaded = true;
+    //            return true;
+    //        }
+    //        return false;
+    //    }
 
-        private static string SmiteType(String name)
-        {
-            switch (name)
-            {
-                case "s5_summonersmiteplayerganker":
-                    return "smite_blue.dds";
-                    break;
+    //    private static string SmiteType(String name)
+    //    {
+    //        switch (name)
+    //        {
+    //            case "s5_summonersmiteplayerganker":
+    //                return "smite_blue.dds";
+    //                break;
 
-                case "s5_summonersmiteduel":
-                    return "smite_red.dds";
-                    break;
+    //            case "s5_summonersmiteduel":
+    //                return "smite_red.dds";
+    //                break;
 
-                case "s5_summonersmitequick":
-                    return "smite_silver.dds";
-                    break;
+    //            case "s5_summonersmitequick":
+    //                return "smite_silver.dds";
+    //                break;
 
-                case "itemsmiteaoe":
-                    return "smite_purple.dds";
-                    break;
+    //            case "itemsmiteaoe":
+    //                return "smite_purple.dds";
+    //                break;
 
-                case "summonersmite":
-                    return "summoner_smite.dds";
-                    break;
+    //            case "summonersmite":
+    //                return "summoner_smite.dds";
+    //                break;
 
-                default:
-                    return null;
-            }
-        }
+    //            default:
+    //                return null;
+    //        }
+    //    }
 
-        private static String TemporaryIniBinFix(String name)
-        {
-            switch (name.ToLower())
-            {
-                //case "chogath":
-                //    return "greenterror";
-                //    break;
+    //    private static String TemporaryIniBinFix(String name)
+    //    {
+    //        switch (name.ToLower())
+    //        {
+    //            //case "chogath":
+    //            //    return "greenterror";
+    //            //    break;
 
-                //case "orianna":
-                //    return "oriana";
-                //    break;
+    //            //case "orianna":
+    //            //    return "oriana";
+    //            //    break;
 
-                default:
-                    return name;
-            }
-        }
+    //            default:
+    //                return name;
+    //        }
+    //    }
 
-        private static byte[] GetFileContent(String fileName, String optionalDirName = "")
-        {
-            if (fileName == null)
-                return null;
-            fileName = fileName.ToLower();
-            foreach (var file in Archives.Files)
-            {
-                if (file.Key.Contains(fileName) && file.Key.Contains(optionalDirName))
-                {
-                    return file.Value.GetLastContent();
-                }
-            }
-            return null;
-        }
+    //    private static byte[] GetFileContent(String fileName, String optionalDirName = "")
+    //    {
+    //        if (fileName == null)
+    //            return null;
+    //        fileName = fileName.ToLower();
+    //        foreach (var file in Archives.Files)
+    //        {
+    //            if (file.Key.Contains(fileName) && file.Key.Contains(optionalDirName))
+    //            {
+    //                return file.Value.GetLastContent();
+    //            }
+    //        }
+    //        return null;
+    //    }
 
-        private static bool FileExists(String fileName, String optionalDirName = "")
-        {
-            if (fileName == null)
-                return false;
-            fileName = fileName.ToLower();
-            foreach (var file in Archives.Files)
-            {
-                if (file.Key.Contains(fileName) && file.Key.Contains(optionalDirName))
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
+    //    private static bool FileExists(String fileName, String optionalDirName = "")
+    //    {
+    //        if (fileName == null)
+    //            return false;
+    //        fileName = fileName.ToLower();
+    //        foreach (var file in Archives.Files)
+    //        {
+    //            if (file.Key.Contains(fileName) && file.Key.Contains(optionalDirName))
+    //            {
+    //                return true;
+    //            }
+    //        }
+    //        return false;
+    //    }
 
-        public static byte[] GetImage(String baseSkinName, ImageList list, String optionalName = "")
-        {
-            if (!IsLoaded())
-                return null;
-            var champion = AirGeneratedContent.Champions[baseSkinName];
-            if (champion == null)
-            {
-                Console.Write("SAssemblies: Can not get champion: " + baseSkinName);
-                return null;
-            }
-            String imageStr = null;
-            String category = "";
-            Dictionary<uint, object> inibin = null;
-            switch (list)
-            {
-                case ImageList.None:
-                    imageStr = optionalName;
-                    break;
+    //    public static byte[] GetImage(String baseSkinName, ImageList list, String optionalName = "")
+    //    {
+    //        if (!IsLoaded())
+    //            return null;
+    //        var champion = AirGeneratedContent.Champions[baseSkinName];
+    //        if (champion == null)
+    //        {
+    //            Console.Write("SAssemblies: Can not get champion: " + baseSkinName);
+    //            return null;
+    //        }
+    //        String imageStr = null;
+    //        String category = "";
+    //        Dictionary<uint, object> inibin = null;
+    //        switch (list)
+    //        {
+    //            case ImageList.None:
+    //                imageStr = optionalName;
+    //                break;
 
-                case ImageList.Champion:
-                    category = "character";
-                    if (FileExists(TemporaryIniBinFix(champion.skinName) + "_square", category))
-                    {
-                        imageStr = TemporaryIniBinFix(champion.skinName) + "_square";
-                    }
-                    if (imageStr != null)
-                    {
-                        break;
-                    }
-                    inibin = GetIniBin(champion.skinName);
-                    if (inibin != null)
-                    {
-                        imageStr = GetIniBinOptions(inibin, "iconsquare");
-                    }
-                    break;
+    //            case ImageList.Champion:
+    //                category = "character";
+    //                if (FileExists(TemporaryIniBinFix(champion.skinName) + "_square", category))
+    //                {
+    //                    imageStr = TemporaryIniBinFix(champion.skinName) + "_square";
+    //                }
+    //                if (imageStr != null)
+    //                {
+    //                    break;
+    //                }
+    //                inibin = GetIniBin(champion.skinName);
+    //                if (inibin != null)
+    //                {
+    //                    imageStr = GetIniBinOptions(inibin, "iconsquare");
+    //                }
+    //                break;
 
-                case ImageList.ChampionCircle:
-                    category = "character";
-                    if (FileExists(TemporaryIniBinFix(champion.skinName) + "_circle", category))
-                    {
-                        imageStr = TemporaryIniBinFix(champion.skinName) + "_circle";
-                    }
-                    if (imageStr != null)
-                    {
-                        break;
-                    }
-                    inibin = GetIniBin(champion.skinName);
-                    if (inibin != null)
-                    {
-                        imageStr = GetIniBinOptions(inibin, "iconcircle");
-                    }
-                    break;
+    //            case ImageList.ChampionCircle:
+    //                category = "character";
+    //                if (FileExists(TemporaryIniBinFix(champion.skinName) + "_circle", category))
+    //                {
+    //                    imageStr = TemporaryIniBinFix(champion.skinName) + "_circle";
+    //                }
+    //                if (imageStr != null)
+    //                {
+    //                    break;
+    //                }
+    //                inibin = GetIniBin(champion.skinName);
+    //                if (inibin != null)
+    //                {
+    //                    imageStr = GetIniBinOptions(inibin, "iconcircle");
+    //                }
+    //                break;
 
-                case ImageList.SpellPassive:
-                    category = "character";
-                    if (FileExists(champion.passiveIcon, category))
-                    {
-                        imageStr = champion.passiveIcon;
-                    }
-                    if (imageStr != null)
-                    {
-                        break;
-                    }
-                    inibin = GetIniBin(champion.skinName);
-                    if (inibin != null)
-                    {
-                        imageStr = GetIniBinOptions(inibin, "iconpassive");
-                    }
-                    break;
+    //            case ImageList.SpellPassive:
+    //                category = "character";
+    //                if (FileExists(champion.passiveIcon, category))
+    //                {
+    //                    imageStr = champion.passiveIcon;
+    //                }
+    //                if (imageStr != null)
+    //                {
+    //                    break;
+    //                }
+    //                inibin = GetIniBin(champion.skinName);
+    //                if (inibin != null)
+    //                {
+    //                    imageStr = GetIniBinOptions(inibin, "iconpassive");
+    //                }
+    //                break;
 
-                case ImageList.SpellQ:
-                    category = "character";
-                    if (FileExists(champion.abilityIcon1, category))
-                    {
-                        imageStr = champion.abilityIcon1;
-                    }
-                    if (imageStr != null)
-                    {
-                        break;
-                    }
-                    else
-                    {
-                        category = "spell";
-                        if (FileExists(champion.abilityIcon1, category))
-                        {
-                            imageStr = champion.abilityIcon1;
-                        }
-                        if (imageStr != null)
-                        {
-                            break;
-                        }
-                    }
-                    inibin = GetIniBin(champion.skinName);
-                    if (inibin != null)
-                    {
-                        inibin = GetIniBin(GetIniBinOptions(inibin, "spell1"));
-                        if (inibin != null)
-                        {
-                            category = "";
-                            imageStr = GetIniBinOptions(inibin, "inventoryicon");
-                        }
-                    }
-                    break;
+    //            case ImageList.SpellQ:
+    //                category = "character";
+    //                if (FileExists(champion.abilityIcon1, category))
+    //                {
+    //                    imageStr = champion.abilityIcon1;
+    //                }
+    //                if (imageStr != null)
+    //                {
+    //                    break;
+    //                }
+    //                else
+    //                {
+    //                    category = "spell";
+    //                    if (FileExists(champion.abilityIcon1, category))
+    //                    {
+    //                        imageStr = champion.abilityIcon1;
+    //                    }
+    //                    if (imageStr != null)
+    //                    {
+    //                        break;
+    //                    }
+    //                }
+    //                inibin = GetIniBin(champion.skinName);
+    //                if (inibin != null)
+    //                {
+    //                    inibin = GetIniBin(GetIniBinOptions(inibin, "spell1"));
+    //                    if (inibin != null)
+    //                    {
+    //                        category = "";
+    //                        imageStr = GetIniBinOptions(inibin, "inventoryicon");
+    //                    }
+    //                }
+    //                break;
 
-                case ImageList.SpellW:
-                    category = "character";
-                    if (FileExists(champion.abilityIcon2, category))
-                    {
-                        imageStr = champion.abilityIcon2;
-                    }
-                    if (imageStr != null)
-                    {
-                        break;
-                    }
-                    else
-                    {
-                        category = "spell";
-                        if (FileExists(champion.abilityIcon2, category))
-                        {
-                            imageStr = champion.abilityIcon2;
-                        }
-                        if (imageStr != null)
-                        {
-                            break;
-                        }
-                    }
-                    inibin = GetIniBin(champion.skinName);
-                    if (inibin != null)
-                    {
-                        inibin = GetIniBin(GetIniBinOptions(inibin, "spell2"));
-                        if (inibin != null)
-                        {
-                            category = "";
-                            imageStr = GetIniBinOptions(inibin, "inventoryicon");
-                        }
-                    }
-                    break;
+    //            case ImageList.SpellW:
+    //                category = "character";
+    //                if (FileExists(champion.abilityIcon2, category))
+    //                {
+    //                    imageStr = champion.abilityIcon2;
+    //                }
+    //                if (imageStr != null)
+    //                {
+    //                    break;
+    //                }
+    //                else
+    //                {
+    //                    category = "spell";
+    //                    if (FileExists(champion.abilityIcon2, category))
+    //                    {
+    //                        imageStr = champion.abilityIcon2;
+    //                    }
+    //                    if (imageStr != null)
+    //                    {
+    //                        break;
+    //                    }
+    //                }
+    //                inibin = GetIniBin(champion.skinName);
+    //                if (inibin != null)
+    //                {
+    //                    inibin = GetIniBin(GetIniBinOptions(inibin, "spell2"));
+    //                    if (inibin != null)
+    //                    {
+    //                        category = "";
+    //                        imageStr = GetIniBinOptions(inibin, "inventoryicon");
+    //                    }
+    //                }
+    //                break;
 
-                case ImageList.SpellE:
-                    category = "character";
-                    if (FileExists(champion.abilityIcon3, category))
-                    {
-                        imageStr = champion.abilityIcon3;
-                    }
-                    if (imageStr != null)
-                    {
-                        break;
-                    }
-                    else
-                    {
-                        category = "spell";
-                        if (FileExists(champion.abilityIcon3, category))
-                        {
-                            imageStr = champion.abilityIcon3;
-                        }
-                        if (imageStr != null)
-                        {
-                            break;
-                        }
-                    }
-                    inibin = GetIniBin(champion.skinName);
-                    if (inibin != null)
-                    {
-                        inibin = GetIniBin(GetIniBinOptions(inibin, "spell3"));
-                        if (inibin != null)
-                        {
-                            category = "";
-                            imageStr = GetIniBinOptions(inibin, "inventoryicon");
-                        }
-                    }
-                    break;
+    //            case ImageList.SpellE:
+    //                category = "character";
+    //                if (FileExists(champion.abilityIcon3, category))
+    //                {
+    //                    imageStr = champion.abilityIcon3;
+    //                }
+    //                if (imageStr != null)
+    //                {
+    //                    break;
+    //                }
+    //                else
+    //                {
+    //                    category = "spell";
+    //                    if (FileExists(champion.abilityIcon3, category))
+    //                    {
+    //                        imageStr = champion.abilityIcon3;
+    //                    }
+    //                    if (imageStr != null)
+    //                    {
+    //                        break;
+    //                    }
+    //                }
+    //                inibin = GetIniBin(champion.skinName);
+    //                if (inibin != null)
+    //                {
+    //                    inibin = GetIniBin(GetIniBinOptions(inibin, "spell3"));
+    //                    if (inibin != null)
+    //                    {
+    //                        category = "";
+    //                        imageStr = GetIniBinOptions(inibin, "inventoryicon");
+    //                    }
+    //                }
+    //                break;
 
-                case ImageList.SpellR:
-                    category = "character";
-                    if (FileExists(champion.abilityIcon4, category))
-                    {
-                        imageStr = champion.abilityIcon4;
-                    }
-                    if (imageStr != null)
-                    {
-                        break;
-                    }
-                    else
-                    {
-                        category = "spell";
-                        if (FileExists(champion.abilityIcon4, category))
-                        {
-                            imageStr = champion.abilityIcon4;
-                        }
-                        if (imageStr != null)
-                        {
-                            break;
-                        }
-                    }
-                    inibin = GetIniBin(champion.skinName);
-                    if (inibin != null)
-                    {
-                        inibin = GetIniBin(GetIniBinOptions(inibin, "spell4"));
-                        if (inibin != null)
-                        {
-                            category = "";
-                            imageStr = GetIniBinOptions(inibin, "inventoryicon");
-                        }
-                    }
-                    break;
+    //            case ImageList.SpellR:
+    //                category = "character";
+    //                if (FileExists(champion.abilityIcon4, category))
+    //                {
+    //                    imageStr = champion.abilityIcon4;
+    //                }
+    //                if (imageStr != null)
+    //                {
+    //                    break;
+    //                }
+    //                else
+    //                {
+    //                    category = "spell";
+    //                    if (FileExists(champion.abilityIcon4, category))
+    //                    {
+    //                        imageStr = champion.abilityIcon4;
+    //                    }
+    //                    if (imageStr != null)
+    //                    {
+    //                        break;
+    //                    }
+    //                }
+    //                inibin = GetIniBin(champion.skinName);
+    //                if (inibin != null)
+    //                {
+    //                    inibin = GetIniBin(GetIniBinOptions(inibin, "spell4"));
+    //                    if (inibin != null)
+    //                    {
+    //                        category = "";
+    //                        imageStr = GetIniBinOptions(inibin, "inventoryicon");
+    //                    }
+    //                }
+    //                break;
 
-                case ImageList.SpellSummoner1:
-                    category = "spells";
-                    if (SmiteType(optionalName) == null)
-                    {
-                        inibin = GetIniBin(AirGeneratedContent.Spells[optionalName].name);
-                        if (inibin != null)
-                        {
-                            imageStr = GetIniBinOptions(inibin, "inventoryicon");
-                        }
-                    }
-                    else
-                    {
-                        imageStr = SmiteType(optionalName);
-                    }
-                    break;
+    //            case ImageList.SpellSummoner1:
+    //                category = "spells";
+    //                if (SmiteType(optionalName) == null)
+    //                {
+    //                    inibin = GetIniBin(AirGeneratedContent.Spells[optionalName].name);
+    //                    if (inibin != null)
+    //                    {
+    //                        imageStr = GetIniBinOptions(inibin, "inventoryicon");
+    //                    }
+    //                }
+    //                else
+    //                {
+    //                    imageStr = SmiteType(optionalName);
+    //                }
+    //                break;
 
-                case ImageList.SpellSummoner2:
-                    category = "spells";
-                    if (SmiteType(optionalName) == null)
-                    {
-                        inibin = GetIniBin(AirGeneratedContent.Spells[optionalName].name);
-                        if (inibin != null)
-                        {
-                            imageStr = GetIniBinOptions(inibin, "inventoryicon");
-                        }
-                    }
-                    else
-                    {
-                        imageStr = SmiteType(optionalName);
-                    }
-                    break;
+    //            case ImageList.SpellSummoner2:
+    //                category = "spells";
+    //                if (SmiteType(optionalName) == null)
+    //                {
+    //                    inibin = GetIniBin(AirGeneratedContent.Spells[optionalName].name);
+    //                    if (inibin != null)
+    //                    {
+    //                        imageStr = GetIniBinOptions(inibin, "inventoryicon");
+    //                    }
+    //                }
+    //                else
+    //                {
+    //                    imageStr = SmiteType(optionalName);
+    //                }
+    //                break;
 
-                default:
-                    imageStr = "";
-                    break;
-            }
-            LastLoadTime = Environment.TickCount;
-            return GetFileContent(imageStr, category);
-        }
+    //            default:
+    //                imageStr = "";
+    //                break;
+    //        }
+    //        LastLoadTime = Environment.TickCount;
+    //        return GetFileContent(imageStr, category);
+    //    }
 
-        private static String GetIniBinOptions(Dictionary<uint, object> inibinValues, String inibinFile)
-        {
-            foreach (var value in inibinValues)
-            {
-                if (IniBinKeys.GetKey(value.Key).ToLower().Contains(inibinFile))
-                {
-                    if (GetFileContent(value.Value.ToString()) != null)
-                    {
-                        return value.Value.ToString();
-                    }
-                }
-            }
-            return null;
-        }
+    //    private static String GetIniBinOptions(Dictionary<uint, object> inibinValues, String inibinFile)
+    //    {
+    //        foreach (var value in inibinValues)
+    //        {
+    //            if (IniBinKeys.GetKey(value.Key).ToLower().Contains(inibinFile))
+    //            {
+    //                if (GetFileContent(value.Value.ToString()) != null)
+    //                {
+    //                    return value.Value.ToString();
+    //                }
+    //            }
+    //        }
+    //        return null;
+    //    }
 
-        public static Dictionary<uint, object> GetIniBin(String baseSkinName)
-        {
-            byte[] bInibin = GetFileContent("/" + baseSkinName + ".inibin");
-            return IniBinReader.GetValues(bInibin);
-        }
-    }
+    //    public static Dictionary<uint, object> GetIniBin(String baseSkinName)
+    //    {
+    //        byte[] bInibin = GetFileContent("/" + baseSkinName + ".inibin");
+    //        return IniBinReader.GetValues(bInibin);
+    //    }
+    //}
 
     //public static class SpriteHelperNew
     //{
@@ -1964,27 +1961,27 @@ namespace SAssemblies
             }
         }
 
-        public static void LoadTexture(String name, ref SpriteInfo spriteInfo, String optionalName, RafLoader.ImageList list)
-        {
-            if (spriteInfo == null)
-                spriteInfo = new SpriteInfo();
-            Byte[] bitmap = null;
-            bitmap = RafLoader.GetImage(name, list, optionalName);
-            try
-            {
-                if (bitmap == null)
-                    throw new Exception("Picture not available!");
-                Texture tex = Texture.FromMemory(Drawing.Direct3DDevice, bitmap);
-                spriteInfo.Sprite = new Render.Sprite(tex, new Vector2(0, 0));
-                spriteInfo.Bitmap = spriteInfo.Sprite.Bitmap;
-                spriteInfo.DownloadFinished = true;
-                tex.Dispose();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Cannot load file: {0}, Exception: {1}", name, ex);
-            }
-        }
+        //public static void LoadTexture(String name, ref SpriteInfo spriteInfo, String optionalName, RafLoader.ImageList list)
+        //{
+        //    if (spriteInfo == null)
+        //        spriteInfo = new SpriteInfo();
+        //    Byte[] bitmap = null;
+        //    bitmap = RafLoader.GetImage(name, list, optionalName);
+        //    try
+        //    {
+        //        if (bitmap == null)
+        //            throw new Exception("Picture not available!");
+        //        Texture tex = Texture.FromMemory(Drawing.Direct3DDevice, bitmap);
+        //        spriteInfo.Sprite = new Render.Sprite(tex, new Vector2(0, 0));
+        //        spriteInfo.Bitmap = spriteInfo.Sprite.Bitmap;
+        //        spriteInfo.DownloadFinished = true;
+        //        tex.Dispose();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine("Cannot load file: {0}, Exception: {1}", name, ex);
+        //    }
+        //}
 
         public static void LoadTexture(Bitmap bitmap, ref SpriteInfo spriteInfo)
         {

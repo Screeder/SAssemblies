@@ -60,7 +60,7 @@
     <Reference Include="SharpDX.Direct3D9">
       <HintPath>H:\Programme\LeagueSharp\System\SharpDX.Direct3D9.dll</HintPath>
     </Reference>
-	<Reference Include="LeagueSharp.Sandbox, Version=1.0.0.0, Culture=neutral, PublicKeyToken=0c92cb9c3763a33b, processorArchitecture=x86">
+    <Reference Include="LeagueSharp.Sandbox, Version=1.0.0.0, Culture=neutral, PublicKeyToken=0c92cb9c3763a33b, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>H:\Programme\LeagueSharp\System\LeagueSharp.Sandbox.dll</HintPath>
     </Reference>
@@ -101,8 +101,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\DLL\Evade.dll" />
-    <EmbeddedResource Include="Resources\DLL\LeagueSharp.GameFiles.dll" />
     <EmbeddedResource Include="Resources\DLL\Newtonsoft.Json.dll" />
     <EmbeddedResource Include="Resources\TRANSLATIONS\Translation-de-DE.resx" />
     <EmbeddedResource Include="Resources\TRANSLATIONS\Translation-en-US.resx" />

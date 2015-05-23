@@ -16,16 +16,16 @@ namespace SAssemblies
     {
         private readonly Dictionary<MenuItemSettings, Func<dynamic>> MenuEntries;
 
-        public static MenuItemSettings Tracker;
-        public static MenuItemSettings UiTracker;
-        public static MenuItemSettings UimTracker;
-        public static MenuItemSettings SsCallerTracker;
-        public static MenuItemSettings WaypointTracker;
-        public static MenuItemSettings CloneTracker;
-        public static MenuItemSettings GankTracker;
-        public static MenuItemSettings DestinationTracker;
-        public static MenuItemSettings KillableTracker;
-        public static MenuItemSettings JunglerTracker;
+        public static MenuItemSettings Tracker = new MenuItemSettings();
+        public static MenuItemSettings UiTracker = new MenuItemSettings();
+        public static MenuItemSettings UimTracker = new MenuItemSettings();
+        public static MenuItemSettings SsCallerTracker = new MenuItemSettings();
+        public static MenuItemSettings WaypointTracker = new MenuItemSettings();
+        public static MenuItemSettings CloneTracker = new MenuItemSettings();
+        public static MenuItemSettings GankTracker = new MenuItemSettings();
+        public static MenuItemSettings DestinationTracker = new MenuItemSettings();
+        public static MenuItemSettings KillableTracker = new MenuItemSettings();
+        public static MenuItemSettings JunglerTracker = new MenuItemSettings();
 
         public MainMenu()
         {

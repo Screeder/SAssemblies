@@ -119,8 +119,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\DLL\Evade.dll" />
-    <EmbeddedResource Include="Resources\DLL\LeagueSharp.GameFiles.dll" />
     <EmbeddedResource Include="Resources\DLL\Newtonsoft.Json.dll" />
     <EmbeddedResource Include="Resources\TRANSLATIONS\Translation-de-DE.resx" />
     <EmbeddedResource Include="Resources\TRANSLATIONS\Translation-en-US.resx" />

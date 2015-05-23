@@ -60,7 +60,7 @@
     <Reference Include="SharpDX.Direct3D9">
       <HintPath>H:\Programme\LeagueSharp\System\SharpDX.Direct3D9.dll</HintPath>
     </Reference>
-	<Reference Include="LeagueSharp.Sandbox, Version=1.0.0.0, Culture=neutral, PublicKeyToken=0c92cb9c3763a33b, processorArchitecture=x86">
+    <Reference Include="LeagueSharp.Sandbox, Version=1.0.0.0, Culture=neutral, PublicKeyToken=0c92cb9c3763a33b, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>H:\Programme\LeagueSharp\System\LeagueSharp.Sandbox.dll</HintPath>
     </Reference>
@@ -83,11 +83,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Spectator\Blowfish.cs" />
-    <Compile Include="Spectator\Packet.cs" />
-    <Compile Include="Spectator\SpectatorDecoder.cs" />
-    <Compile Include="Spectator\SpectatorDownloader.cs" />
-    <Compile Include="Spectator\SpecUtils.cs" />
     <Compile Include="Trackers\Clone.cs" />
     <Compile Include="Trackers\CrowdControl.cs" />
     <Compile Include="Trackers\Destination.cs" />

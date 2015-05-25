@@ -167,7 +167,7 @@ namespace SAssemblies
                     Menu.GlobalSettings.Menu.AddItem(
                         new MenuItem("SAssembliesGlobalSettingsVoiceVolume", "Voice Volume").SetValue(new Slider(100, 0, 100))));
 
-                menu.AddItem(new MenuItem("By Screeder", "By Screeder V0.8.0.4"));
+                menu.AddItem(new MenuItem("By Screeder", "By Screeder V" + Assembly.GetExecutingAssembly().GetName().Version));
                 menu.AddToMainMenu();
             }
             catch (Exception)

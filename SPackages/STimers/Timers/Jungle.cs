@@ -44,7 +44,7 @@ namespace SAssemblies.Timers
             JungleMobList = null;
         }
 
-        public bool IsActive()
+        public static bool IsActive()
         {
 #if TIMERS
             return Timer.Timers.GetActive() && JungleTimer.GetActive();
@@ -622,7 +622,7 @@ namespace SAssemblies.Timers
                 };
                 TextMinimap.VisibleCondition = sender =>
                 {
-                    return Timer.Timers.GetActive() && JungleTimer.GetActive() && NextRespawnTime > 0 && MapType == GMap.Type;
+                    return IsActive() && NextRespawnTime > 0 && MapType == GMap.Type;
                 };
                 TextMinimap.OutLined = true;
                 TextMinimap.Centered = true;
@@ -639,7 +639,7 @@ namespace SAssemblies.Timers
                 };
                 TextMap.VisibleCondition = sender =>
                 {
-                    return Timer.Timers.GetActive() && JungleTimer.GetActive() && NextRespawnTime > 0 && MapType == GMap.Type;
+                    return IsActive() && JungleTimer.GetActive() && NextRespawnTime > 0 && MapType == GMap.Type;
                 };
                 TextMap.OutLined = true;
                 TextMap.Centered = true;

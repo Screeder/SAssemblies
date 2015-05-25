@@ -51,7 +51,7 @@ namespace SAssemblies.Miscs
             };
             MainFrame.Sprite.VisibleCondition = delegate
             {
-                return Misc.Miscs.GetActive() && EloDisplayerMisc.GetActive() && EloDisplayerMisc.GetMenuItem("SAssembliesMiscsEloDisplayerKey").GetValue<KeyBind>().Active;
+                return IsActive() && EloDisplayerMisc.GetMenuItem("SAssembliesMiscsEloDisplayerKey").GetValue<KeyBind>().Active;
             };
             MainFrame.Sprite.Add(1);
         }
@@ -116,7 +116,7 @@ namespace SAssemblies.Miscs
         {
         }
 
-        public bool IsActive()
+        public static bool IsActive()
         {
 #if MISCS
             return Misc.Miscs.GetActive() && EloDisplayerMisc.GetActive();
@@ -237,7 +237,7 @@ namespace SAssemblies.Miscs
                 };
                 champ.SummonerIcon.Sprite.Sprite.VisibleCondition = delegate
                 {
-                    return Misc.Miscs.GetActive() && EloDisplayerMisc.GetActive() && EloDisplayerMisc.GetMenuItem("SAssembliesMiscsEloDisplayerKey").GetValue<KeyBind>().Active
+                    return IsActive() && EloDisplayerMisc.GetMenuItem("SAssembliesMiscsEloDisplayerKey").GetValue<KeyBind>().Active
                         && champ.IsFinished();
                 };
                 champ.SummonerIcon.Sprite.Sprite.Add(2);
@@ -302,7 +302,7 @@ namespace SAssemblies.Miscs
                 };
                 Header.Text.VisibleCondition = sender =>
                 {
-                    return Misc.Miscs.GetActive() && EloDisplayerMisc.GetActive() && EloDisplayerMisc.GetMenuItem("SAssembliesMiscsEloDisplayerKey").GetValue<KeyBind>().Active;
+                    return IsActive() && EloDisplayerMisc.GetMenuItem("SAssembliesMiscsEloDisplayerKey").GetValue<KeyBind>().Active;
                 };
                 Header.Text.OutLined = true;
                 Header.Text.Add(4);
@@ -330,7 +330,7 @@ namespace SAssemblies.Miscs
                 };
                 SummarizedAlly.Text.VisibleCondition = sender =>
                 {
-                    return Misc.Miscs.GetActive() && EloDisplayerMisc.GetActive() && EloDisplayerMisc.GetMenuItem("SAssembliesMiscsEloDisplayerKey").GetValue<KeyBind>().Active;
+                    return IsActive() && EloDisplayerMisc.GetMenuItem("SAssembliesMiscsEloDisplayerKey").GetValue<KeyBind>().Active;
                 };
                 SummarizedAlly.Text.OutLined = true;
                 //SummarizedAlly.Text.Add(4);
@@ -358,7 +358,7 @@ namespace SAssemblies.Miscs
                 };
                 SummarizedEnemy.Text.VisibleCondition = sender =>
                 {
-                    return Misc.Miscs.GetActive() && EloDisplayerMisc.GetActive() && EloDisplayerMisc.GetMenuItem("SAssembliesMiscsEloDisplayerKey").GetValue<KeyBind>().Active;
+                    return IsActive() && EloDisplayerMisc.GetMenuItem("SAssembliesMiscsEloDisplayerKey").GetValue<KeyBind>().Active;
                 };
                 SummarizedEnemy.Text.OutLined = true;
                 //SummarizedEnemy.Text.Add(4);

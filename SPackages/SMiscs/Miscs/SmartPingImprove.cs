@@ -169,7 +169,7 @@ namespace SAssemblies.Miscs
             };
             info.Icon.Sprite.VisibleCondition = delegate
             {
-                return Misc.Miscs.GetActive() && SmartPingImproveMisc.GetActive();
+                return IsActive();
             };
             info.Icon.Sprite.Add(1);
 
@@ -181,7 +181,7 @@ namespace SAssemblies.Miscs
             };
             info.IconBackground.Sprite.VisibleCondition = delegate
             {
-                return Misc.Miscs.GetActive() && SmartPingImproveMisc.GetActive();
+                return IsActive();
             };
             info.IconBackground.Sprite.Add(0);
 
@@ -200,7 +200,7 @@ namespace SAssemblies.Miscs
             };
             info.Direction.Sprite.VisibleCondition = delegate
             {
-                return Misc.Miscs.GetActive() && SmartPingImproveMisc.GetActive();
+                return IsActive();
             };
             info.Direction.Sprite.Color = directionColor;
             info.Direction.Sprite.Add(2);

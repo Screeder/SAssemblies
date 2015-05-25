@@ -94,31 +94,43 @@ namespace SAssemblies.Wards
                     {
                         if (_lastTimeWarded == 0 || Environment.TickCount - _lastTimeWarded > 500)
                         {
-                            SAssemblies.Ward.WardItem wardItem =
-                                SAssemblies.Ward.WardItems.First(
-                                    x =>
-                                        Items.HasItem(x.Id) && Items.CanUseItem(x.Id) && (x.Type == SAssemblies.Ward.WardType.Vision || x.Type == SAssemblies.Ward.WardType.TempVision));
-                            if (wardItem == null)
-                                return;
-                            if (sender.ServerPosition.Distance(ObjectManager.Player.ServerPosition) > wardItem.Range)
-                                return;
-
-                            InventorySlot invSlot =
-                                ObjectManager.Player.InventoryItems.FirstOrDefault(
-                                    slot => slot.Id == (ItemId)wardItem.Id);
-                            if (invSlot == null)
-                                return;
-
                             if (args.SData.Name.ToLower().Contains("vaynetumble") &&
                                 Environment.TickCount >= _lastTimeVayne)
                                 return;
 
-                            ObjectManager.Player.Spellbook.CastSpell(invSlot.SpellSlot, args.End);
-                            _lastTimeWarded = Environment.TickCount;
+                            InventorySlot invSlot = GetWardItemSlot(sender);
+                            if (invSlot != null)
+                            {
+                                ObjectManager.Player.Spellbook.CastSpell(invSlot.SpellSlot, args.End);
+                                _lastTimeWarded = Environment.TickCount;
+                            }
+                            else if (ObjectManager.Player.ChampionName.Equals("LeeSin") && ObjectManager.Player.Spellbook.CanUseSpell(SpellSlot.E) == SpellState.Ready &&
+                                sender.ServerPosition.Distance(ObjectManager.Player.ServerPosition) < 350)
+                            {
+                                ObjectManager.Player.Spellbook.CastSpell(SpellSlot.E);
+                                _lastTimeWarded = Environment.TickCount;
+                            }
                         }
                     }
                 }
             }
+        }
+
+        private InventorySlot GetWardItemSlot(Obj_AI_Base sender)
+        {
+            SAssemblies.Ward.WardItem wardItem =
+                                SAssemblies.Ward.WardItems.First(
+                                    x =>
+                                        Items.HasItem(x.Id) && Items.CanUseItem(x.Id) && (x.Type == SAssemblies.Ward.WardType.Vision || x.Type == SAssemblies.Ward.WardType.TempVision));
+            if (wardItem == null)
+                return null;
+            if (sender.ServerPosition.Distance(ObjectManager.Player.ServerPosition) > wardItem.Range)
+                return null;
+
+            InventorySlot invSlot =
+                ObjectManager.Player.InventoryItems.FirstOrDefault(
+                    slot => slot.Id == (ItemId)wardItem.Id);
+            return invSlot;
         }
     }
 }

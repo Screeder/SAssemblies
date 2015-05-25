@@ -11,14 +11,14 @@ namespace SAssemblies
     internal class MainMenu : Menu
     {
         public static MenuItemSettings Detector = new MenuItemSettings();
-        public static MenuItemSettings RecallDetector = new MenuItemSettings();
+        public static MenuItemSettings VisionDetector = new MenuItemSettings();
         private readonly Dictionary<MenuItemSettings, Func<dynamic>> MenuEntries;
 
         public MainMenu()
         {
             MenuEntries = new Dictionary<MenuItemSettings, Func<dynamic>>
             {
-                { RecallDetector, () => new Recall() },
+                { VisionDetector, () => new Vision() },
             };
         }
 
@@ -70,7 +70,7 @@ namespace SAssemblies
         private async void Game_OnGameLoad(EventArgs args)
         {
             CreateMenu();
-            Common.ShowNotification("SRecallDetector loaded!", Color.LawnGreen, 5000);
+            Common.ShowNotification("SVisionDetector loaded!", Color.LawnGreen, 5000);
 
             new Thread(GameOnOnGameUpdate).Start();
         }
@@ -80,10 +80,10 @@ namespace SAssemblies
             try
             {
                 Menu.MenuItemSettings tempSettings;
-                var menu = new LeagueSharp.Common.Menu("SRecallDetector", "SRecallDetector", true);
+                var menu = new LeagueSharp.Common.Menu("SVisionDetector", "SVisionDetector", true);
 
                 MainMenu.Detector = Detector.SetupMenu(menu, true);
-                mainMenu.UpdateDirEntry(ref MainMenu.RecallDetector, Recall.SetupMenu(MainMenu.Detector.Menu));
+                mainMenu.UpdateDirEntry(ref MainMenu.VisionDetector, Vision.SetupMenu(MainMenu.Detector.Menu));
 
                 Menu.GlobalSettings.Menu =
                     menu.AddSubMenu(new LeagueSharp.Common.Menu("Global Settings", "SAssembliesGlobalSettings"));

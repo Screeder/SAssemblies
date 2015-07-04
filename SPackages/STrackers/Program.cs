@@ -63,6 +63,37 @@ namespace SAssemblies
         }
     }
 
+    class MainMenu2 : Menu2
+    {
+        public static MenuItemSettings Tracker = new MenuItemSettings();
+        public static MenuItemSettings UiTracker = new MenuItemSettings();
+        public static MenuItemSettings UimTracker = new MenuItemSettings();
+        public static MenuItemSettings SsCallerTracker = new MenuItemSettings();
+        public static MenuItemSettings WaypointTracker = new MenuItemSettings();
+        public static MenuItemSettings CloneTracker = new MenuItemSettings();
+        public static MenuItemSettings GankTracker = new MenuItemSettings();
+        public static MenuItemSettings DestinationTracker = new MenuItemSettings();
+        public static MenuItemSettings KillableTracker = new MenuItemSettings();
+        public static MenuItemSettings JunglerTracker = new MenuItemSettings();
+
+        public MainMenu2()
+        {
+            MenuEntries =
+            new Dictionary<MenuItemSettings, Func<dynamic>>
+            {
+                { UiTracker, () => new Ui() },
+                { UimTracker, () => new Uim() },
+                { SsCallerTracker, () => new SsCaller() },
+                { WaypointTracker, () => new Waypoint() },
+                { CloneTracker, () => new Clone() },
+                { GankTracker, () => new Gank() },
+                { DestinationTracker, () => new Destination() },
+                { KillableTracker, () => new Killable() },
+                { JunglerTracker, () => new Jungler() },
+            };
+        }
+    }
+
     class Program
     {
 
@@ -80,7 +111,7 @@ namespace SAssemblies
         public void Load()
         {
             mainMenu = new MainMenu();
-            CustomEvents.Game.OnGameLoad += Game_OnGameLoad;
+            LeagueSharp.SDK.Core.Events.Load.OnLoad += Game_OnGameLoad;
         }
 
         public static Program Instance()
@@ -88,7 +119,7 @@ namespace SAssemblies
             return instance;
         }
 
-        private async void Game_OnGameLoad(EventArgs args)
+        private async void Game_OnGameLoad(Object obj, EventArgs args)
         {
             CreateMenu();
             Common.ShowNotification("STrackers loaded!", Color.LawnGreen, 5000);
@@ -101,32 +132,28 @@ namespace SAssemblies
             //http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
             try
             {
-                Menu.MenuItemSettings tempSettings;
-                var menu = new LeagueSharp.Common.Menu("STrackers", "STrackers", true);
+                LeagueSharp.SDK.Core.UI.Menu menu = Menu2.CreateMainMenu();
+                Menu2.CreateGlobalMenuItems(menu);
 
-                MainMenu.Tracker = Tracker.SetupMenu(menu);
-                mainMenu.UpdateDirEntry(ref MainMenu.GankTracker, Gank.SetupMenu(MainMenu.Tracker.Menu));
-                mainMenu.UpdateDirEntry(ref MainMenu.CloneTracker, Clone.SetupMenu(MainMenu.Tracker.Menu));
-                mainMenu.UpdateDirEntry(ref MainMenu.DestinationTracker, Destination.SetupMenu(MainMenu.Tracker.Menu));
-                mainMenu.UpdateDirEntry(ref MainMenu.KillableTracker, Killable.SetupMenu(MainMenu.Tracker.Menu));
-                mainMenu.UpdateDirEntry(ref MainMenu.SsCallerTracker, SsCaller.SetupMenu(MainMenu.Tracker.Menu));
-                mainMenu.UpdateDirEntry(ref MainMenu.UiTracker, Ui.SetupMenu(MainMenu.Tracker.Menu));
-                mainMenu.UpdateDirEntry(ref MainMenu.UimTracker, Uim.SetupMenu(MainMenu.Tracker.Menu));
-                mainMenu.UpdateDirEntry(ref MainMenu.WaypointTracker, Waypoint.SetupMenu(MainMenu.Tracker.Menu));
-                mainMenu.UpdateDirEntry(ref MainMenu.JunglerTracker, Jungler.SetupMenu(MainMenu.Tracker.Menu));
-                //mainMenu.UpdateDirEntry(ref MainMenu.CrowdControlTracker, Trackers.CrowdControl.SetupMenu(MainMenu.Tracker.Menu));
+                //MainMenu.Tracker = Tracker.SetupMenu(menu);
+                //mainMenu.UpdateDirEntry(ref MainMenu.GankTracker, Gank.SetupMenu(MainMenu.Tracker.Menu));
+                //mainMenu.UpdateDirEntry(ref MainMenu.CloneTracker, Clone.SetupMenu(MainMenu.Tracker.Menu));
+                //mainMenu.UpdateDirEntry(ref MainMenu.DestinationTracker, Destination.SetupMenu(MainMenu.Tracker.Menu));
+                //mainMenu.UpdateDirEntry(ref MainMenu.KillableTracker, Killable.SetupMenu(MainMenu.Tracker.Menu));
+                //mainMenu.UpdateDirEntry(ref MainMenu.SsCallerTracker, SsCaller.SetupMenu(MainMenu.Tracker.Menu));
+                //mainMenu.UpdateDirEntry(ref MainMenu.UiTracker, Ui.SetupMenu(MainMenu.Tracker.Menu));
+                //mainMenu.UpdateDirEntry(ref MainMenu.UimTracker, Uim.SetupMenu(MainMenu.Tracker.Menu));
+                //mainMenu.UpdateDirEntry(ref MainMenu.WaypointTracker, Waypoint.SetupMenu(MainMenu.Tracker.Menu));
+                //mainMenu.UpdateDirEntry(ref MainMenu.JunglerTracker, Jungler.SetupMenu(MainMenu.Tracker.Menu));
+                ////mainMenu.UpdateDirEntry(ref MainMenu.CrowdControlTracker, Trackers.CrowdControl.SetupMenu(MainMenu.Tracker.Menu));
 
-                Menu.GlobalSettings.Menu =
-                    menu.AddSubMenu(new LeagueSharp.Common.Menu("Global Settings", "SAssembliesGlobalSettings"));
-                Menu.GlobalSettings.MenuItems.Add(
-                    Menu.GlobalSettings.Menu.AddItem(
-                        new MenuItem("SAssembliesGlobalSettingsServerChatPingActive", "Server Chat/Ping").SetValue(false)));
-                Menu.GlobalSettings.MenuItems.Add(
-                    Menu.GlobalSettings.Menu.AddItem(
-                        new MenuItem("SAssembliesGlobalSettingsVoiceVolume", "Voice Volume").SetValue(new Slider(100, 0, 100))));
+                Menu2.MenuItemSettings Trackers = new Menu2.MenuItemSettings();
 
-                menu.AddItem(new MenuItem("By Screeder", "By Screeder V" + Assembly.GetExecutingAssembly().GetName().Version));
-                menu.AddToMainMenu();
+                menu.Add(new LeagueSharp.SDK.Core.UI.Menu("SAssembliesTracker", Language.GetString("TRACKERS_TRACKER_MAIN")));
+                Trackers.Menu = (LeagueSharp.SDK.Core.UI.Menu)menu["SAssembliesTracker"];
+                Trackers.CreateActiveMenuItem("SAssembliesTrackerActive");
+
+                MainMenu2.Tracker = Trackers;
             }
             catch (Exception)
             {

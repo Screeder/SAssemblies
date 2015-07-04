@@ -5,7 +5,6 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using LeagueSharp.Common;
 using LeagueSharp;
 using SAssemblies;
 using SAssemblies.Miscs;
@@ -19,56 +18,58 @@ namespace SAssemblies
         private readonly Dictionary<MenuItemSettings, Func<dynamic>> MenuEntries;
 
         public static MenuItemSettings Misc = new MenuItemSettings();
-        public static MenuItemSettings AutoLevler = new MenuItemSettings();
-        public static MenuItemSettings SkinChanger = new MenuItemSettings();
-        public static MenuItemSettings SafeMovement = new MenuItemSettings();
-        public static MenuItemSettings MoveToMouse = new MenuItemSettings();
-        public static MenuItemSettings SurrenderVote = new MenuItemSettings();
-        public static MenuItemSettings AutoLatern = new MenuItemSettings();
-        public static MenuItemSettings AutoJump = new MenuItemSettings();
-        public static MenuItemSettings TurnAround = new MenuItemSettings();
-        public static MenuItemSettings MinionBars = new MenuItemSettings();
-        public static MenuItemSettings MinionLocation = new MenuItemSettings();
-        public static MenuItemSettings FlashJuke = new MenuItemSettings();
-        public static MenuItemSettings EasyRangedJungle = new MenuItemSettings();
-        public static MenuItemSettings RealTime = new MenuItemSettings();
-        public static MenuItemSettings ShowPing = new MenuItemSettings();
-        public static MenuItemSettings PingerName = new MenuItemSettings();
-        public static MenuItemSettings AntiVisualScreenStealth = new MenuItemSettings();
-        public static MenuItemSettings EloDisplayer = new MenuItemSettings();
-        public static MenuItemSettings SmartPingImprove = new MenuItemSettings();
-        public static MenuItemSettings WallJump = new MenuItemSettings();
-        public static MenuItemSettings AntiNexusTurret = new MenuItemSettings();
-        public static MenuItemSettings AntiLatern = new MenuItemSettings();
-        public static MenuItemSettings AutoBuy = new MenuItemSettings();
+        public static MenuItemSettings AutoLevlerMisc = new MenuItemSettings();
+        public static MenuItemSettings SkinChangerMisc = new MenuItemSettings();
+        public static MenuItemSettings SafeMovementMisc = new MenuItemSettings();
+        public static MenuItemSettings MoveToMouseMisc = new MenuItemSettings();
+        public static MenuItemSettings SurrenderVoteMisc = new MenuItemSettings();
+        public static MenuItemSettings AutoLaternMisc = new MenuItemSettings();
+        public static MenuItemSettings AutoJumpMisc = new MenuItemSettings();
+        public static MenuItemSettings TurnAroundMisc = new MenuItemSettings();
+        public static MenuItemSettings MinionBarsMisc = new MenuItemSettings();
+        public static MenuItemSettings MinionLocationMisc = new MenuItemSettings();
+        public static MenuItemSettings FlashJukeMisc = new MenuItemSettings();
+        public static MenuItemSettings EasyRangedJungleMisc = new MenuItemSettings();
+        public static MenuItemSettings RealTimeMisc = new MenuItemSettings();
+        public static MenuItemSettings ShowPingMisc = new MenuItemSettings();
+        public static MenuItemSettings PingerNameMisc = new MenuItemSettings();
+        public static MenuItemSettings AntiVisualScreenStealthMisc = new MenuItemSettings();
+        public static MenuItemSettings EloDisplayerMisc = new MenuItemSettings();
+        public static MenuItemSettings SmartPingImproveMisc = new MenuItemSettings();
+        public static MenuItemSettings WallJumpMisc = new MenuItemSettings();
+        public static MenuItemSettings AntiNexusTurretMisc = new MenuItemSettings();
+        public static MenuItemSettings AntiLaternMisc = new MenuItemSettings();
+        public static MenuItemSettings AutoBuyMisc = new MenuItemSettings();
+        public static MenuItemSettings AntiJumpMisc = new MenuItemSettings();
 
         public MainMenu()
         {
             MenuEntries =
             new Dictionary<MenuItemSettings, Func<dynamic>>
             {
-                { AutoLevler, () => new AutoLevler() },
-                { SkinChanger, () => new SkinChanger() },
-                { SafeMovement, () => new SafeMovement() },
-                { MoveToMouse, () => new MoveToMouse() },
-                { SurrenderVote, () => new SurrenderVote() },
-                { AutoLatern, () => new AutoLatern() },
-                { AutoJump, () => new AutoJump() },
-                { TurnAround, () => new TurnAround() },
-                { MinionBars, () => new MinionBars() },
-                { MinionLocation, () => new MinionLocation() },
-                { FlashJuke, () => new FlashJuke() },
-                { EasyRangedJungle, () => new EasyRangedJungle() },
-                { RealTime, () => new RealTime() },
-                { ShowPing, () => new ShowPing() },
-                { PingerName, () => new PingerName() },
-                { AntiVisualScreenStealth, () => new AntiVisualScreenStealth() },
-                { EloDisplayer, () => new EloDisplayer() },
-                { SmartPingImprove, () => new SmartPingImprove() },
-                { WallJump, () => new WallJump() },
-                { AntiNexusTurret, () => new AntiNexusTurret() },
-                { AntiLatern, () => new AntiLatern() },   
-                { AutoBuy, () => new AutoBuy() },
+                { AutoLevlerMisc, () => new AutoLevler() },
+                { SkinChangerMisc, () => new SkinChanger() },
+                { SafeMovementMisc, () => new SafeMovement() },
+                { MoveToMouseMisc, () => new MoveToMouse() },
+                { SurrenderVoteMisc, () => new SurrenderVote() },
+                { AutoLaternMisc, () => new AutoLatern() },
+                { AutoJumpMisc, () => new AutoJump() },
+                { TurnAroundMisc, () => new TurnAround() },
+                { MinionBarsMisc, () => new MinionBars() },
+                { MinionLocationMisc, () => new MinionLocation() },
+                { FlashJukeMisc, () => new FlashJuke() },
+                { EasyRangedJungleMisc, () => new EasyRangedJungle() },
+                { RealTimeMisc, () => new RealTime() },
+                { ShowPingMisc, () => new ShowPing() },
+                { PingerNameMisc, () => new PingerName() },
+                { AntiVisualScreenStealthMisc, () => new AntiVisualScreenStealth() },
+                { EloDisplayerMisc, () => new EloDisplayer() },
+                { SmartPingImproveMisc, () => new SmartPingImprove() },
+                { WallJumpMisc, () => new WallJump() },
+                { AntiNexusTurretMisc, () => new AntiNexusTurret() },
+                { AntiLaternMisc, () => new AntiLatern() },   
+                { AutoBuyMisc, () => new AutoBuy() },
+                { AntiJumpMisc, () => new AntiJump() },
             };
         }
 
@@ -91,6 +92,65 @@ namespace SAssemblies
         }
     }
 
+    class MainMenu2 : Menu2
+    {
+        public static MenuItemSettings Misc = new MenuItemSettings();
+        public static MenuItemSettings AutoLevlerMisc = new MenuItemSettings();
+        public static MenuItemSettings SkinChangerMisc = new MenuItemSettings();
+        public static MenuItemSettings SafeMovementMisc = new MenuItemSettings();
+        public static MenuItemSettings MoveToMouseMisc = new MenuItemSettings();
+        public static MenuItemSettings SurrenderVoteMisc = new MenuItemSettings();
+        public static MenuItemSettings AutoLaternMisc = new MenuItemSettings();
+        public static MenuItemSettings AutoJumpMisc = new MenuItemSettings();
+        public static MenuItemSettings TurnAroundMisc = new MenuItemSettings();
+        public static MenuItemSettings MinionBarsMisc = new MenuItemSettings();
+        public static MenuItemSettings MinionLocationMisc = new MenuItemSettings();
+        public static MenuItemSettings FlashJukeMisc = new MenuItemSettings();
+        public static MenuItemSettings EasyRangedJungleMisc = new MenuItemSettings();
+        public static MenuItemSettings RealTimeMisc = new MenuItemSettings();
+        public static MenuItemSettings ShowPingMisc = new MenuItemSettings();
+        public static MenuItemSettings PingerNameMisc = new MenuItemSettings();
+        public static MenuItemSettings AntiVisualScreenStealthMisc = new MenuItemSettings();
+        public static MenuItemSettings EloDisplayerMisc = new MenuItemSettings();
+        public static MenuItemSettings SmartPingImproveMisc = new MenuItemSettings();
+        public static MenuItemSettings WallJumpMisc = new MenuItemSettings();
+        public static MenuItemSettings AntiNexusTurretMisc = new MenuItemSettings();
+        public static MenuItemSettings AntiLaternMisc = new MenuItemSettings();
+        public static MenuItemSettings AutoBuyMisc = new MenuItemSettings();
+        public static MenuItemSettings AntiJumpMisc = new MenuItemSettings();
+
+        public MainMenu2()
+        {
+            MenuEntries =
+            new Dictionary<MenuItemSettings, Func<dynamic>>
+            {
+                { AutoLevlerMisc, () => new AutoLevler() },
+                { SkinChangerMisc, () => new SkinChanger() },
+                { SafeMovementMisc, () => new SafeMovement() },
+                { MoveToMouseMisc, () => new MoveToMouse() },
+                { SurrenderVoteMisc, () => new SurrenderVote() },
+                { AutoLaternMisc, () => new AutoLatern() },
+                { AutoJumpMisc, () => new AutoJump() },
+                { TurnAroundMisc, () => new TurnAround() },
+                { MinionBarsMisc, () => new MinionBars() },
+                { MinionLocationMisc, () => new MinionLocation() },
+                { FlashJukeMisc, () => new FlashJuke() },
+                { EasyRangedJungleMisc, () => new EasyRangedJungle() },
+                { RealTimeMisc, () => new RealTime() },
+                { ShowPingMisc, () => new ShowPing() },
+                { PingerNameMisc, () => new PingerName() },
+                { AntiVisualScreenStealthMisc, () => new AntiVisualScreenStealth() },
+                { EloDisplayerMisc, () => new EloDisplayer() },
+                { SmartPingImproveMisc, () => new SmartPingImprove() },
+                { WallJumpMisc, () => new WallJump() },
+                { AntiNexusTurretMisc, () => new AntiNexusTurret() },
+                { AntiLaternMisc, () => new AntiLatern() },   
+                { AutoBuyMisc, () => new AutoBuy() },
+                { AntiJumpMisc, () => new AntiJump() },
+            };
+        }
+    }
+
     class Program
     {
 
@@ -110,7 +170,8 @@ namespace SAssemblies
         public void Load()
         {
             mainMenu = new MainMenu();
-            CustomEvents.Game.OnGameLoad += Game_OnGameLoad;
+            new WoodenPc();
+            LeagueSharp.SDK.Core.Events.Load.OnLoad += Game_OnGameLoad;
         }
 
         public static Program Instance()
@@ -118,7 +179,7 @@ namespace SAssemblies
             return instance;
         }
 
-        private async void Game_OnGameLoad(EventArgs args)
+        private async void Game_OnGameLoad(Object obj, EventArgs args)
         {
             CreateMenu();
             Common.ShowNotification("SMiscs loaded!", Color.LawnGreen, 5000);
@@ -131,44 +192,41 @@ namespace SAssemblies
             //http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
             try
             {
-                Menu.MenuItemSettings tempSettings;
-                var menu = new LeagueSharp.Common.Menu("SMiscs", "SMiscs", true);
+                LeagueSharp.SDK.Core.UI.Menu menu = Menu2.CreateMainMenu();
+                Menu2.CreateGlobalMenuItems(menu);
 
-                MainMenu.Misc = Misc.SetupMenu(menu);
-                mainMenu.UpdateDirEntry(ref MainMenu.AntiVisualScreenStealth, AntiVisualScreenStealth.SetupMenu(MainMenu.Misc.Menu));
-                mainMenu.UpdateDirEntry(ref MainMenu.AntiNexusTurret, AntiNexusTurret.SetupMenu(MainMenu.Misc.Menu));
-                mainMenu.UpdateDirEntry(ref MainMenu.AntiLatern, AntiLatern.SetupMenu(MainMenu.Misc.Menu));
-                //mainMenu.UpdateDirEntry(ref MainMenu.AutoBuy, Miscs.AutoBuy.SetupMenu(MainMenu.Misc.Menu));
-                mainMenu.UpdateDirEntry(ref MainMenu.AutoJump, AutoJump.SetupMenu(MainMenu.Misc.Menu));
-                //mainMenu.UpdateDirEntry(ref MainMenu.AutoLatern, Miscs.AutoLatern.SetupMenu(MainMenu.Misc.Menu));
-                //mainMenu.UpdateDirEntry(ref MainMenu.AutoLevler, Miscs.AutoLevler.SetupMenu(MainMenu.Misc.Menu)); //Hängt bei linkslick
-                mainMenu.UpdateDirEntry(ref MainMenu.EasyRangedJungle, EasyRangedJungle.SetupMenu(MainMenu.Misc.Menu));
-                //mainMenu.UpdateDirEntry(ref MainMenu.EloDisplayer, Miscs.EloDisplayer.SetupMenu(MainMenu.Misc.Menu));
-                mainMenu.UpdateDirEntry(ref MainMenu.FlashJuke, FlashJuke.SetupMenu(MainMenu.Misc.Menu));
-                //mainMenu.UpdateDirEntry(ref MainMenu.MinionBars, Miscs.MinionBars.SetupMenu(MainMenu.Misc.Menu));
-                //mainMenu.UpdateDirEntry(ref MainMenu.MinionLocation, Miscs.MinionLocation.SetupMenu(MainMenu.Misc.Menu));
-                mainMenu.UpdateDirEntry(ref MainMenu.MoveToMouse, MoveToMouse.SetupMenu(MainMenu.Misc.Menu));
-                mainMenu.UpdateDirEntry(ref MainMenu.PingerName, PingerName.SetupMenu(MainMenu.Misc.Menu));
-                mainMenu.UpdateDirEntry(ref MainMenu.RealTime, RealTime.SetupMenu(MainMenu.Misc.Menu));
-                //mainMenu.UpdateDirEntry(ref MainMenu.SafeMovement, Miscs.SafeMovement.SetupMenu(MainMenu.Misc.Menu));
-                mainMenu.UpdateDirEntry(ref MainMenu.ShowPing, ShowPing.SetupMenu(MainMenu.Misc.Menu));
-                mainMenu.UpdateDirEntry(ref MainMenu.SkinChanger, SkinChanger.SetupMenu(MainMenu.Misc.Menu));
-                //mainMenu.UpdateDirEntry(ref MainMenu.SmartPingImprove, Miscs.SmartPingImprove.SetupMenu(MainMenu.Misc.Menu));
-                //mainMenu.UpdateDirEntry(ref MainMenu.SurrenderVote, Miscs.SurrenderVote.SetupMenu(MainMenu.Misc.Menu));
-                mainMenu.UpdateDirEntry(ref MainMenu.TurnAround, TurnAround.SetupMenu(MainMenu.Misc.Menu));
-                mainMenu.UpdateDirEntry(ref MainMenu.WallJump, WallJump.SetupMenu(MainMenu.Misc.Menu));
+                //MainMenu.Misc = Misc.SetupMenu(menu);
+                //mainMenu.UpdateDirEntry(ref MainMenu.AntiVisualScreenStealth, AntiVisualScreenStealth.SetupMenu(MainMenu.Misc.Menu));
+                //mainMenu.UpdateDirEntry(ref MainMenu.AntiNexusTurret, AntiNexusTurret.SetupMenu(MainMenu.Misc.Menu));
+                //mainMenu.UpdateDirEntry(ref MainMenu.AntiLatern, AntiLatern.SetupMenu(MainMenu.Misc.Menu));
+                //mainMenu.UpdateDirEntry(ref MainMenu.AntiJump, AntiJump.SetupMenu(MainMenu.Misc.Menu));
+                ////mainMenu.UpdateDirEntry(ref MainMenu.AutoBuy, Miscs.AutoBuy.SetupMenu(MainMenu.Misc.Menu));
+                //mainMenu.UpdateDirEntry(ref MainMenu.AutoJump, AutoJump.SetupMenu(MainMenu.Misc.Menu));
+                ////mainMenu.UpdateDirEntry(ref MainMenu.AutoLatern, Miscs.AutoLatern.SetupMenu(MainMenu.Misc.Menu));
+                ////mainMenu.UpdateDirEntry(ref MainMenu.AutoLevler, Miscs.AutoLevler.SetupMenu(MainMenu.Misc.Menu)); //Hängt bei linkslick
+                //mainMenu.UpdateDirEntry(ref MainMenu.EasyRangedJungle, EasyRangedJungle.SetupMenu(MainMenu.Misc.Menu));
+                ////mainMenu.UpdateDirEntry(ref MainMenu.EloDisplayer, Miscs.EloDisplayer.SetupMenu(MainMenu.Misc.Menu));
+                //mainMenu.UpdateDirEntry(ref MainMenu.FlashJuke, FlashJuke.SetupMenu(MainMenu.Misc.Menu));
+                ////mainMenu.UpdateDirEntry(ref MainMenu.MinionBars, Miscs.MinionBars.SetupMenu(MainMenu.Misc.Menu));
+                ////mainMenu.UpdateDirEntry(ref MainMenu.MinionLocation, Miscs.MinionLocation.SetupMenu(MainMenu.Misc.Menu));
+                //mainMenu.UpdateDirEntry(ref MainMenu.MoveToMouse, MoveToMouse.SetupMenu(MainMenu.Misc.Menu));
+                //mainMenu.UpdateDirEntry(ref MainMenu.PingerName, PingerName.SetupMenu(MainMenu.Misc.Menu));
+                //mainMenu.UpdateDirEntry(ref MainMenu.RealTime, RealTime.SetupMenu(MainMenu.Misc.Menu));
+                ////mainMenu.UpdateDirEntry(ref MainMenu.SafeMovement, Miscs.SafeMovement.SetupMenu(MainMenu.Misc.Menu));
+                //mainMenu.UpdateDirEntry(ref MainMenu.ShowPing, ShowPing.SetupMenu(MainMenu.Misc.Menu));
+                //mainMenu.UpdateDirEntry(ref MainMenu.SkinChanger, SkinChanger.SetupMenu(MainMenu.Misc.Menu));
+                ////mainMenu.UpdateDirEntry(ref MainMenu.SmartPingImprove, Miscs.SmartPingImprove.SetupMenu(MainMenu.Misc.Menu));
+                ////mainMenu.UpdateDirEntry(ref MainMenu.SurrenderVote, Miscs.SurrenderVote.SetupMenu(MainMenu.Misc.Menu));
+                //mainMenu.UpdateDirEntry(ref MainMenu.TurnAround, TurnAround.SetupMenu(MainMenu.Misc.Menu));
+                //mainMenu.UpdateDirEntry(ref MainMenu.WallJump, WallJump.SetupMenu(MainMenu.Misc.Menu));
 
-                Menu.GlobalSettings.Menu =
-                    menu.AddSubMenu(new LeagueSharp.Common.Menu("Global Settings", "SAssembliesGlobalSettings"));
-                Menu.GlobalSettings.MenuItems.Add(
-                    Menu.GlobalSettings.Menu.AddItem(
-                        new MenuItem("SAssembliesGlobalSettingsServerChatPingActive", "Server Chat/Ping").SetValue(false)));
-                Menu.GlobalSettings.MenuItems.Add(
-                    Menu.GlobalSettings.Menu.AddItem(
-                        new MenuItem("SAssembliesGlobalSettingsVoiceVolume", "Voice Volume").SetValue(new Slider(100, 0, 100))));
+                Menu2.MenuItemSettings Miscs = new Menu2.MenuItemSettings();
 
-                menu.AddItem(new MenuItem("By Screeder", "By Screeder V" + Assembly.GetExecutingAssembly().GetName().Version));
-                menu.AddToMainMenu();
+                menu.Add(new LeagueSharp.SDK.Core.UI.Menu("SAssembliesMiscs", Language.GetString("MISCS_MISC_MAIN")));
+                Miscs.Menu = (LeagueSharp.SDK.Core.UI.Menu)menu["SAssembliesMiscs"];
+                Miscs.CreateActiveMenuItem("SAssembliesMiscsActive");
+
+                MainMenu2.Misc = Miscs;
             }
             catch (Exception)
             {

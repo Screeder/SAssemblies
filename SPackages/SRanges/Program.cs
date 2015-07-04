@@ -65,6 +65,37 @@ namespace SAssemblies
         }
     }
 
+    class MainMenu2 : Menu2
+    {
+        public static MenuItemSettings Range = new MenuItemSettings();
+        public static MenuItemSettings TurretRange = new MenuItemSettings();
+        public static MenuItemSettings ShopRange = new MenuItemSettings();
+        public static MenuItemSettings VisionRange = new MenuItemSettings();
+        public static MenuItemSettings ExperienceRange = new MenuItemSettings();
+        public static MenuItemSettings AttackRange = new MenuItemSettings();
+        public static MenuItemSettings SpellQRange = new MenuItemSettings();
+        public static MenuItemSettings SpellWRange = new MenuItemSettings();
+        public static MenuItemSettings SpellERange = new MenuItemSettings();
+        public static MenuItemSettings SpellRRange = new MenuItemSettings();
+
+        public MainMenu2()
+        {
+            MenuEntries =
+            new Dictionary<MenuItemSettings, Func<dynamic>>
+            {
+                { TurretRange, () => new Turret() },
+                { ShopRange, () => new Shop() },
+                { VisionRange, () => new Vision() },
+                { ExperienceRange, () => new Experience() },
+                { AttackRange, () => new Attack() },
+                { SpellQRange, () => new SpellQ() },
+                { SpellWRange, () => new SpellW() },
+                { SpellERange, () => new SpellE() },
+                { SpellRRange, () => new SpellR() },
+            };
+        }
+    }
+
     class Program
     {
         private static bool threadActive = true;
@@ -83,7 +114,7 @@ namespace SAssemblies
         public void Load()
         {
             mainMenu = new MainMenu();
-            CustomEvents.Game.OnGameLoad += Game_OnGameLoad;
+            LeagueSharp.SDK.Core.Events.Load.OnLoad += Game_OnGameLoad;
         }
 
         public static Program Instance()
@@ -91,7 +122,7 @@ namespace SAssemblies
             return instance;
         }
 
-        private async void Game_OnGameLoad(EventArgs args)
+        private async void Game_OnGameLoad(Object obj, EventArgs args)
         {
             CreateMenu();
             Common.ShowNotification("SRanges loaded!", Color.LawnGreen, 5000);
@@ -104,31 +135,27 @@ namespace SAssemblies
             //http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
             try
             {
-                Menu.MenuItemSettings tempSettings;
-                var menu = new LeagueSharp.Common.Menu("SRanges", "SRanges", true);
+                LeagueSharp.SDK.Core.UI.Menu menu = Menu2.CreateMainMenu();
+                Menu2.CreateGlobalMenuItems(menu);
 
-                MainMenu.Range = Range.SetupMenu(menu);
-                mainMenu.UpdateDirEntry(ref MainMenu.SpellQRange, SpellQ.SetupMenu(MainMenu.Range.Menu));
-                mainMenu.UpdateDirEntry(ref MainMenu.SpellWRange, SpellW.SetupMenu(MainMenu.Range.Menu));
-                mainMenu.UpdateDirEntry(ref MainMenu.SpellERange, SpellE.SetupMenu(MainMenu.Range.Menu));
-                mainMenu.UpdateDirEntry(ref MainMenu.SpellRRange, SpellR.SetupMenu(MainMenu.Range.Menu));
-                mainMenu.UpdateDirEntry(ref MainMenu.ShopRange, Shop.SetupMenu(MainMenu.Range.Menu));
-                mainMenu.UpdateDirEntry(ref MainMenu.VisionRange, Vision.SetupMenu(MainMenu.Range.Menu));
-                mainMenu.UpdateDirEntry(ref MainMenu.ExperienceRange, Experience.SetupMenu(MainMenu.Range.Menu));
-                mainMenu.UpdateDirEntry(ref MainMenu.AttackRange, Attack.SetupMenu(MainMenu.Range.Menu));
-                mainMenu.UpdateDirEntry(ref MainMenu.TurretRange, Turret.SetupMenu(MainMenu.Range.Menu));
+                //MainMenu.Range = Range.SetupMenu(menu);
+                //mainMenu.UpdateDirEntry(ref MainMenu.SpellQRange, SpellQ.SetupMenu(MainMenu.Range.Menu));
+                //mainMenu.UpdateDirEntry(ref MainMenu.SpellWRange, SpellW.SetupMenu(MainMenu.Range.Menu));
+                //mainMenu.UpdateDirEntry(ref MainMenu.SpellERange, SpellE.SetupMenu(MainMenu.Range.Menu));
+                //mainMenu.UpdateDirEntry(ref MainMenu.SpellRRange, SpellR.SetupMenu(MainMenu.Range.Menu));
+                //mainMenu.UpdateDirEntry(ref MainMenu.ShopRange, Shop.SetupMenu(MainMenu.Range.Menu));
+                //mainMenu.UpdateDirEntry(ref MainMenu.VisionRange, Vision.SetupMenu(MainMenu.Range.Menu));
+                //mainMenu.UpdateDirEntry(ref MainMenu.ExperienceRange, Experience.SetupMenu(MainMenu.Range.Menu));
+                //mainMenu.UpdateDirEntry(ref MainMenu.AttackRange, Attack.SetupMenu(MainMenu.Range.Menu));
+                //mainMenu.UpdateDirEntry(ref MainMenu.TurretRange, Turret.SetupMenu(MainMenu.Range.Menu));
 
-                Menu.GlobalSettings.Menu =
-                    menu.AddSubMenu(new LeagueSharp.Common.Menu("Global Settings", "SAssembliesGlobalSettings"));
-                Menu.GlobalSettings.MenuItems.Add(
-                    Menu.GlobalSettings.Menu.AddItem(
-                        new MenuItem("SAssembliesGlobalSettingsServerChatPingActive", "Server Chat/Ping").SetValue(false)));
-                Menu.GlobalSettings.MenuItems.Add(
-                    Menu.GlobalSettings.Menu.AddItem(
-                        new MenuItem("SAssembliesGlobalSettingsVoiceVolume", "Voice Volume").SetValue(new Slider(100, 0, 100))));
+                Menu2.MenuItemSettings Ranges = new Menu2.MenuItemSettings();
 
-                menu.AddItem(new MenuItem("By Screeder", "By Screeder V" + Assembly.GetExecutingAssembly().GetName().Version));
-                menu.AddToMainMenu();
+                menu.Add(new LeagueSharp.SDK.Core.UI.Menu("SAwarenessRanges", Language.GetString("RANGES_RANGE_MAIN")));
+                Ranges.Menu = (LeagueSharp.SDK.Core.UI.Menu)menu["SAwarenessRanges"];
+                Ranges.CreateActiveMenuItem("SAwarenessRangesActive");
+
+                MainMenu2.Range = Ranges;
             }
             catch (Exception)
             {

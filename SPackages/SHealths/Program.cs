@@ -8,9 +8,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using LeagueSharp;
 using LeagueSharp.Common;
+using LeagueSharp.SDK.Core.UI;
+using LeagueSharp.SDK.Core.UI.Abstracts;
+using LeagueSharp.SDK.Core.UI.Values;
 using SAssemblies;
 using SAssemblies.Healths;
 using Menu = SAssemblies.Menu;
+using MenuItem = LeagueSharp.SDK.Core.UI.MenuItem;
 
 namespace SAssemblies
 {
@@ -51,6 +55,23 @@ namespace SAssemblies
         }
     }
 
+    class MainMenu2 : Menu2
+    {
+        public static MenuItemSettings Health = new MenuItemSettings();
+        public static MenuItemSettings TurretHealth = new MenuItemSettings();
+        public static MenuItemSettings InhibitorHealth = new MenuItemSettings();
+
+        public MainMenu2()
+        {
+            MenuEntries =
+            new Dictionary<MenuItemSettings, Func<dynamic>>
+            {
+                { TurretHealth, () => new Turret() },
+                { InhibitorHealth, () => new Inhibitor() },
+            };
+        }
+    }
+
     class Program
     {
 
@@ -70,7 +91,7 @@ namespace SAssemblies
         public void Load()
         {
             mainMenu = new MainMenu();
-            CustomEvents.Game.OnGameLoad += Game_OnGameLoad;
+            LeagueSharp.SDK.Core.Events.Load.OnLoad += Game_OnGameLoad;
         }
 
         public static Program Instance()
@@ -78,7 +99,7 @@ namespace SAssemblies
             return instance;
         }
 
-        private async void Game_OnGameLoad(EventArgs args)
+        private async void Game_OnGameLoad(Object obj, EventArgs args)
         {
             CreateMenu();
             Common.ShowNotification("SHealths loaded!", Color.LawnGreen, 5000);
@@ -91,24 +112,21 @@ namespace SAssemblies
             //http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
             try
             {
-                Menu.MenuItemSettings tempSettings;
-                var menu = new LeagueSharp.Common.Menu("SHealths", "SHealths", true);
+                LeagueSharp.SDK.Core.UI.Menu menu = Menu2.CreateMainMenu();
+                Menu2.CreateGlobalMenuItems(menu);
 
-                MainMenu.Health = Healths.Health.SetupMenu(menu);
-                mainMenu.UpdateDirEntry(ref MainMenu.InhibitorHealth, Healths.Inhibitor.SetupMenu(MainMenu.Health.Menu));
-                mainMenu.UpdateDirEntry(ref MainMenu.TurretHealth, Turret.SetupMenu(MainMenu.Health.Menu));
+                //MainMenu.Health = Healths.Health.SetupMenu(menu);
+                //mainMenu.UpdateDirEntry(ref MainMenu.InhibitorHealth, Healths.Inhibitor.SetupMenu(MainMenu.Health.Menu));
+                //mainMenu.UpdateDirEntry(ref MainMenu.TurretHealth, Turret.SetupMenu(MainMenu.Health.Menu));
 
-                Menu.GlobalSettings.Menu =
-                    menu.AddSubMenu(new LeagueSharp.Common.Menu("Global Settings", "SAssembliesGlobalSettings"));
-                Menu.GlobalSettings.MenuItems.Add(
-                    Menu.GlobalSettings.Menu.AddItem(
-                        new MenuItem("SAssembliesGlobalSettingsServerChatPingActive", "Server Chat/Ping").SetValue(false)));
-                Menu.GlobalSettings.MenuItems.Add(
-                    Menu.GlobalSettings.Menu.AddItem(
-                        new MenuItem("SAssembliesGlobalSettingsVoiceVolume", "Voice Volume").SetValue(new Slider(100, 0, 100))));
+                Menu2.MenuItemSettings Healths = new Menu2.MenuItemSettings();
 
-                menu.AddItem(new MenuItem("By Screeder", "By Screeder V" + Assembly.GetExecutingAssembly().GetName().Version));
-                menu.AddToMainMenu();
+                menu.Add(new LeagueSharp.SDK.Core.UI.Menu("SAssembliesHealths", Language.GetString("HEALTHS_HEALTH_MAIN")));
+                Healths.Menu = (LeagueSharp.SDK.Core.UI.Menu)menu["SAssembliesHealths"];
+                Healths.Menu.Add(new MenuItem<MenuList<String>>("SAssembliesHealthsMode", Language.GetString("GLOBAL_MODE")) { Value = new MenuList<string>(new[] { Language.GetString("GLOBAL_MODE_PERCENT"), Language.GetString("GLOBAL_MODE_VALUE") }) });
+                Healths.CreateActiveMenuItem("SAssembliesHealthsActive");
+
+                MainMenu2.Health = Healths;
             }
             catch (Exception)
             {

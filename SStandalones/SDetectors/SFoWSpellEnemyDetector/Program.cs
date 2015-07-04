@@ -4,6 +4,8 @@ using System.Drawing;
 using System.Reflection;
 using System.Threading;
 using LeagueSharp.Common;
+using LeagueSharp.SDK.Core.UI;
+using LeagueSharp.SDK.Core.UI.Values;
 using SAssemblies.Detectors;
 
 namespace SAssemblies
@@ -41,6 +43,20 @@ namespace SAssemblies
         }
     }
 
+    class MainMenu2 : Menu2
+    {
+        public static MenuItemSettings Detector = new MenuItemSettings();
+        public static MenuItemSettings FoWSpellEnemyDetector = new MenuItemSettings();
+        public MainMenu2()
+        {
+            MenuEntries =
+            new Dictionary<MenuItemSettings, Func<dynamic>>
+            {
+                { FoWSpellEnemyDetector, () => new FoWSpellEnemy() },
+            };
+        }
+    }
+
     internal class Program
     {
         private static bool threadActive = true;
@@ -59,7 +75,7 @@ namespace SAssemblies
         public void Load()
         {
             mainMenu = new MainMenu();
-            CustomEvents.Game.OnGameLoad += Game_OnGameLoad;
+            LeagueSharp.SDK.Core.Events.Load.OnLoad += Game_OnGameLoad;
         }
 
         public static Program Instance()
@@ -67,7 +83,7 @@ namespace SAssemblies
             return instance;
         }
 
-        private async void Game_OnGameLoad(EventArgs args)
+        private async void Game_OnGameLoad(Object obj, EventArgs args)
         {
             CreateMenu();
             Common.ShowNotification("SFoWSpellEnemyDetector loaded!", Color.LawnGreen, 5000);
@@ -79,27 +95,41 @@ namespace SAssemblies
         {
             try
             {
-                Menu.MenuItemSettings tempSettings;
-                var menu = new LeagueSharp.Common.Menu("SFoWSpellEnemyDetector", "SFoWSpellEnemyDetector", true);
+                //Menu.MenuItemSettings tempSettings;
+                //var menu = new LeagueSharp.Common.Menu("SFoWSpellEnemyDetector", "SFoWSpellEnemyDetector", true);
 
-                MainMenu.Detector = Detector.SetupMenu(menu, true);
-                mainMenu.UpdateDirEntry(
-                    ref MainMenu.FoWSpellEnemyDetector, FoWSpellEnemy.SetupMenu(MainMenu.Detector.Menu));
+                //MainMenu.Detector = Detector.SetupMenu(menu, true);
+                //mainMenu.UpdateDirEntry(
+                //    ref MainMenu.FoWSpellEnemyDetector, FoWSpellEnemy.SetupMenu(MainMenu.Detector.Menu));
 
-                Menu.GlobalSettings.Menu =
-                    menu.AddSubMenu(new LeagueSharp.Common.Menu("Global Settings", "SAssembliesGlobalSettings"));
-                Menu.GlobalSettings.MenuItems.Add(
-                    Menu.GlobalSettings.Menu.AddItem(
-                        new MenuItem("SAssembliesGlobalSettingsServerChatPingActive", "Server Chat/Ping").SetValue(
-                            false)));
-                Menu.GlobalSettings.MenuItems.Add(
-                    Menu.GlobalSettings.Menu.AddItem(
-                        new MenuItem("SAssembliesGlobalSettingsVoiceVolume", "Voice Volume").SetValue(
-                            new Slider(100, 0, 100))));
+                //Menu.GlobalSettings.Menu =
+                //    menu.AddSubMenu(new LeagueSharp.Common.Menu("Global Settings", "SAssembliesGlobalSettings"));
+                //Menu.GlobalSettings.MenuItems.Add(
+                //    Menu.GlobalSettings.Menu.AddItem(
+                //        new MenuItem("SAssembliesGlobalSettingsServerChatPingActive", "Server Chat/Ping").SetValue(
+                //            false)));
+                //Menu.GlobalSettings.MenuItems.Add(
+                //    Menu.GlobalSettings.Menu.AddItem(
+                //        new MenuItem("SAssembliesGlobalSettingsVoiceVolume", "Voice Volume").SetValue(
+                //            new Slider(100, 0, 100))));
 
-                menu.AddItem(
-                    new MenuItem("By Screeder", "By Screeder V" + Assembly.GetExecutingAssembly().GetName().Version));
-                menu.AddToMainMenu();
+                //menu.AddItem(
+                //    new MenuItem("By Screeder", "By Screeder V" + Assembly.GetExecutingAssembly().GetName().Version));
+                //menu.AddToMainMenu();
+
+                LeagueSharp.SDK.Core.UI.Menu menu = Menu2.CreateMainMenu();
+                Menu2.CreateGlobalMenuItems(menu);
+
+                //MainMenu.Detector = Detector.SetupMenu(menu, true);
+                //mainMenu.UpdateDirEntry(ref MainMenu.DisconnectDetector, DisReconnect.SetupMenu(MainMenu.Detector.Menu));
+
+                Menu2.MenuItemSettings FoWSpellEnemyDetector = new Menu2.MenuItemSettings(typeof(FoWSpellEnemy));
+
+                menu.Add(new LeagueSharp.SDK.Core.UI.Menu("SAssembliesDetectorsFoWSpellEnemy", Language.GetString("DETECTORS_FOWSPELLENEMY_MAIN")));
+                FoWSpellEnemyDetector.Menu = (LeagueSharp.SDK.Core.UI.Menu)menu["SAssembliesDetectorsFoWSpellEnemy"];
+                FoWSpellEnemyDetector.CreateActiveMenuItem("SAssembliesDetectorsFoWSpellEnemyActive");
+
+                MainMenu2.FoWSpellEnemyDetector = FoWSpellEnemyDetector;
             }
             catch (Exception)
             {

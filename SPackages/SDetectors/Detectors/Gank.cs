@@ -18,49 +18,21 @@ namespace SAssemblies.Detectors
 
         public Gank()
         {
-            foreach (Obj_AI_Hero hero in ObjectManager.Get<Obj_AI_Hero>())
+            GameUpdate a = null;
+            a = delegate(EventArgs args)
             {
-                if (hero.IsEnemy)
-                {
-                    Render.Text text = new Render.Text(new Vector2(0, 0), Language.GetString("DETECTORS_GANK_TEXT_JUNGLER"), 28, Color.Red);
-                    text.PositionUpdate = delegate
-                    {
-                        Speech.Speak(Language.GetString("DETECTORS_GANK_TEXT_JUNGLER"));
-                        return Drawing.WorldToScreen(ObjectManager.Player.ServerPosition);
-                    };
-                    text.VisibleCondition = sender =>
-                    {
-                        bool hasSmite = false;
-                        foreach (SpellDataInst spell in hero.Spellbook.Spells)
-                        {
-                            if (spell.Name.ToLower().Contains("smite"))
-                            {
-                                hasSmite = true;
-                                break;
-                            }
-                        }
-                        return IsActive() &&
-                               GankDetector.GetMenuItem("SAssembliesDetectorsGankShowJungler").GetValue<bool>() &&
-                               hero.IsVisible && !hero.IsDead &&
-                                Vector3.Distance(ObjectManager.Player.ServerPosition, hero.ServerPosition) >
-                                GankDetector.GetMenuItem("SAssembliesDetectorsGankTrackRangeMin").GetValue<Slider>().Value &&
-                                Vector3.Distance(ObjectManager.Player.ServerPosition, hero.ServerPosition) <
-                                GankDetector.GetMenuItem("SAssembliesDetectorsGankTrackRangeMax").GetValue<Slider>().Value &&
-                                hasSmite;
-                    };
-                    text.OutLined = true;
-                    text.Centered = true;
-                    Enemies.Add(hero, new InternalGankDetector(text));
-                }
-            }
-            ThreadHelper.GetInstance().Called += Game_OnGameUpdate;
-            //Game.OnGameUpdate += Game_OnGameUpdate;
+                Init();
+                Game.OnUpdate -= a;
+            };
+            Game.OnUpdate += a;
+            //ThreadHelper.GetInstance().Called += Game_OnGameUpdate;
+            Game.OnUpdate += Game_OnGameUpdate;
         }
 
         ~Gank()
         {
-            ThreadHelper.GetInstance().Called -= Game_OnGameUpdate;
-            //Game.OnGameUpdate -= Game_OnGameUpdate;
+            //ThreadHelper.GetInstance().Called -= Game_OnGameUpdate;
+            Game.OnUpdate -= Game_OnGameUpdate;
             Enemies = null;
         }
 
@@ -93,13 +65,7 @@ namespace SAssemblies.Detectors
             GankDetector.MenuItems.Add(
                 GankDetector.Menu.AddItem(new MenuItem("SAssembliesDetectorsGankLocalPing", Language.GetString("GLOBAL_PING_LOCAL")).SetValue(true)));
             GankDetector.MenuItems.Add(
-                GankDetector.Menu.AddItem(new MenuItem("SAssembliesDetectorsGankChatChoice", Language.GetString("GLOBAL_CHAT_CHOICE")).SetValue(
-                        new StringList(new[]
-                        {
-                            Language.GetString("GLOBAL_CHAT_CHOICE_NONE"), 
-                            Language.GetString("GLOBAL_CHAT_CHOICE_LOCAL"), 
-                            Language.GetString("GLOBAL_CHAT_CHOICE_SERVER")
-                        }))));
+                GankDetector.Menu.AddItem(new MenuItem("SAssembliesDetectorsGankChat", Language.GetString("GLOBAL_CHAT")).SetValue(false)));
             GankDetector.MenuItems.Add(
                 GankDetector.Menu.AddItem(new MenuItem("SAssembliesDetectorsGankNotification", Language.GetString("GLOBAL_NOTIFICATION")).SetValue(false)));
             GankDetector.MenuItems.Add(
@@ -117,7 +83,49 @@ namespace SAssemblies.Detectors
             return GankDetector;
         }
 
-        private void Game_OnGameUpdate(object sender, EventArgs args)
+        private void Init()
+        {
+            foreach (Obj_AI_Hero hero in ObjectManager.Get<Obj_AI_Hero>())
+            {
+                Render.Text text = new Render.Text(new Vector2(0, 0), hero.IsEnemy ? Language.GetString("DETECTORS_GANK_TEXT_JUNGLER_ENEMY") :
+                    Language.GetString("DETECTORS_GANK_TEXT_JUNGLER_ALLY"), 28, hero.IsEnemy ? Color.Red : Color.Green);
+                text.PositionUpdate = delegate
+                {
+                    if (hero.IsEnemy)
+                    {
+                        Speech.Speak(Language.GetString("DETECTORS_GANK_TEXT_JUNGLER_ENEMY"));
+                    }
+                    return Drawing.WorldToScreen(ObjectManager.Player.ServerPosition);
+                };
+                text.VisibleCondition = sender =>
+                {
+                    return IsVisible(hero);
+                };
+                text.OutLined = true;
+                text.Centered = true;
+                text.Add();
+                Render.Line line = new Render.Line(new Vector2(1, 1), new Vector2(1, 1), 4, hero.IsEnemy ? Color.Red : Color.Green);
+                line.StartPositionUpdate = delegate
+                {
+                    return Drawing.WorldToScreen(ObjectManager.Player.ServerPosition);
+                };
+                line.EndPositionUpdate = delegate
+                {
+                    return Drawing.WorldToScreen(hero.ServerPosition);
+                };
+                line.VisibleCondition = sender =>
+                {
+                    return IsVisible(hero);
+                };
+                line.Add();
+                if (hero.IsEnemy)
+                {
+                    Enemies.Add(hero, new InternalGankDetector(text, line));
+                }
+            }
+        }
+
+        private void Game_OnGameUpdate(EventArgs args)
         {
             if (!IsActive() || lastGameUpdateTime + new Random().Next(500, 1000) > Environment.TickCount)
                 return;
@@ -127,6 +135,27 @@ namespace SAssemblies.Detectors
             {
                 UpdateTime(enemy);
             }
+        }
+
+        private bool IsVisible(Obj_AI_Hero hero)
+        {
+            bool hasSmite = false;
+            foreach (SpellDataInst spell in hero.Spellbook.Spells)
+            {
+                if (spell.Name.ToLower().Contains("smite"))
+                {
+                    hasSmite = true;
+                    break;
+                }
+            }
+            return IsActive() &&
+                    GankDetector.GetMenuItem("SAssembliesDetectorsGankShowJungler").GetValue<bool>() &&
+                    hero.IsVisible && !hero.IsDead &&
+                    Vector3.Distance(ObjectManager.Player.ServerPosition, hero.ServerPosition) >
+                    GankDetector.GetMenuItem("SAssembliesDetectorsGankTrackRangeMin").GetValue<Slider>().Value &&
+                    Vector3.Distance(ObjectManager.Player.ServerPosition, hero.ServerPosition) <
+                    GankDetector.GetMenuItem("SAssembliesDetectorsGankTrackRangeMax").GetValue<Slider>().Value &&
+                    hasSmite;
         }
 
         private void ChatAndPing(KeyValuePair<Obj_AI_Hero, InternalGankDetector> enemy)
@@ -154,15 +183,7 @@ namespace SAssemblies.Detectors
             }
 
             if (
-                GankDetector.GetMenuItem("SAssembliesDetectorsGankChatChoice").GetValue<StringList>().SelectedIndex ==
-                1)
-            {
-                Game.PrintChat(Language.GetString("DETECTORS_GANK_TEXT") + ": {0}", hero.ChampionName);
-            }
-            else if (
-                GankDetector.GetMenuItem("SAssembliesDetectorsGankChatChoice")
-                    .GetValue<StringList>()
-                    .SelectedIndex == 2 &&
+                GankDetector.GetMenuItem("SAssembliesDetectorsGankChat").GetValue<bool>() &&
                 Menu.GlobalSettings.GetMenuItem("SAssembliesGlobalSettingsServerChatPingActive").GetValue<bool>())
             {
                 Game.Say(Language.GetString("DETECTORS_GANK_TEXT") + ": {0}", hero.ChampionName);
@@ -235,10 +256,12 @@ namespace SAssemblies.Detectors
         {
             public Time Time = new Time();
             public Render.Text Text;
+            public Render.Line Line;
 
-            public InternalGankDetector(Render.Text text)
+            public InternalGankDetector(Render.Text text, Render.Line line)
             {
                 Text = text;
+                Line = line;
             }
         }
 

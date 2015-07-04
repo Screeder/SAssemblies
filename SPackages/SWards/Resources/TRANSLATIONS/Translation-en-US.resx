@@ -255,7 +255,7 @@
   <data name="DETECTORS_GANK_TEXT" xml:space="preserve">
     <value>Gank</value>
   </data>
-  <data name="DETECTORS_GANK_TEXT_JUNGLER" xml:space="preserve">
+  <data name="DETECTORS_GANK_TEXT_JUNGLER_ENEMY" xml:space="preserve">
     <value>Enemy jungler approaching</value>
   </data>
   <data name="DETECTORS_RECALL_MAIN" xml:space="preserve">
@@ -324,7 +324,7 @@
   <data name="GLOBAL_MODE_PERCENT" xml:space="preserve">
     <value>Percent</value>
   </data>
-  <data name="GLOBAl_MODE_VALUE" xml:space="preserve">
+  <data name="GLOBAL_MODE_VALUE" xml:space="preserve">
     <value>Value</value>
   </data>
   <data name="GLOBAL_PING_ASSISTME" xml:space="preserve">
@@ -743,5 +743,29 @@
   </data>
   <data name="TIMERS_SPELL_MAIN" xml:space="preserve">
     <value>Spell</value>
+  </data>
+  <data name="GLOBAL_CHAT" xml:space="preserve">
+    <value>Chat</value>
+  </data>
+  <data name="DETECTORS_GANK_TEXT_JUNGLER_ALLY" xml:space="preserve">
+    <value>Ally jungler approaching</value>
+  </data>
+  <data name="MISCS_AUTOBUY_BUILD_CHOICE" xml:space="preserve">
+    <value>Build Choice</value>
+  </data>
+  <data name="MISCS_AUTOBUY_BUILD_LOAD" xml:space="preserve">
+    <value>Show Build</value>
+  </data>
+  <data name="MISCS_AUTOBUY_CREATE_BUILD" xml:space="preserve">
+    <value>New Build</value>
+  </data>
+  <data name="MISCS_AUTOBUY_DELETE_BUILD" xml:space="preserve">
+    <value>Delete Build</value>
+  </data>
+  <data name="MISCS_AUTOBUY_MAIN" xml:space="preserve">
+    <value>Auto Buyer</value>
+  </data>
+  <data name="MISCS_SAFEFLASH_MAIN" xml:space="preserve">
+    <value>Safe Flash</value>
   </data>
 </root>

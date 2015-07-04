@@ -63,6 +63,35 @@ namespace SAssemblies
         }
     }
 
+    class MainMenu2 : Menu2
+    {
+        public static MenuItemSettings Timer = new MenuItemSettings();
+        public static MenuItemSettings JungleTimer = new MenuItemSettings();
+        public static MenuItemSettings RelictTimer = new MenuItemSettings();
+        public static MenuItemSettings HealthTimer = new MenuItemSettings();
+        public static MenuItemSettings InhibitorTimer = new MenuItemSettings();
+        public static MenuItemSettings SummonerTimer = new MenuItemSettings();
+        public static MenuItemSettings ImmuneTimer = new MenuItemSettings();
+        public static MenuItemSettings AltarTimer = new MenuItemSettings();
+        public static MenuItemSettings SpellTimer = new MenuItemSettings();
+
+        public MainMenu2()
+        {
+            MenuEntries =
+            new Dictionary<MenuItemSettings, Func<dynamic>>
+            {
+                { JungleTimer, () => new Jungle() },
+                { RelictTimer, () => new Relic() },
+                { HealthTimer, () => new Health() },
+                { InhibitorTimer, () => new Inhibitor() },
+                { SummonerTimer, () => new Summoner() },
+                { ImmuneTimer, () => new Immune() },
+                { AltarTimer, () => new Altar() },
+                { SpellTimer, () => new Timers.Spell() },
+            };
+        }
+    }
+
     class Program
     {
 
@@ -82,7 +111,7 @@ namespace SAssemblies
         public void Load()
         {
             mainMenu = new MainMenu();
-            CustomEvents.Game.OnGameLoad += Game_OnGameLoad;
+            LeagueSharp.SDK.Core.Events.Load.OnLoad += Game_OnGameLoad;
         }
 
         public static Program Instance()
@@ -90,7 +119,7 @@ namespace SAssemblies
             return instance;
         }
 
-        private async void Game_OnGameLoad(EventArgs args)
+        private async void Game_OnGameLoad(Object obj, EventArgs args)
         {
             CreateMenu();
             Common.ShowNotification("STimers loaded!", Color.LawnGreen, 5000);
@@ -103,30 +132,38 @@ namespace SAssemblies
             //http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
             try
             {
-                Menu.MenuItemSettings tempSettings;
-                var menu = new LeagueSharp.Common.Menu("STimers", "STimers", true);
+                LeagueSharp.SDK.Core.UI.Menu menu = Menu2.CreateMainMenu();
+                Menu2.CreateGlobalMenuItems(menu);
 
-                MainMenu.Timers = Timer.SetupMenu(menu);
-                mainMenu.UpdateDirEntry(ref MainMenu.AltarTimer, Altar.SetupMenu(MainMenu.Timers.Menu));
-                mainMenu.UpdateDirEntry(ref MainMenu.HealthTimer, Health.SetupMenu(MainMenu.Timers.Menu));
-                mainMenu.UpdateDirEntry(ref MainMenu.ImmuneTimer, Immune.SetupMenu(MainMenu.Timers.Menu));
-                mainMenu.UpdateDirEntry(ref MainMenu.InhibitorTimer, Inhibitor.SetupMenu(MainMenu.Timers.Menu));
-                mainMenu.UpdateDirEntry(ref MainMenu.JungleTimer, Jungle.SetupMenu(MainMenu.Timers.Menu));
-                mainMenu.UpdateDirEntry(ref MainMenu.RelictTimer, Relic.SetupMenu(MainMenu.Timers.Menu));
-                mainMenu.UpdateDirEntry(ref MainMenu.SummonerTimer, Summoner.SetupMenu(MainMenu.Timers.Menu));
-                mainMenu.UpdateDirEntry(ref MainMenu.SpellTimer, Spell.SetupMenu(MainMenu.Timers.Menu));
+                //MainMenu.Timers = Timer.SetupMenu(menu);
+                //mainMenu.UpdateDirEntry(ref MainMenu.AltarTimer, Altar.SetupMenu(MainMenu.Timers.Menu));
+                //mainMenu.UpdateDirEntry(ref MainMenu.HealthTimer, Health.SetupMenu(MainMenu.Timers.Menu));
+                //mainMenu.UpdateDirEntry(ref MainMenu.ImmuneTimer, Immune.SetupMenu(MainMenu.Timers.Menu));
+                //mainMenu.UpdateDirEntry(ref MainMenu.InhibitorTimer, Inhibitor.SetupMenu(MainMenu.Timers.Menu));
+                //mainMenu.UpdateDirEntry(ref MainMenu.JungleTimer, Jungle.SetupMenu(MainMenu.Timers.Menu));
+                //mainMenu.UpdateDirEntry(ref MainMenu.RelictTimer, Relic.SetupMenu(MainMenu.Timers.Menu));
+                //mainMenu.UpdateDirEntry(ref MainMenu.SummonerTimer, Summoner.SetupMenu(MainMenu.Timers.Menu));
+                //mainMenu.UpdateDirEntry(ref MainMenu.SpellTimer, Spell.SetupMenu(MainMenu.Timers.Menu));
 
-                Menu.GlobalSettings.Menu =
-                    menu.AddSubMenu(new LeagueSharp.Common.Menu("Global Settings", "SAssembliesGlobalSettings"));
-                Menu.GlobalSettings.MenuItems.Add(
-                    Menu.GlobalSettings.Menu.AddItem(
-                        new MenuItem("SAssembliesGlobalSettingsServerChatPingActive", "Server Chat/Ping").SetValue(false)));
-                Menu.GlobalSettings.MenuItems.Add(
-                    Menu.GlobalSettings.Menu.AddItem(
-                        new MenuItem("SAssembliesGlobalSettingsVoiceVolume", "Voice Volume").SetValue(new Slider(100, 0, 100))));
+                Menu2.MenuItemSettings Timers = new Menu2.MenuItemSettings();
 
-                menu.AddItem(new MenuItem("By Screeder", "By Screeder V" + Assembly.GetExecutingAssembly().GetName().Version));
-                menu.AddToMainMenu();
+                menu.Add(new LeagueSharp.SDK.Core.UI.Menu("SAssembliesTimers", Language.GetString("TIMERS_TIMER_MAIN")));
+                Timers.Menu = (LeagueSharp.SDK.Core.UI.Menu)menu["SAssembliesTimers"];
+                Menu2.AddComponent(ref Timers.Menu, new LeagueSharp.SDK.Core.UI.MenuItem<LeagueSharp.SDK.Core.UI.Values.MenuSlider>
+                    ("SAssembliesTimersPingTimes", Language.GetString("GLOBAL_PING_TIMES")) { Value = new LeagueSharp.SDK.Core.UI.Values.MenuSlider() { MaxValue = 5, MinValue = 0, Value = 0 } });
+                Menu2.AddComponent(ref Timers.Menu, new LeagueSharp.SDK.Core.UI.MenuItem<LeagueSharp.SDK.Core.UI.Values.MenuSlider>
+                    ("SAssembliesTimersRemindTime", Language.GetString("TIMERS_REMIND_TIME")) { Value = new LeagueSharp.SDK.Core.UI.Values.MenuSlider() { MaxValue = 50, MinValue = 0, Value = 0 } });
+                Menu2.AddComponent(ref Timers.Menu, new LeagueSharp.SDK.Core.UI.MenuItem<LeagueSharp.SDK.Core.UI.Values.MenuBool>
+                        ("SAssembliesTimersLocalPing", Language.GetString("GLOBAL_PING_LOCAL")) { Value = new LeagueSharp.SDK.Core.UI.Values.MenuBool() { Value = true } });
+                Menu2.AddComponent(ref Timers.Menu, new LeagueSharp.SDK.Core.UI.MenuItem<LeagueSharp.SDK.Core.UI.Values.MenuBool>
+                        ("SAssembliesTimersChatChoice", Language.GetString("GLOBAL_CHAT")) { Value = new LeagueSharp.SDK.Core.UI.Values.MenuBool() });
+                Menu2.AddComponent(ref Timers.Menu, new LeagueSharp.SDK.Core.UI.MenuItem<LeagueSharp.SDK.Core.UI.Values.MenuBool>
+                        ("SAssembliesTimersNotification", Language.GetString("GLOBAL_NOTIFICATION")) { Value = new LeagueSharp.SDK.Core.UI.Values.MenuBool() });
+                Menu2.AddComponent(ref Timers.Menu, new LeagueSharp.SDK.Core.UI.MenuItem<LeagueSharp.SDK.Core.UI.Values.MenuSlider>
+                    ("SAssembliesTimersTextScale", Language.GetString("TIMERS_TIMER_SCALE")) { Value = new LeagueSharp.SDK.Core.UI.Values.MenuSlider() { MaxValue = 20, MinValue = 8, Value = 12 } });
+                Timers.CreateActiveMenuItem("SAssembliesTimersActive");
+
+                MainMenu2.Timer = Timers;
             }
             catch (Exception)
             {

@@ -42,6 +42,9 @@
     <Reference Include="LeagueSharp.Common">
       <HintPath>H:\Programme\LeagueSharp\System\LeagueSharp.Common.dll</HintPath>
     </Reference>
+    <Reference Include="LeagueSharp.SDK">
+      <HintPath>..\..\..\..\..\Programme\LeagueSharp\System\LeagueSharp.SDK.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>H:\Programme\LeagueSharp\System\Newtonsoft.Json.dll</HintPath>
@@ -78,6 +81,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\DLL\Newtonsoft.Json.dll" />
+    <EmbeddedResource Include="Resources\TRANSLATIONS\Translation-de-DE.resx" />
+    <EmbeddedResource Include="Resources\TRANSLATIONS\Translation-en-US.resx" />
+    <EmbeddedResource Include="Resources\TRANSLATIONS\Translation-fr-FR.resx" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

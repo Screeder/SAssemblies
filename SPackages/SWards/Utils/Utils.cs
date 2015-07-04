@@ -12,6 +12,8 @@ using System.Reflection;
 using System.Resources;
 using System.Runtime.InteropServices;
 using System.Speech.Synthesis;
+using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Script.Serialization;
@@ -27,6 +29,7 @@ using SharpDX.Direct3D9;
 using Color = System.Drawing.Color;
 using Config = LeagueSharp.Common.Config;
 using Font = SharpDX.Direct3D9.Font;
+using MenuItem = LeagueSharp.Common.MenuItem;
 using Rectangle = SharpDX.Rectangle;
 using ResourceManager = System.Resources.ResourceManager;
 
@@ -152,6 +155,171 @@ namespace SAssemblies
         //public static MenuItemSettings  = new MenuItemSettings();
     }
 
+    class Menu2
+    {
+        protected Dictionary<MenuItemSettings, Func<dynamic>> MenuEntries;
+        public static MenuItemSettings GlobalSettings = new MenuItemSettings();
+
+        public static LeagueSharp.SDK.Core.UI.Menu CreateMainMenu()
+        {
+            Language.SetLanguage();
+            LeagueSharp.SDK.Core.UI.Menu mainMenu;
+            if (LeagueSharp.SDK.Core.UI.MenuManager.Instance["SAssemblies"] == null)
+            {
+                mainMenu = new LeagueSharp.SDK.Core.UI.Menu("SAssemblies", "SAssemblies", true);
+                mainMenu.Add(new LeagueSharp.SDK.Core.UI.Menu("By Screeder", "By Screeder V" + Assembly.GetExecutingAssembly().GetName().Version));
+                mainMenu.Attach();
+            }
+            else
+            {
+                mainMenu = LeagueSharp.SDK.Core.UI.MenuManager.Instance["SAssemblies"];
+            }
+            return mainMenu;
+        }
+
+        public static void CreateGlobalMenuItems(LeagueSharp.SDK.Core.UI.Menu menu)
+        {
+            if (GlobalSettings.Menu != null)
+                return;
+
+            AddComponent(ref menu, new LeagueSharp.SDK.Core.UI.Menu("SAssembliesGlobalSettings", "Global Settings"));
+            GlobalSettings.Menu = (LeagueSharp.SDK.Core.UI.Menu)menu["SAssembliesGlobalSettings"];
+            AddComponent(ref GlobalSettings.Menu, new LeagueSharp.SDK.Core.UI.MenuItem<LeagueSharp.SDK.Core.UI.Values.MenuBool>
+                ("SAssembliesGlobalSettingsServerChatPingActive", "Server Chat/Ping") { Value = new LeagueSharp.SDK.Core.UI.Values.MenuBool() });
+            AddComponent(ref GlobalSettings.Menu, new LeagueSharp.SDK.Core.UI.MenuItem<LeagueSharp.SDK.Core.UI.Values.MenuSlider>
+                ("SAssembliesGlobalSettingsVoiceVolume", "Voice Volume") { Value = new LeagueSharp.SDK.Core.UI.Values.MenuSlider() { MaxValue = 100, MinValue = 0, Value = 100 } });
+        }
+
+        public static void AddComponent(ref LeagueSharp.SDK.Core.UI.Menu menu, LeagueSharp.SDK.Core.UI.Abstracts.AMenuComponent component)
+        {
+            if (menu == null)
+                return;
+
+            if (!menu.Components.Any(x => x.Value.Name.Equals(component.Name)))
+            {
+                menu.Add(component);
+            }
+        }
+
+        public Tuple<MenuItemSettings, Func<dynamic>> GetDirEntry(MenuItemSettings menuItem)
+        {
+            return new Tuple<MenuItemSettings, Func<dynamic>>(menuItem, MenuEntries[menuItem]);
+        }
+
+        public Dictionary<MenuItemSettings, Func<dynamic>> GetDirEntries()
+        {
+            return MenuEntries;
+        }
+
+        public void UpdateDirEntry(ref MenuItemSettings oldMenuItem, MenuItemSettings newMenuItem)
+        {
+            Func<dynamic> save = MenuEntries[oldMenuItem];
+            MenuEntries.Remove(oldMenuItem);
+            MenuEntries.Add(newMenuItem, save);
+            oldMenuItem = newMenuItem;
+        }
+
+        public class MenuItemSettings
+        {
+            public bool ForceDisable;
+            public dynamic Item;
+            public LeagueSharp.SDK.Core.UI.Menu Menu;
+            public String Name;
+            public Type Type;
+
+            public MenuItemSettings(Type type, dynamic item)
+            {
+                Type = type;
+                Item = item;
+            }
+
+            public MenuItemSettings(dynamic item)
+            {
+                Item = item;
+            }
+
+            public MenuItemSettings(Type type)
+            {
+                Type = type;
+            }
+
+            public MenuItemSettings(String name)
+            {
+                Name = name;
+            }
+
+            public MenuItemSettings()
+            {
+            }
+
+            public bool GetActive()
+            {
+                if (Menu == null)
+                    return false;
+                foreach (var menuComponent in Menu.Components)
+                {
+                    if (menuComponent.Value.DisplayName == Language.GetString("GLOBAL_ACTIVE"))
+                    {
+                        if (menuComponent.Value.GetValue<LeagueSharp.SDK.Core.UI.Values.MenuBool>().Value)
+                        {
+                            return true;
+                        }
+                        return false;
+                    }
+                }
+                return false;
+            }
+
+            public void SetActive(bool active)
+            {
+                if (Menu == null)
+                    return;
+                foreach (var menuComponent in Menu.Components)
+                {
+                    if (menuComponent.Value.DisplayName == Language.GetString("GLOBAL_ACTIVE"))
+                    {
+                        menuComponent.Value.GetValue<LeagueSharp.SDK.Core.UI.Values.MenuBool>().Value = active;
+                    }
+                }
+            }
+
+            public void CreateActiveMenuItem(String menuName)
+            {
+                if (Menu == null)
+                    return;
+
+                if (!Menu.Components.Any(x => x.Value.Name.Equals(menuName)))
+                {
+                    Menu.Add(new LeagueSharp.SDK.Core.UI.MenuItem<LeagueSharp.SDK.Core.UI.Values.MenuBool>
+                        (menuName, Language.GetString("GLOBAL_ACTIVE")) { Value = new LeagueSharp.SDK.Core.UI.Values.MenuBool() });
+                }
+            }
+
+            public LeagueSharp.SDK.Core.UI.MenuItem<T> GetMenuItem<T>(String menuName) where T : LeagueSharp.SDK.Core.UI.Abstracts.AMenuValue
+            {
+                if (Menu == null)
+                    return null;
+                foreach (var menuComponent in Menu.Components)
+                {
+                    if (menuComponent.Value.Name == menuName)
+                    {
+                        return (LeagueSharp.SDK.Core.UI.MenuItem<T>)menuComponent.Value;
+                    }
+                }
+                return null;
+            }
+
+            public LeagueSharp.SDK.Core.UI.Menu GetSubMenu(String menuName)
+            {
+                if (Menu == null)
+                    return null;
+                return (LeagueSharp.SDK.Core.UI.Menu)Menu[menuName];
+            }
+        }
+
+        //public static MenuItemSettings  = new MenuItemSettings();
+    }
+
     internal static class Log
     {
         public static String File = "C:\\SAssemblies.log";
@@ -231,19 +399,57 @@ namespace SAssemblies
             return size;
         }
 
-        public static bool IsInside(Vector2 mousePos, Size windowPos, int width, int height)
+        public static bool IsInside(Vector2 mousePos, Size windowPos, float width, float height)
         {
             return Utils.IsUnderRectangle(mousePos, windowPos.Width, windowPos.Height, width, height);
         }
 
-        public static bool IsInside(Vector2 mousePos, Vector2 windowPos, int width, int height)
+        public static bool IsInside(Vector2 mousePos, Vector2 windowPos, float width, float height)
         {
             return Utils.IsUnderRectangle(mousePos, windowPos.X, windowPos.Y, width, height);
         }
 
-        public static void ShowNotification(string message, Color color, int duration = 0, bool dispose = true)
+        public static Notification ShowNotification(string message, Color color, int duration = 0, bool dispose = true)
         {
-            Notifications.AddNotification(new Notification(message, duration, dispose).SetTextColor(color));
+            Notification not = new Notification(message, duration, dispose).SetTextColor(color);
+            Notifications.AddNotification(not);
+            return not;
+        }
+
+        public static Color Interpolate(this Color source, Color target, float percent, int alpha = 255)
+        {
+            var r = (byte)(source.R + (target.R - source.R) * percent);
+            var g = (byte)(source.G + (target.G - source.G) * percent);
+            var b = (byte)(source.B + (target.B - source.B) * percent);
+
+            return Color.FromArgb(alpha, r, g, b);
+        }
+
+        public static SharpDX.Color Interpolate(this SharpDX.Color source, SharpDX.Color target, float percent, int alpha = 255)
+        {
+            var r = (byte)(source.R + (target.R - source.R) * percent);
+            var g = (byte)(source.G + (target.G - source.G) * percent);
+            var b = (byte)(source.B + (target.B - source.B) * percent);
+
+            return new SharpDX.Color(r, g, b, alpha);
+        }
+
+        public static SharpDX.Color PercentColorRedToGreen(float percent, int alpha = 255)
+        {
+            if (percent < 0 || percent > 1) { return SharpDX.Color.Black; }
+
+            int r, g;
+            if (percent < 0.5)
+            {
+                r = 255;
+                g = (int)(255 * percent / 0.5);  //closer to 0.5, closer to yellow (255,255,0)
+            }
+            else
+            {
+                g = 255;
+                r = 255 - (int)(255 * (percent - 0.5) / 0.5); //closer to 1.0, closer to green (0,255,0)
+            }
+            return new SharpDX.Color(r, g, 0, alpha);
         }
     }
 
@@ -1739,6 +1945,14 @@ namespace SAssemblies
             return realName["image"]["full"].ToString();
         }
 
+        private static String GetItemPicName(String url, String itemId)
+        {
+            String json = new WebClient().DownloadString(url);
+            JObject data = (Newtonsoft.Json.Linq.JObject)JsonConvert.DeserializeObject<Object>(json);
+            var realName = JObject.Parse(data["data"].ToString()).GetValue(itemId, StringComparison.OrdinalIgnoreCase).Value<JToken>();
+            return realName["image"]["full"].ToString();
+        }
+
         public static String DownloadImageRiot(String sName, ChampionType champType, DownloadType type, String subFolder, int skinId = 0)
         {
             String name = "";
@@ -1789,6 +2003,10 @@ namespace SAssemblies
                     case ChampionType.Summoner1:
                     case ChampionType.Summoner2:
                         name = GetSummonerSpellPicName("http://ddragon.leagueoflegends.com/cdn/" + version + "/data/en_US/summoner.json", name);
+                        break;
+
+                    case ChampionType.Item:
+                        name = GetItemPicName("http://ddragon.leagueoflegends.com/cdn/" + version + "/data/en_US/item.json", name);
                         break;
                 }
             }
@@ -1855,11 +2073,10 @@ namespace SAssemblies
             }
             else if (type == DownloadType.Item)
             {
-                //http://ddragon.leagueoflegends.com/cdn/4.20.1/img/spell/AhriFoxFire.png
                 request =
-                WebRequest.Create("http://ddragon.leagueoflegends.com/cdn/" + version + "/img/spell/" + name);
+                WebRequest.Create("http://ddragon.leagueoflegends.com/cdn/" + version + "/img/item/" + name);
                 requestSize =
-                WebRequest.Create("http://ddragon.leagueoflegends.com/cdn/" + version + "/img/spell/" + name);
+                WebRequest.Create("http://ddragon.leagueoflegends.com/cdn/" + version + "/img/item/" + name);
                 requestSize.Method = "HEAD";
             }
             else if (type == DownloadType.ProfileIcon)
@@ -2286,6 +2503,8 @@ namespace SAssemblies
 
             public Render.Sprite Sprite;
             public Bitmap Bitmap;
+            public Render.Text Text;
+            public Rectangle TextLength;
             public bool DownloadFinished = false;
             public bool LoadingFinished = false;
             public OVD Mode = OVD.Small;
@@ -2303,10 +2522,10 @@ namespace SAssemblies
 
             }
 
-            ~SpriteInfo()
-            {
-                Dispose();
-            }
+            //~SpriteInfo()
+            //{
+            //    Dispose();
+            //}
         }
     }
 
@@ -2500,6 +2719,122 @@ namespace SAssemblies
             Drawing.Direct3DDevice.SetRenderState(RenderState.ShadeMode, ShadeMode.Gouraud);
             Drawing.Direct3DDevice.SetTexture(0, null);
             Drawing.Direct3DDevice.SetRenderState(RenderState.CullMode, Cull.None);
+        }
+
+//        VOID WorldToScreen(D3DXVECTOR3* vecWorld, D3DXVECTOR3* vecScreen)
+//{
+//    CView* pView = *(CView**)(0xE3A00C);
+//    PVOID ThisPtr = pView->ThisPtr;
+ 
+//    D3DVIEWPORT9 viewPort;
+//    memset(&viewPort, 0, sizeof(viewPort));
+ 
+//    typedef VOID (__thiscall* GetViewportFn)(PVOID, D3DVIEWPORT9*);
+//    CallVirtual<GetViewportFn >(ThisPtr, 56)(ThisPtr, &viewPort);
+ 
+//    CMatrixData* pMatrixData = *(CMatrixData**)0xE3A00C;
+ 
+//    D3DXMATRIX matWorld;
+//    memset(&matWorld, 0, sizeof(matWorld));
+ 
+//    D3DXMatrixIdentity(&matWorld);
+ 
+//    D3DXMATRIX matProjection = pMatrixData->m_matProjection;
+//    D3DXMATRIX matView = pMatrixData->m_matView;
+ 
+//    D3DXVec3Project(vecScreen, vecWorld, &viewPort, &matProjection, &matView, &matWorld);
+ 
+//    vecScreen->x = (vecScreen->x - pView->_unknown0x112F4) / (pView->m_ResolutionWidth - pView->_unknown0x112F4) * pView->m_Width;
+//    vecScreen->y = (vecScreen->y - pView->_unknown0x112F8) / (pView->m_ResolutionHeight - pView->_unknown0x112F8) * pView->m_Height;
+//}
+
+//        #define OFFSET_RENDERER            0x1D3D794 
+//#define OFFSET_D3D9DEVICE        0x1C226A4 
+
+//class CRenderer 
+//{ 
+//public: 
+//    char _0x0000[40]; 
+//    __int32 m_Width; //0x0028  
+//    __int32 m_Height; //0x002C  
+//    char _0x0030[108]; 
+//    D3DXMATRIX m_View; //0x009C  
+//    D3DXMATRIX m_Projection; //0x00DC 
+
+//    static LPDIRECT3DDEVICE9 GetDevice( ) 
+//    { 
+//        return *( IDirect3DDevice9** )( OFFSET_D3D9DEVICE ); 
+//    }; 
+
+//    static CRenderer* GetInstance( void ) 
+//    { 
+//        return *( CRenderer** )( OFFSET_RENDERER ); 
+//    }; 
+
+//    void WorldToScreen( D3DXVECTOR3* vWorld, D3DXVECTOR3* vScreen ) 
+//    { 
+//        // Create identity matrix for the world 
+//        D3DXMATRIX mWorld; 
+//        memset( &mWorld, 0, sizeof( mWorld ) ); 
+//        D3DXMatrixIdentity( &mWorld ); 
+
+//        // Get view port 
+//        D3DVIEWPORT9 vp; 
+//        this->GetDevice( )->GetViewport( &vp ); 
+         
+//        // Project 
+//        D3DXVec3Project( vScreen, vWorld, &vp, &this->m_Projection, &this->m_View, &mWorld ); 
+
+//        vScreen->x = ( vScreen->x ) / ( this->m_Width  ) * this->m_Width; 
+//        vScreen->y = ( vScreen->y ) / ( this->m_Height ) * this->m_Height; 
+//    }; 
+//}; 
+
+        public static bool WorldToScreen(Vector3 vIn, ref Vector2 vOut)
+        {
+		    float width = Drawing.Width;
+
+            Vector3 test = Drawing.Direct3DDevice.Viewport.Project(vIn, Drawing.Projection, Drawing.View, 
+                SharpDX.Matrix.Identity);
+
+            Console.WriteLine(test);
+
+            Matrix vProjMatrix = SharpDX.Matrix.Identity * Drawing.View * Drawing.Projection;
+
+		    float height = Drawing.Height;
+
+		    float y =
+                vProjMatrix[0, 1] * vIn.X +
+                vProjMatrix[1, 1] * vIn.Y +
+                vProjMatrix[2, 1] * vIn.Z +
+			    vProjMatrix[3, 1];
+
+		    float x =
+                vProjMatrix[0, 0] * vIn.X +
+                vProjMatrix[1, 0] * vIn.Y +
+                vProjMatrix[2, 0] * vIn.Z +
+			    vProjMatrix[3, 0];
+
+		    float w =
+                vProjMatrix[0, 3] * vIn.X +
+                vProjMatrix[1, 3] * vIn.Y +
+                vProjMatrix[2, 3] * vIn.Z +
+                vProjMatrix[3, 3];
+		    if (w < 0.19)
+		    {
+			    return false;
+		    }
+
+            //vOut.Y = (float)((height*0.5) - (height*0.5) * y / w);
+            //vOut.X = (float)((width*0.5) + (width*0.5) * x / w);
+
+            vOut.Y = (float)((test.Y) / (height) * height);
+            vOut.X = (float)((test.X) / (width) * width);
+
+            vOut.Y = (float)((height * 0.5) - (height * 0.5) * test.Y / w);
+            vOut.X = (float)((width * 0.5) + (width * 0.5) * test.X / w);
+
+		    return true;
         }
 
         public static void DrawLine(Vector3 from, Vector3 to, Color color)
@@ -3193,6 +3528,104 @@ namespace SAssemblies
         public static void Init()
         {
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
+        }
+    }
+
+    public static class Website
+    {
+        public static String GetWebSiteContent(String webSite, Cookie cookie = null, String param = null)
+        {
+            string website = "";
+            var request = (HttpWebRequest)WebRequest.Create(webSite);
+            if (cookie != null)
+            {
+                TryAddCookie(request, cookie);
+            }
+            if (param != null)
+            {
+                Byte[] bytes = Encoding.ASCII.GetBytes(param);//GetBytes(param);
+                request.Method = "POST";
+                request.ContentType = "application/x-www-form-urlencoded";
+                request.ContentLength = bytes.Length;
+                using (var stream = request.GetRequestStream())
+                {
+                    stream.Write(bytes, 0, bytes.Length);
+                }
+                //Stream dataStream = request.GetRequestStream();
+                //dataStream.Write(bytes, 0, bytes.Length);
+                //dataStream.Close();
+            }
+            try
+            {
+                using (var response = (HttpWebResponse)request.GetResponse())
+                {
+                    if (response.StatusCode == HttpStatusCode.OK)
+                    {
+                        Stream receiveStream = response.GetResponseStream();
+                        if (receiveStream != null)
+                        {
+                            if (response.CharacterSet == null)
+                            {
+                                using (StreamReader readStream = new StreamReader(receiveStream))
+                                {
+                                    website = @readStream.ReadToEnd();
+                                }
+                            }
+                            else
+                            {
+                                using (
+                                    StreamReader readStream = new StreamReader(receiveStream,
+                                        Encoding.GetEncoding(response.CharacterSet)))
+                                {
+                                    website = @readStream.ReadToEnd();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Cannot load {0} Data. Exception: " + ex.ToString(), website);
+            }
+            return website;
+        }
+
+        private static bool TryAddCookie(WebRequest webRequest, Cookie cookie)
+        {
+            HttpWebRequest httpRequest = webRequest as HttpWebRequest;
+            if (httpRequest == null)
+            {
+                return false;
+            }
+
+            if (httpRequest.CookieContainer == null)
+            {
+                httpRequest.CookieContainer = new CookieContainer();
+            }
+
+            httpRequest.CookieContainer.Add(cookie);
+            return true;
+        }
+
+        public static String GetMatch(String websiteContent, String pattern, int index = 0, int groupIndex = 1)
+        {
+            try
+            {
+                string replacement = Regex.Replace(websiteContent, @"\t|\n|\r", "");
+                replacement = Regex.Replace(replacement, @"\\t|\\n|\\r", "");
+                replacement = Regex.Replace(replacement, @"\\""", "\"");
+                //File.WriteAllText(Config.AppDataDirectory + "\\omg.txt", replacement);
+                Match websiteMatcher = new Regex(pattern).Matches(replacement)[index];
+                //Match elementMatch = new Regex(websiteMatcher.Groups[groupIndex].ToString()).Matches(replacement)[0];
+                //return elementMatch.ToString();
+                return websiteMatcher.Groups[groupIndex].ToString();
+            }
+            catch (Exception e)
+            {
+                //Console.WriteLine("Cannot get match for pattern {0}", pattern);
+            }
+            return "";
         }
     }
 

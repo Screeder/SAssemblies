@@ -5,12 +5,14 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using LeagueSharp.Common;
 using LeagueSharp;
 using SAssemblies;
 using SAssemblies.Wards;
-using Menu = SAssemblies.Menu;
 using System.Drawing;
+using LeagueSharp.SDK.Core.UI;
+using LeagueSharp.SDK.Core.UI.Values;
+using Menu = SAssemblies.Menu;
+using MenuItem = LeagueSharp.SDK.Core.UI.MenuItem;
 
 namespace SAssemblies
 {
@@ -19,20 +21,20 @@ namespace SAssemblies
         private readonly Dictionary<MenuItemSettings, Func<dynamic>> MenuEntries;
 
         public static MenuItemSettings Wards = new MenuItemSettings();
-        public static MenuItemSettings WardCorrector = new MenuItemSettings();
-        public static MenuItemSettings BushRevealer = new MenuItemSettings();
-        public static MenuItemSettings InvisibleRevealer = new MenuItemSettings();
-        public static MenuItemSettings FowWardPlacement = new MenuItemSettings();
+        public static MenuItemSettings WardCorrectorWard = new MenuItemSettings();
+        public static MenuItemSettings BushRevealerWard = new MenuItemSettings();
+        public static MenuItemSettings InvisibleRevealerWard = new MenuItemSettings();
+        public static MenuItemSettings FowWardPlacementWard = new MenuItemSettings();
 
         public MainMenu()
         {
             MenuEntries =
             new Dictionary<MenuItemSettings, Func<dynamic>>
             {
-                { WardCorrector, () => new WardCorrector() },
-                { BushRevealer, () => new BushRevealer() },
-                { InvisibleRevealer, () => new InvisibleRevealer() },
-                { FowWardPlacement, () => new FowWardPlacement() },
+                { WardCorrectorWard, () => new WardCorrector() },
+                { BushRevealerWard, () => new BushRevealer() },
+                { InvisibleRevealerWard, () => new InvisibleRevealer() },
+                { FowWardPlacementWard, () => new FowWardPlacement() },
             };
         }
 
@@ -55,6 +57,27 @@ namespace SAssemblies
         }
     }
 
+    class MainMenu2 : Menu2
+    {
+        public static MenuItemSettings Wards = new MenuItemSettings();
+        public static MenuItemSettings WardCorrectorWard = new MenuItemSettings();
+        public static MenuItemSettings BushRevealerWard = new MenuItemSettings();
+        public static MenuItemSettings InvisibleRevealerWard = new MenuItemSettings();
+        public static MenuItemSettings FowWardPlacementWard = new MenuItemSettings();
+
+        public MainMenu2()
+        {
+            MenuEntries =
+            new Dictionary<MenuItemSettings, Func<dynamic>>
+            {
+                { WardCorrectorWard, () => new WardCorrector() },
+                { BushRevealerWard, () => new BushRevealer() },
+                { InvisibleRevealerWard, () => new InvisibleRevealer() },
+                { FowWardPlacementWard, () => new FowWardPlacement() },
+            };
+        }
+    }
+
     class Program
     {
 
@@ -72,7 +95,7 @@ namespace SAssemblies
         public void Load()
         {
             mainMenu = new MainMenu();
-            CustomEvents.Game.OnGameLoad += Game_OnGameLoad;
+            LeagueSharp.SDK.Core.Events.Load.OnLoad += Game_OnGameLoad;
         }
 
         public static Program Instance()
@@ -80,7 +103,7 @@ namespace SAssemblies
             return instance;
         }
 
-        private async void Game_OnGameLoad(EventArgs args)
+        private async void Game_OnGameLoad(Object obj, EventArgs args)
         {
             CreateMenu();
             Common.ShowNotification("SWards loaded!", Color.LawnGreen, 5000);
@@ -93,29 +116,26 @@ namespace SAssemblies
             //http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
             try
             {
-                Menu.MenuItemSettings tempSettings;
-                var menu = new LeagueSharp.Common.Menu("SWards", "SWards", true);
+                LeagueSharp.SDK.Core.UI.Menu menu = Menu2.CreateMainMenu();
+                Menu2.CreateGlobalMenuItems(menu);
 
-                MainMenu.Wards = Wards.Ward.SetupMenu(menu);
-                mainMenu.UpdateDirEntry(ref MainMenu.BushRevealer, BushRevealer.SetupMenu(MainMenu.Wards.Menu));
-                mainMenu.UpdateDirEntry(ref MainMenu.InvisibleRevealer, InvisibleRevealer.SetupMenu(MainMenu.Wards.Menu));
-                mainMenu.UpdateDirEntry(ref MainMenu.WardCorrector, WardCorrector.SetupMenu(MainMenu.Wards.Menu));
-                //mainMenu.UpdateDirEntry(ref MainMenu.FowWardPlacement, Wards.FowWardPlacement.SetupMenu(MainMenu.Wards.Menu));
+                //MainMenu.Wards = Wards.Ward.SetupMenu(menu);
+                //mainMenu.UpdateDirEntry(ref MainMenu.BushRevealer, BushRevealer.SetupMenu(MainMenu.Wards.Menu));
+                //mainMenu.UpdateDirEntry(ref MainMenu.InvisibleRevealer, InvisibleRevealer.SetupMenu(MainMenu.Wards.Menu));
+                //mainMenu.UpdateDirEntry(ref MainMenu.WardCorrector, WardCorrector.SetupMenu(MainMenu.Wards.Menu));
+                ////mainMenu.UpdateDirEntry(ref MainMenu.FowWardPlacement, Wards.FowWardPlacement.SetupMenu(MainMenu.Wards.Menu));
 
-                Menu.GlobalSettings.Menu =
-                    menu.AddSubMenu(new LeagueSharp.Common.Menu("Global Settings", "SAssembliesGlobalSettings"));
-                Menu.GlobalSettings.MenuItems.Add(
-                    Menu.GlobalSettings.Menu.AddItem(
-                        new MenuItem("SAssembliesGlobalSettingsServerChatPingActive", "Server Chat/Ping").SetValue(false)));
-                Menu.GlobalSettings.MenuItems.Add(
-                    Menu.GlobalSettings.Menu.AddItem(
-                        new MenuItem("SAssembliesGlobalSettingsVoiceVolume", "Voice Volume").SetValue(new Slider(100, 0, 100))));
+                Menu2.MenuItemSettings Wards = new Menu2.MenuItemSettings();
 
-                menu.AddItem(new MenuItem("By Screeder", "By Screeder V" + Assembly.GetExecutingAssembly().GetName().Version));
-                menu.AddToMainMenu();
+                menu.Add(new LeagueSharp.SDK.Core.UI.Menu("SAssembliesWards", Language.GetString("WARDS_WARD_MAIN")));
+                Wards.Menu = (LeagueSharp.SDK.Core.UI.Menu)menu["SAssembliesWards"];
+                Wards.CreateActiveMenuItem("SAssembliesWardsActive");
+
+                MainMenu2.Wards = Wards;
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Console.WriteLine(e);
                 throw;
             }
         }

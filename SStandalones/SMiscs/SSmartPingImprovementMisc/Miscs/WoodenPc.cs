@@ -102,6 +102,19 @@ namespace SAssemblies.Miscs
                     };
                     Drawing.OnDraw += drawingEvent;
                 }
+                else
+                {
+                    if (notification != null)
+                    {
+                        Notifications.RemoveNotification(notification);
+                        notification.Dispose();
+                    }
+                    if (notificationRemaining != null)
+                    {
+                        Notifications.RemoveNotification(notificationRemaining);
+                        notificationRemaining.Dispose();
+                    }
+                }
             }
             catch (Exception)
             {

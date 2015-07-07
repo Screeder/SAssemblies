@@ -160,37 +160,35 @@ namespace SAssemblies
         protected Dictionary<MenuItemSettings, Func<dynamic>> MenuEntries;
         public static MenuItemSettings GlobalSettings = new MenuItemSettings();
 
-        public static LeagueSharp.SDK.Core.UI.Menu CreateMainMenu()
+        public static LeagueSharp.SDK.Core.UI.IMenu.Menu CreateMainMenu()
         {
             Language.SetLanguage();
-            LeagueSharp.SDK.Core.UI.Menu mainMenu;
-            if (LeagueSharp.SDK.Core.UI.MenuManager.Instance["SAssemblies"] == null)
+            LeagueSharp.SDK.Core.UI.IMenu.Menu mainMenu;
+            if (LeagueSharp.SDK.Core.UI.IMenu.MenuManager.Instance["SAssemblies"] == null)
             {
-                mainMenu = new LeagueSharp.SDK.Core.UI.Menu("SAssemblies", "SAssemblies", true);
-                mainMenu.Add(new LeagueSharp.SDK.Core.UI.Menu("By Screeder", "By Screeder V" + Assembly.GetExecutingAssembly().GetName().Version));
+                mainMenu = new LeagueSharp.SDK.Core.UI.IMenu.Menu("SAssemblies", "SAssemblies", true);
+                mainMenu.Add(new LeagueSharp.SDK.Core.UI.IMenu.Menu("By Screeder", "By Screeder V" + Assembly.GetExecutingAssembly().GetName().Version));
                 mainMenu.Attach();
             }
             else
             {
-                mainMenu = LeagueSharp.SDK.Core.UI.MenuManager.Instance["SAssemblies"];
+                mainMenu = LeagueSharp.SDK.Core.UI.IMenu.MenuManager.Instance["SAssemblies"];
             }
             return mainMenu;
         }
 
-        public static void CreateGlobalMenuItems(LeagueSharp.SDK.Core.UI.Menu menu)
+        public static void CreateGlobalMenuItems(LeagueSharp.SDK.Core.UI.IMenu.Menu menu)
         {
             if (GlobalSettings.Menu != null)
                 return;
 
-            AddComponent(ref menu, new LeagueSharp.SDK.Core.UI.Menu("SAssembliesGlobalSettings", "Global Settings"));
-            GlobalSettings.Menu = (LeagueSharp.SDK.Core.UI.Menu)menu["SAssembliesGlobalSettings"];
-            AddComponent(ref GlobalSettings.Menu, new LeagueSharp.SDK.Core.UI.MenuItem<LeagueSharp.SDK.Core.UI.Values.MenuBool>
-                ("SAssembliesGlobalSettingsServerChatPingActive", "Server Chat/Ping") { Value = new LeagueSharp.SDK.Core.UI.Values.MenuBool() });
-            AddComponent(ref GlobalSettings.Menu, new LeagueSharp.SDK.Core.UI.MenuItem<LeagueSharp.SDK.Core.UI.Values.MenuSlider>
-                ("SAssembliesGlobalSettingsVoiceVolume", "Voice Volume") { Value = new LeagueSharp.SDK.Core.UI.Values.MenuSlider() { MaxValue = 100, MinValue = 0, Value = 100 } });
+            AddComponent(ref menu, new LeagueSharp.SDK.Core.UI.IMenu.Menu("SAssembliesGlobalSettings", "Global Settings"));
+            GlobalSettings.Menu = (LeagueSharp.SDK.Core.UI.IMenu.Menu)menu["SAssembliesGlobalSettings"];
+            AddComponent(ref GlobalSettings.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuBool("SAssembliesGlobalSettingsServerChatPingActive", "Server Chat/Ping"));
+            AddComponent(ref GlobalSettings.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuSlider("SAssembliesGlobalSettingsVoiceVolume", "Voice Volume", 100));
         }
 
-        public static void AddComponent(ref LeagueSharp.SDK.Core.UI.Menu menu, LeagueSharp.SDK.Core.UI.Abstracts.AMenuComponent component)
+        public static void AddComponent(ref LeagueSharp.SDK.Core.UI.IMenu.Menu menu, LeagueSharp.SDK.Core.UI.IMenu.Abstracts.AMenuComponent component)
         {
             if (menu == null)
                 return;
@@ -223,7 +221,7 @@ namespace SAssemblies
         {
             public bool ForceDisable;
             public dynamic Item;
-            public LeagueSharp.SDK.Core.UI.Menu Menu;
+            public LeagueSharp.SDK.Core.UI.IMenu.Menu Menu;
             public String Name;
             public Type Type;
 
@@ -260,7 +258,7 @@ namespace SAssemblies
                 {
                     if (menuComponent.Value.DisplayName == Language.GetString("GLOBAL_ACTIVE"))
                     {
-                        if (menuComponent.Value.GetValue<LeagueSharp.SDK.Core.UI.Values.MenuBool>().Value)
+                        if (menuComponent.Value.GetValue<LeagueSharp.SDK.Core.UI.IMenu.Values.MenuBool>().Value)
                         {
                             return true;
                         }
@@ -278,7 +276,7 @@ namespace SAssemblies
                 {
                     if (menuComponent.Value.DisplayName == Language.GetString("GLOBAL_ACTIVE"))
                     {
-                        menuComponent.Value.GetValue<LeagueSharp.SDK.Core.UI.Values.MenuBool>().Value = active;
+                        menuComponent.Value.GetValue<LeagueSharp.SDK.Core.UI.IMenu.Values.MenuBool>().Value = active;
                     }
                 }
             }
@@ -290,12 +288,11 @@ namespace SAssemblies
 
                 if (!Menu.Components.Any(x => x.Value.Name.Equals(menuName)))
                 {
-                    Menu.Add(new LeagueSharp.SDK.Core.UI.MenuItem<LeagueSharp.SDK.Core.UI.Values.MenuBool>
-                        (menuName, Language.GetString("GLOBAL_ACTIVE")) { Value = new LeagueSharp.SDK.Core.UI.Values.MenuBool() });
+                    Menu.Add(new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuBool(menuName, Language.GetString("GLOBAL_ACTIVE")));
                 }
             }
 
-            public LeagueSharp.SDK.Core.UI.MenuItem<T> GetMenuItem<T>(String menuName) where T : LeagueSharp.SDK.Core.UI.Abstracts.AMenuValue
+            public LeagueSharp.SDK.Core.UI.IMenu.MenuItem GetMenuItem<T>(String menuName)
             {
                 if (Menu == null)
                     return null;
@@ -303,17 +300,17 @@ namespace SAssemblies
                 {
                     if (menuComponent.Value.Name == menuName)
                     {
-                        return (LeagueSharp.SDK.Core.UI.MenuItem<T>)menuComponent.Value;
+                        return (LeagueSharp.SDK.Core.UI.IMenu.MenuItem)menuComponent.Value;
                     }
                 }
                 return null;
             }
 
-            public LeagueSharp.SDK.Core.UI.Menu GetSubMenu(String menuName)
+            public LeagueSharp.SDK.Core.UI.IMenu.Menu GetSubMenu(String menuName)
             {
                 if (Menu == null)
                     return null;
-                return (LeagueSharp.SDK.Core.UI.Menu)Menu[menuName];
+                return (LeagueSharp.SDK.Core.UI.IMenu.Menu)Menu[menuName];
             }
         }
 

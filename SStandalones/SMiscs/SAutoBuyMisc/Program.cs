@@ -12,7 +12,6 @@ using SAssemblies.Miscs;
 using Menu = SAssemblies.Menu;
 using System.Drawing;
 using LeagueSharp.SDK.Core.UI;
-using LeagueSharp.SDK.Core.UI.Values;
 
 namespace SAssemblies
 {
@@ -106,7 +105,7 @@ namespace SAssemblies
             //http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
             try
             {
-                LeagueSharp.SDK.Core.UI.Menu menu = Menu2.CreateMainMenu();
+                var menu = Menu2.CreateMainMenu();
                 Menu2.CreateGlobalMenuItems(menu);
 
                 //MainMenu.Misc = Misc.SetupMenu(menu);
@@ -114,12 +113,11 @@ namespace SAssemblies
 
                 Menu2.MenuItemSettings AutoBuyMisc = new Menu2.MenuItemSettings(typeof(AutoBuy));
 
-                menu.Add(new LeagueSharp.SDK.Core.UI.Menu("SAssembliesMiscsAutoBuy", Language.GetString("MISCS_AUTOBUY_MAIN")));
-                AutoBuyMisc.Menu = (LeagueSharp.SDK.Core.UI.Menu)menu["SAssembliesMiscsAutoBuy"];
-                AutoBuyMisc.Menu.Add(new MenuItem<MenuList<String>>("SAssembliesMiscsAutoBuyLoadChoice", Language.GetString("MISCS_AUTOBUY_BUILD_CHOICE")) { Value = new MenuList<String>(new[] { "dummy" }) /*GetBuildNames()*/ });
-                AutoBuyMisc.Menu.Add(new MenuItem<MenuBool>("SAssembliesMiscsAutoBuyShowBuild", Language.GetString("MISCS_AUTOBUY_BUILD_LOAD")) { Value = new MenuBool() });
-                AutoBuyMisc.Menu.Add(new MenuItem<MenuBool>("SAssembliesMiscsAutoBuyNewBuild", Language.GetString("MISCS_AUTOBUY_CREATE_BUILD")) { Value = new MenuBool() });
-                AutoBuyMisc.Menu.Add(new MenuItem<MenuBool>("SAssembliesMiscsAutoBuyDeleteBuild", Language.GetString("MISCS_AUTOBUY_DELETE_BUILD")) { Value = new MenuBool() });
+                AutoBuyMisc.Menu = Menu2.AddMenu(ref menu, new LeagueSharp.SDK.Core.UI.IMenu.Menu("SAssembliesMiscsAutoBuy", Language.GetString("MISCS_AUTOBUY_MAIN")));
+                Menu2.AddComponent(ref AutoBuyMisc.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuList<String>("SAssembliesMiscsAutoBuyLoadChoice", Language.GetString("MISCS_AUTOBUY_BUILD_CHOICE"), new[] { "dummy" }/*GetBuildNames()*/));
+                Menu2.AddComponent(ref AutoBuyMisc.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuBool("SAssembliesMiscsAutoBuyShowBuild", Language.GetString("MISCS_AUTOBUY_BUILD_LOAD")));
+                Menu2.AddComponent(ref AutoBuyMisc.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuBool("SAssembliesMiscsAutoBuyNewBuild", Language.GetString("MISCS_AUTOBUY_CREATE_BUILD")));
+                Menu2.AddComponent(ref AutoBuyMisc.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuBool("SAssembliesMiscsAutoBuyDeleteBuild", Language.GetString("MISCS_AUTOBUY_DELETE_BUILD")));
                 AutoBuyMisc.CreateActiveMenuItem("SAssembliesMiscsAutoBuyActive");
 
                 MainMenu2.AutoBuyMisc = AutoBuyMisc;

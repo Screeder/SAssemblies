@@ -100,7 +100,7 @@ namespace SAssemblies
             //http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
             try
             {
-                LeagueSharp.SDK.Core.UI.Menu menu = Menu2.CreateMainMenu();
+                var menu = Menu2.CreateMainMenu();
                 Menu2.CreateGlobalMenuItems(menu);
 
                 //MainMenu.Tracker = Tracker.SetupMenu(menu);
@@ -108,8 +108,7 @@ namespace SAssemblies
 
                 Menu2.MenuItemSettings WaypointTracker = new Menu2.MenuItemSettings(typeof(Waypoint));
 
-                menu.Add(new LeagueSharp.SDK.Core.UI.Menu("SAssembliesTrackersWaypoint", Language.GetString("TRACKERS_WAYPOINT_MAIN")));
-                WaypointTracker.Menu = (LeagueSharp.SDK.Core.UI.Menu)menu["SAssembliesTrackersWaypoint"];
+                WaypointTracker.Menu = Menu2.AddMenu(ref menu, new LeagueSharp.SDK.Core.UI.IMenu.Menu("SAssembliesTrackersWaypoint", Language.GetString("TRACKERS_WAYPOINT_MAIN")));
                 WaypointTracker.CreateActiveMenuItem("SAssembliesTrackersWaypointActive");
 
                 MainMenu2.WaypointTracker = WaypointTracker;

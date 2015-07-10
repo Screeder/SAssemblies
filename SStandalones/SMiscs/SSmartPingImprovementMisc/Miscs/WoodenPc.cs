@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,12 +32,53 @@ namespace SAssemblies.Miscs
             {
                 return;
             }
+            SetupMenu();
+            WoodenPcMisc.GetMenuItem("SAssembliesMiscsWoodenPcActive").ValueChanged += Active_OnValueChanged;
             notification = Common.ShowNotification("Waiting for the packet", Color.LawnGreen, -1);
             Game.OnSendPacket += Game_OnSendPacket;
             Game.OnWndProc += Game_OnWndProc;
+            GameUpdate updateEvent = null;
+            updateEvent = delegate
+            {
+                if (Game.Mode != GameMode.Running)
+                {
+                    LeagueSharp.Common.Menu.RootMenus.Remove(Assembly.GetCallingAssembly().GetName().Name + "." + WoodenPcMisc.Menu.Name);
+                    Game.OnUpdate -= updateEvent;
+                }
+            };
+            
         }
 
         ~WoodenPc()
+        {
+            Game.OnSendPacket -= Game_OnSendPacket;
+            Game.OnWndProc -= Game_OnWndProc;
+            Notifications.RemoveNotification(notification);
+            notification.Dispose();
+            if (notificationRemaining != null)
+            {
+                Notifications.RemoveNotification(notificationRemaining);
+                notificationRemaining.Dispose();
+            }
+        }
+
+        public bool IsActive()
+        {
+            return WoodenPcMisc.GetActive();
+        }
+
+        public static Menu.MenuItemSettings SetupMenu()
+        {
+            Language.SetLanguage();
+            WoodenPcMisc.Menu = new LeagueSharp.Common.Menu("SAwarenessWoodenPc", "SAwarenessWoodenPc", true);
+            WoodenPcMisc.MenuItems.Add(
+                WoodenPcMisc.Menu.AddItem(new MenuItem("SAssembliesMiscsWoodenPcActive", Language.GetString("GLOBAL_ACTIVE")).SetValue(true)));
+            WoodenPcMisc.Menu.AddItem(new MenuItem("By Screeder", "By Screeder V" + Assembly.GetExecutingAssembly().GetName().Version));
+            WoodenPcMisc.Menu.AddToMainMenu();
+            return WoodenPcMisc;
+        }
+
+        private void Active_OnValueChanged(object sender, OnValueChangeEventArgs onValueChangeEventArgs)
         {
             Game.OnSendPacket -= Game_OnSendPacket;
             Game.OnWndProc -= Game_OnWndProc;
@@ -53,7 +95,7 @@ namespace SAssemblies.Miscs
         {
             try
             {
-                if (Game.Mode != GameMode.Running)
+                if (Game.Mode != GameMode.Running || !IsActive())
                 {
                     //Console.Write("Packet Sent: ");
                     //args.PacketData.ForEach(x => Console.Write(x + " "));

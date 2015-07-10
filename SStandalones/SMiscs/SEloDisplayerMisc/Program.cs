@@ -13,7 +13,6 @@ using System.Drawing;
 using System.Windows.Forms;
 using LeagueSharp.SDK.Core.Enumerations;
 using LeagueSharp.SDK.Core.UI;
-using LeagueSharp.SDK.Core.UI.Values;
 
 namespace SAssemblies
 {
@@ -107,7 +106,7 @@ namespace SAssemblies
             //http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
             try
             {
-                LeagueSharp.SDK.Core.UI.Menu menu = Menu2.CreateMainMenu();
+                var menu = Menu2.CreateMainMenu();
                 Menu2.CreateGlobalMenuItems(menu);
 
                 //MainMenu.Misc = Misc.SetupMenu(menu);
@@ -115,9 +114,8 @@ namespace SAssemblies
 
                 Menu2.MenuItemSettings EloDisplayerMisc = new Menu2.MenuItemSettings(typeof(EloDisplayer));
 
-                menu.Add(new LeagueSharp.SDK.Core.UI.Menu("SAssembliesMiscsEloDisplayer", Language.GetString("MISCS_ELODISPLAYER_MAIN")));
-                EloDisplayerMisc.Menu = (LeagueSharp.SDK.Core.UI.Menu)menu["SAssembliesMiscsEloDisplayer"];
-                EloDisplayerMisc.Menu.Add(new MenuItem<MenuKeyBind>("SAssembliesMiscsEloDisplayerKey", Language.GetString("GLOBAL_KEY")) { Value = new MenuKeyBind(Keys.T, KeyBindType.Toggle) });
+                EloDisplayerMisc.Menu = Menu2.AddMenu(ref menu, new LeagueSharp.SDK.Core.UI.IMenu.Menu("SAssembliesTimers", Language.GetString("TIMERS_TIMER_MAIN")));
+                Menu2.AddComponent(ref EloDisplayerMisc.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuKeyBind("SAssembliesMiscsEloDisplayerKey", Language.GetString("GLOBAL_KEY"), Keys.Tab, KeyBindType.Toggle));
                 EloDisplayerMisc.CreateActiveMenuItem("SAssembliesMiscsEloDisplayerActive");
 
                 MainMenu2.EloDisplayerMisc = EloDisplayerMisc;

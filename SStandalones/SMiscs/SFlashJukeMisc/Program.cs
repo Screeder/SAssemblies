@@ -12,7 +12,6 @@ using Menu = SAssemblies.Menu;
 using System.Drawing;
 using System.Windows.Forms;
 using LeagueSharp.SDK.Core.UI;
-using LeagueSharp.SDK.Core.UI.Values;
 using LeagueSharp.SDK.Core.Enumerations;
 
 namespace SAssemblies
@@ -107,7 +106,7 @@ namespace SAssemblies
             //http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
             try
             {
-                LeagueSharp.SDK.Core.UI.Menu menu = Menu2.CreateMainMenu();
+                var menu = Menu2.CreateMainMenu();
                 Menu2.CreateGlobalMenuItems(menu);
 
                 //MainMenu.Misc = Misc.SetupMenu(menu);
@@ -115,10 +114,9 @@ namespace SAssemblies
 
                 Menu2.MenuItemSettings FlashJukeMisc = new Menu2.MenuItemSettings(typeof(FlashJuke));
 
-                menu.Add(new LeagueSharp.SDK.Core.UI.Menu("SAssembliesMiscsFlashJuke", Language.GetString("MISCS_FLASHJUKE_MAIN")));
-                FlashJukeMisc.Menu = (LeagueSharp.SDK.Core.UI.Menu)menu["SAssembliesMiscsFlashJuke"];
-                FlashJukeMisc.Menu.Add(new MenuItem<MenuKeyBind>("SAssembliesMiscsFlashJukeKeyActive", Language.GetString("GLOBAL_KEY")) { Value = new MenuKeyBind(Keys.Z, KeyBindType.Press) });
-                FlashJukeMisc.Menu.Add(new MenuItem<MenuBool>("SAssembliesMiscsFlashJukeRecall", Language.GetString("MISCS_FLASHJUKE_RECALL")) { Value = new MenuBool() });
+                FlashJukeMisc.Menu = Menu2.AddMenu(ref menu, new LeagueSharp.SDK.Core.UI.IMenu.Menu("SAssembliesMiscsFlashJuke", Language.GetString("MISCS_FLASHJUKE_MAIN")));
+                Menu2.AddComponent(ref FlashJukeMisc.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuKeyBind("SAssembliesMiscsFlashJukeKeyActive", Language.GetString("GLOBAL_KEY"), Keys.Z, KeyBindType.Press));
+                Menu2.AddComponent(ref FlashJukeMisc.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuBool("SAssembliesMiscsFlashJukeRecall", Language.GetString("MISCS_FLASHJUKE_RECALL")));
                 FlashJukeMisc.CreateActiveMenuItem("SAssembliesMiscsFlashJukeActive");
 
                 MainMenu2.FlashJukeMisc = FlashJukeMisc;

@@ -104,7 +104,7 @@ namespace SAssemblies
             //http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
             try
             {
-                LeagueSharp.SDK.Core.UI.Menu menu = Menu2.CreateMainMenu();
+                var menu = Menu2.CreateMainMenu();
                 Menu2.CreateGlobalMenuItems(menu);
 
                 //MainMenu.Misc = Misc.SetupMenu(menu);
@@ -112,8 +112,7 @@ namespace SAssemblies
 
                 Menu2.MenuItemSettings MinionBarsMisc = new Menu2.MenuItemSettings(typeof(MinionBars));
 
-                menu.Add(new LeagueSharp.SDK.Core.UI.Menu("SAssembliesMiscsMinionBars", Language.GetString("MISCS_MINIONBARS_MAIN")));
-                MinionBarsMisc.Menu = (LeagueSharp.SDK.Core.UI.Menu)menu["SAssembliesMiscsMinionBars"];
+                MinionBarsMisc.Menu = Menu2.AddMenu(ref menu, new LeagueSharp.SDK.Core.UI.IMenu.Menu("SAssembliesMiscsMinionBars", Language.GetString("MISCS_MINIONBARS_MAIN")));
                 MinionBarsMisc.CreateActiveMenuItem("SAssembliesMiscsMinionBarsActive");
 
                 MainMenu2.MinionBarsMisc = MinionBarsMisc;

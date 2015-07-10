@@ -132,7 +132,7 @@ namespace SAssemblies
             //http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
             try
             {
-                LeagueSharp.SDK.Core.UI.Menu menu = Menu2.CreateMainMenu();
+                var menu = Menu2.CreateMainMenu();
                 Menu2.CreateGlobalMenuItems(menu);
 
                 //MainMenu.Timers = Timer.SetupMenu(menu);
@@ -147,20 +147,13 @@ namespace SAssemblies
 
                 Menu2.MenuItemSettings Timers = new Menu2.MenuItemSettings();
 
-                menu.Add(new LeagueSharp.SDK.Core.UI.Menu("SAssembliesTimers", Language.GetString("TIMERS_TIMER_MAIN")));
-                Timers.Menu = (LeagueSharp.SDK.Core.UI.Menu)menu["SAssembliesTimers"];
-                Menu2.AddComponent(ref Timers.Menu, new LeagueSharp.SDK.Core.UI.MenuItem<LeagueSharp.SDK.Core.UI.Values.MenuSlider>
-                    ("SAssembliesTimersPingTimes", Language.GetString("GLOBAL_PING_TIMES")) { Value = new LeagueSharp.SDK.Core.UI.Values.MenuSlider() { MaxValue = 5, MinValue = 0, Value = 0 } });
-                Menu2.AddComponent(ref Timers.Menu, new LeagueSharp.SDK.Core.UI.MenuItem<LeagueSharp.SDK.Core.UI.Values.MenuSlider>
-                    ("SAssembliesTimersRemindTime", Language.GetString("TIMERS_REMIND_TIME")) { Value = new LeagueSharp.SDK.Core.UI.Values.MenuSlider() { MaxValue = 50, MinValue = 0, Value = 0 } });
-                Menu2.AddComponent(ref Timers.Menu, new LeagueSharp.SDK.Core.UI.MenuItem<LeagueSharp.SDK.Core.UI.Values.MenuBool>
-                        ("SAssembliesTimersLocalPing", Language.GetString("GLOBAL_PING_LOCAL")) { Value = new LeagueSharp.SDK.Core.UI.Values.MenuBool() { Value = true } });
-                Menu2.AddComponent(ref Timers.Menu, new LeagueSharp.SDK.Core.UI.MenuItem<LeagueSharp.SDK.Core.UI.Values.MenuBool>
-                        ("SAssembliesTimersChatChoice", Language.GetString("GLOBAL_CHAT")) { Value = new LeagueSharp.SDK.Core.UI.Values.MenuBool() });
-                Menu2.AddComponent(ref Timers.Menu, new LeagueSharp.SDK.Core.UI.MenuItem<LeagueSharp.SDK.Core.UI.Values.MenuBool>
-                        ("SAssembliesTimersNotification", Language.GetString("GLOBAL_NOTIFICATION")) { Value = new LeagueSharp.SDK.Core.UI.Values.MenuBool() });
-                Menu2.AddComponent(ref Timers.Menu, new LeagueSharp.SDK.Core.UI.MenuItem<LeagueSharp.SDK.Core.UI.Values.MenuSlider>
-                    ("SAssembliesTimersTextScale", Language.GetString("TIMERS_TIMER_SCALE")) { Value = new LeagueSharp.SDK.Core.UI.Values.MenuSlider() { MaxValue = 20, MinValue = 8, Value = 12 } });
+                Timers.Menu = Menu2.AddMenu(ref menu, new LeagueSharp.SDK.Core.UI.IMenu.Menu("SAssembliesTimers", Language.GetString("TIMERS_TIMER_MAIN")));
+                Menu2.AddComponent(ref Timers.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuSlider("SAssembliesTimersPingTimes", Language.GetString("GLOBAL_PING_TIMES"), 0, 0, 5));
+                Menu2.AddComponent(ref Timers.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuSlider("SAssembliesTimersRemindTime", Language.GetString("TIMERS_REMIND_TIME"), 0, 0, 60));
+                Menu2.AddComponent(ref Timers.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuBool("SAssembliesTimersLocalPing", Language.GetString("GLOBAL_PING_LOCAL"), true));
+                Menu2.AddComponent(ref Timers.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuBool("SAssembliesTimersChatChoice", Language.GetString("GLOBAL_CHAT")));
+                Menu2.AddComponent(ref Timers.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuBool("SAssembliesTimersNotification", Language.GetString("GLOBAL_NOTIFICATION")));
+                Menu2.AddComponent(ref Timers.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuSlider("SAssembliesTimersTextScale", Language.GetString("TIMERS_TIMER_SCALE"), 12, 8, 20));
                 Timers.CreateActiveMenuItem("SAssembliesTimersActive");
 
                 MainMenu2.Timer = Timers;

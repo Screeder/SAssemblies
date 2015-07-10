@@ -4,7 +4,6 @@ using System.Drawing;
 using System.Reflection;
 using System.Threading;
 using LeagueSharp.SDK.Core.UI;
-using LeagueSharp.SDK.Core.UI.Values;
 using SAssemblies.Detectors;
 
 namespace SAssemblies
@@ -115,7 +114,7 @@ namespace SAssemblies
                 //    new MenuItem("By Screeder", "By Screeder V" + Assembly.GetExecutingAssembly().GetName().Version));
                 //menu.AddToMainMenu();
 
-                LeagueSharp.SDK.Core.UI.Menu menu = Menu2.CreateMainMenu();
+                var menu = Menu2.CreateMainMenu();
                 Menu2.CreateGlobalMenuItems(menu);
 
                 //MainMenu.Detector = Detector.SetupMenu(menu, true);
@@ -123,11 +122,10 @@ namespace SAssemblies
 
                 Menu2.MenuItemSettings DisReconnectDetector = new Menu2.MenuItemSettings(typeof(DisReconnect));
 
-                menu.Add(new LeagueSharp.SDK.Core.UI.Menu("SAssembliesDetectorsDisReconnect", Language.GetString("DETECTORS_DISRECONNECT_MAIN")));
-                DisReconnectDetector.Menu = (LeagueSharp.SDK.Core.UI.Menu)menu["SAssembliesDetectorsDisReconnect"];
-                DisReconnectDetector.Menu.Add(new MenuItem<MenuBool>("SAssembliesDetectorsDisReconnectChat", Language.GetString("GLOBAL_CHAT")) { Value = new MenuBool() });
-                DisReconnectDetector.Menu.Add(new MenuItem<MenuBool>("SAssembliesDetectorsDisReconnectNotification", Language.GetString("GLOBAL_NOTIFICATION")) { Value = new MenuBool() });
-                DisReconnectDetector.Menu.Add(new MenuItem<MenuBool>("SAssembliesDetectorsDisReconnectSpeech", Language.GetString("GLOBAL_VOICE")) { Value = new MenuBool() });
+                DisReconnectDetector.Menu = Menu2.AddMenu(ref menu, new LeagueSharp.SDK.Core.UI.IMenu.Menu("SAssembliesDetectorsDisReconnect", Language.GetString("DETECTORS_DISRECONNECT_MAIN")));
+                Menu2.AddComponent(ref DisReconnectDetector.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuBool("SAssembliesDetectorsDisReconnectChat", Language.GetString("GLOBAL_CHAT")));
+                Menu2.AddComponent(ref DisReconnectDetector.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuBool("SAssembliesDetectorsDisReconnectNotification", Language.GetString("GLOBAL_NOTIFICATION")));
+                Menu2.AddComponent(ref DisReconnectDetector.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuBool("SAssembliesDetectorsDisReconnectSpeech", Language.GetString("GLOBAL_VOICE")));
                 DisReconnectDetector.CreateActiveMenuItem("SAssembliesDetectorsDisReconnectActive");
 
                 MainMenu2.DisconnectDetector = DisReconnectDetector;

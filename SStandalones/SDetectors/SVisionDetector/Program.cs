@@ -5,7 +5,6 @@ using System.Reflection;
 using System.Threading;
 using LeagueSharp.Common;
 using LeagueSharp.SDK.Core.UI;
-using LeagueSharp.SDK.Core.UI.Values;
 using SAssemblies.Detectors;
 
 namespace SAssemblies
@@ -116,7 +115,7 @@ namespace SAssemblies
                 //    new MenuItem("By Screeder", "By Screeder V" + Assembly.GetExecutingAssembly().GetName().Version));
                 //menu.AddToMainMenu();
 
-                LeagueSharp.SDK.Core.UI.Menu menu = Menu2.CreateMainMenu();
+                var menu = Menu2.CreateMainMenu();
                 Menu2.CreateGlobalMenuItems(menu);
 
                 //MainMenu.Detector = Detector.SetupMenu(menu, true);
@@ -124,11 +123,10 @@ namespace SAssemblies
 
                 Menu2.MenuItemSettings VisionDetector = new Menu2.MenuItemSettings(typeof(Vision));
 
-                menu.Add(new LeagueSharp.SDK.Core.UI.Menu("SAssembliesDetectorsVision", Language.GetString("DETECTORS_VISION_MAIN")));
-                VisionDetector.Menu = (LeagueSharp.SDK.Core.UI.Menu)menu["SAssembliesDetectorsVision"];
-                VisionDetector.Menu.Add(new MenuItem<MenuBool>("SAssembliesDetectorsVisionDrawRange", Language.GetString("DETECTORS_VISION_RANGE")) { Value = new MenuBool() });
-                VisionDetector.Menu.Add(new MenuItem<MenuBool>("SAssembliesDetectorsVisionDrawVisionRange", Language.GetString("DETECTORS_VISION_VISIONRANGE")) { Value = new MenuBool() });
-                VisionDetector.Menu.Add(new MenuItem<MenuBool>("SAssembliesDetectorsVisionDrawRealVisionRange", Language.GetString("DETECTORS_VISION_REALRANGE")) { Value = new MenuBool() });
+                VisionDetector.Menu = Menu2.AddMenu(ref menu, new LeagueSharp.SDK.Core.UI.IMenu.Menu("SAssembliesDetectorsVision", Language.GetString("DETECTORS_VISION_MAIN")));
+                Menu2.AddComponent(ref VisionDetector.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuBool("SAssembliesDetectorsVisionDrawRange", Language.GetString("DETECTORS_VISION_RANGE")));
+                Menu2.AddComponent(ref VisionDetector.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuBool("SAssembliesDetectorsVisionDrawVisionRange", Language.GetString("DETECTORS_VISION_VISIONRANGE")));
+                Menu2.AddComponent(ref VisionDetector.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuBool("SAssembliesDetectorsVisionDrawRealVisionRange", Language.GetString("DETECTORS_VISION_REALRANGE")));
                 VisionDetector.CreateActiveMenuItem("SAssembliesDetectorsVisionActive");
 
                 MainMenu2.VisionDetector = VisionDetector;

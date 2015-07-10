@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using LeagueSharp;
 using LeagueSharp.Common;
 using LeagueSharp.SDK.Core.UI;
-using LeagueSharp.SDK.Core.UI.Values;
 using SAssemblies.Trackers;
 
 namespace SAssemblies
@@ -102,7 +101,7 @@ namespace SAssemblies
             //http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
             try
             {
-                LeagueSharp.SDK.Core.UI.Menu menu = Menu2.CreateMainMenu();
+                var menu = Menu2.CreateMainMenu();
                 Menu2.CreateGlobalMenuItems(menu);
 
                 //MainMenu.Tracker = Tracker.SetupMenu(menu);
@@ -110,12 +109,9 @@ namespace SAssemblies
 
                 Menu2.MenuItemSettings SsCallerTracker = new Menu2.MenuItemSettings(typeof(SsCaller));
 
-                menu.Add(new LeagueSharp.SDK.Core.UI.Menu("SAssembliesTrackersSsCaller", Language.GetString("TRACKERS_SSCALLER_MAIN")));
-                SsCallerTracker.Menu = (LeagueSharp.SDK.Core.UI.Menu)menu["SAssembliesTrackersSsCaller"];
-                SsCallerTracker.Menu.Add(new MenuItem<MenuSlider>("SAssembliesTrackersSsCallerPingTimes", Language.GetString("GLOBAL_PING_TIMES")) { Value = new MenuSlider(0, 0, 5) });
-                SsCallerTracker.Menu.Add(new MenuItem<MenuList<String>>("SAssembliesTrackersSsCallerPingType", Language.GetString("GLOBAL_PING_TIMES"))
-                {
-                    Value = new MenuList<string>(new[]
+                SsCallerTracker.Menu = Menu2.AddMenu(ref menu, new LeagueSharp.SDK.Core.UI.IMenu.Menu("SAssembliesTrackersSsCaller", Language.GetString("TRACKERS_SSCALLER_MAIN")));
+                Menu2.AddComponent(ref SsCallerTracker.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuSlider("SAssembliesTrackersSsCallerPingTimes", Language.GetString("GLOBAL_PING_TIMES"), 0, 0, 5));
+                Menu2.AddComponent(ref SsCallerTracker.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuList<String>("SAssembliesTrackersSsCallerPingType", Language.GetString("GLOBAL_PING_TIMES"), new[]
                 {
                     Language.GetString("GLOBAL_PING_TYPE_NORMAL"), 
                     Language.GetString("GLOBAL_PING_TYPE_DANGER"), 
@@ -123,15 +119,14 @@ namespace SAssemblies
                     Language.GetString("GLOBAL_PING_TYPE_ONMYWAY"), 
                     Language.GetString("GLOBAL_PING_TYPE_FALLBACK"), 
                     Language.GetString("GLOBAL_PING_ASSISTME") 
-                })
-                });
-                SsCallerTracker.Menu.Add(new MenuItem<MenuBool>("SAssembliesTrackersSsCallerLocalPing", Language.GetString("GLOBAL_PING_LOCAL")) { Value = new MenuBool() });
-                SsCallerTracker.Menu.Add(new MenuItem<MenuBool>("SAssembliesTrackersSsCallerChatChoice", Language.GetString("GLOBAL_CHAT")) { Value = new MenuBool() });
-                SsCallerTracker.Menu.Add(new MenuItem<MenuBool>("SAssembliesTrackersSsCallerNotification", Language.GetString("GLOBAL_NOTIFICATION")) { Value = new MenuBool() });
-                SsCallerTracker.Menu.Add(new MenuItem<MenuSlider>("SAssembliesTrackersSsCallerDisableTime", Language.GetString("TRACKERS_SSCALLER_DISABLETIME")) { Value = new MenuSlider(20, 1, 180) });
-                SsCallerTracker.Menu.Add(new MenuItem<MenuSlider>("SAssembliesTrackersSsCallerCircleRange", Language.GetString("TRACKERS_SSCALLER_CIRCLE_RANGE")) { Value = new MenuSlider(2000, 100, 15000) });
-                SsCallerTracker.Menu.Add(new MenuItem<MenuBool>("SAssembliesTrackersSsCallerCircleActive", Language.GetString("TRACKERS_SSCALLER_CIRCLE_ACTIVE")) { Value = new MenuBool() });
-                SsCallerTracker.Menu.Add(new MenuItem<MenuBool>("SAssembliesTrackersSsCallerChatChoice", Language.GetString("GLOBAL_CHAT")) { Value = new MenuBool() });
+                }));
+                Menu2.AddComponent(ref SsCallerTracker.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuBool("SAssembliesTrackersSsCallerLocalPing", Language.GetString("GLOBAL_PING_LOCAL"), true));
+                Menu2.AddComponent(ref SsCallerTracker.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuBool("SAssembliesTrackersSsCallerChatChoice", Language.GetString("GLOBAL_CHAT")));
+                Menu2.AddComponent(ref SsCallerTracker.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuBool("SAssembliesTrackersSsCallerNotification", Language.GetString("GLOBAL_NOTIFICATION")));
+                Menu2.AddComponent(ref SsCallerTracker.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuSlider("SAssembliesTrackersSsCallerDisableTime", Language.GetString("TRACKERS_SSCALLER_DISABLETIME"), 20, 1, 180));
+                Menu2.AddComponent(ref SsCallerTracker.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuSlider("SAssembliesTrackersSsCallerCircleRange", Language.GetString("TRACKERS_SSCALLER_CIRCLE_RANGE"), 2000, 100, 15000));
+                Menu2.AddComponent(ref SsCallerTracker.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuBool("SAssembliesTrackersSsCallerCircleActive", Language.GetString("TRACKERS_SSCALLER_CIRCLE_ACTIVE")));
+                Menu2.AddComponent(ref SsCallerTracker.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuBool("SAssembliesTrackersSsCallerChatChoice", Language.GetString("GLOBAL_CHAT")));
                 SsCallerTracker.CreateActiveMenuItem("SAssembliesTrackersSsCallerActive");
 
                 MainMenu2.SsCallerTracker = SsCallerTracker;

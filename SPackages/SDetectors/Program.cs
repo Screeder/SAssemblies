@@ -142,7 +142,7 @@ namespace SDetectors
                 //menu.AddItem(new MenuItem("By Screeder", "By Screeder V" + Assembly.GetExecutingAssembly().GetName().Version)); 
                 //menu.AddToMainMenu();
 
-                LeagueSharp.SDK.Core.UI.Menu menu = Menu2.CreateMainMenu();
+                var menu = Menu2.CreateMainMenu();
                 Menu2.CreateGlobalMenuItems(menu);
 
                 //MainMenu.Detector = Detector.SetupMenu(menu);
@@ -154,8 +154,7 @@ namespace SDetectors
 
                 Menu2.MenuItemSettings Detectors = new Menu2.MenuItemSettings();
 
-                menu.Add(new LeagueSharp.SDK.Core.UI.Menu("SAssembliesDetectors", Language.GetString("DETECTORS_DETECTOR_MAIN")));
-                Detectors.Menu = (LeagueSharp.SDK.Core.UI.Menu)menu["SAssembliesDetectors"];
+                Detectors.Menu = Menu2.AddMenu(ref menu, new LeagueSharp.SDK.Core.UI.IMenu.Menu("SAssembliesDetectors", Language.GetString("DETECTORS_DETECTOR_MAIN")));
                 Detectors.CreateActiveMenuItem("SAssembliesDetectorsActive");
 
                 MainMenu2.Detector = Detectors;

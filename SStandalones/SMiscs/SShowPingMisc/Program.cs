@@ -103,7 +103,7 @@ namespace SAssemblies
             //http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
             try
             {
-                LeagueSharp.SDK.Core.UI.Menu menu = Menu2.CreateMainMenu();
+                var menu = Menu2.CreateMainMenu();
                 Menu2.CreateGlobalMenuItems(menu);
 
                 //MainMenu.Misc = Misc.SetupMenu(menu);
@@ -111,8 +111,7 @@ namespace SAssemblies
 
                 Menu2.MenuItemSettings ShowPingMisc = new Menu2.MenuItemSettings(typeof(ShowPing));
 
-                menu.Add(new LeagueSharp.SDK.Core.UI.Menu("SAssembliesMiscsShowPing", Language.GetString("MISCS_SHOWPING_MAIN")));
-                ShowPingMisc.Menu = (LeagueSharp.SDK.Core.UI.Menu)menu["SAssembliesMiscsShowPing"];
+                ShowPingMisc.Menu = Menu2.AddMenu(ref menu, new LeagueSharp.SDK.Core.UI.IMenu.Menu("SAssembliesMiscsShowPing", Language.GetString("MISCS_SHOWPING_MAIN")));
                 ShowPingMisc.CreateActiveMenuItem("SAssembliesMiscsShowPingActive");
 
                 MainMenu2.ShowPingMisc = ShowPingMisc;

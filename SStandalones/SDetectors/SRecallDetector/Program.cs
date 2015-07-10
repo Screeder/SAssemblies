@@ -5,7 +5,6 @@ using System.Reflection;
 using System.Threading;
 using LeagueSharp.Common;
 using LeagueSharp.SDK.Core.UI;
-using LeagueSharp.SDK.Core.UI.Values;
 using SAssemblies.Detectors;
 
 namespace SAssemblies
@@ -116,7 +115,7 @@ namespace SAssemblies
                 //    new MenuItem("By Screeder", "By Screeder V" + Assembly.GetExecutingAssembly().GetName().Version));
                 //menu.AddToMainMenu();
 
-                LeagueSharp.SDK.Core.UI.Menu menu = Menu2.CreateMainMenu();
+                var menu = Menu2.CreateMainMenu();
                 Menu2.CreateGlobalMenuItems(menu);
 
                 //MainMenu.Detector = Detector.SetupMenu(menu, true);
@@ -124,13 +123,12 @@ namespace SAssemblies
 
                 Menu2.MenuItemSettings RecallDetector = new Menu2.MenuItemSettings(typeof(Recall));
 
-                menu.Add(new LeagueSharp.SDK.Core.UI.Menu("SAssembliesDetectorsRecall", Language.GetString("DETECTORS_RECALL_MAIN")));
-                RecallDetector.Menu = (LeagueSharp.SDK.Core.UI.Menu)menu["SAssembliesDetectorsRecall"];
-                RecallDetector.Menu.Add(new MenuItem<MenuSlider>("SAssembliesDetectorsRecallPingTimes", Language.GetString("GLOBAL_PING_TIMES")) { Value = new MenuSlider(0, 0, 5) });
-                RecallDetector.Menu.Add(new MenuItem<MenuBool>("SAssembliesDetectorsRecallLocalPing", Language.GetString("GLOBAL_PING_LOCAL")) { Value = new MenuBool(true) });
-                RecallDetector.Menu.Add(new MenuItem<MenuBool>("SAssembliesDetectorsRecallChat", Language.GetString("GLOBAL_CHAT")) { Value = new MenuBool() });
-                RecallDetector.Menu.Add(new MenuItem<MenuBool>("SAssembliesDetectorsRecallNotification", Language.GetString("GLOBAL_NOTIFICATION")) { Value = new MenuBool() });
-                RecallDetector.Menu.Add(new MenuItem<MenuBool>("SAssembliesDetectorsRecallSpeech", Language.GetString("GLOBAL_VOICE")) { Value = new MenuBool() });
+                RecallDetector.Menu = Menu2.AddMenu(ref menu, new LeagueSharp.SDK.Core.UI.IMenu.Menu("SAssembliesDetectorsRecall", Language.GetString("DETECTORS_RECALL_MAIN")));
+                Menu2.AddComponent(ref RecallDetector.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuSlider("SAssembliesDetectorsRecallPingTimes", Language.GetString("GLOBAL_PING_TIMES"), 0, 0, 5));
+                Menu2.AddComponent(ref RecallDetector.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuBool("SAssembliesDetectorsRecallLocalPing", Language.GetString("GLOBAL_PING_LOCAL"), true));
+                Menu2.AddComponent(ref RecallDetector.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuBool("SAssembliesDetectorsRecallChat", Language.GetString("GLOBAL_CHAT")));
+                Menu2.AddComponent(ref RecallDetector.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuBool("SAssembliesDetectorsRecallNotification", Language.GetString("GLOBAL_NOTIFICATION")));
+                Menu2.AddComponent(ref RecallDetector.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuBool("SAssembliesDetectorsRecallSpeech", Language.GetString("GLOBAL_VOICE")));
                 RecallDetector.CreateActiveMenuItem("SAssembliesDetectorsRecallActive");
 
                 MainMenu2.RecallDetector = RecallDetector;

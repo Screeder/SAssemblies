@@ -100,7 +100,7 @@ namespace SAssemblies
             //http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
             try
             {
-                LeagueSharp.SDK.Core.UI.Menu menu = Menu2.CreateMainMenu();
+                var menu = Menu2.CreateMainMenu();
                 Menu2.CreateGlobalMenuItems(menu);
 
                 //MainMenu.Tracker = Tracker.SetupMenu(menu);
@@ -108,8 +108,7 @@ namespace SAssemblies
 
                 Menu2.MenuItemSettings CrowdControlTracker = new Menu2.MenuItemSettings(typeof(CrowdControl));
 
-                menu.Add(new LeagueSharp.SDK.Core.UI.Menu("SAssembliesTrackerCrowdControl", Language.GetString("TRACKERS_CROWDCONTROL_MAIN")));
-                CrowdControlTracker.Menu = (LeagueSharp.SDK.Core.UI.Menu)menu["SAssembliesTrackerCrowdControl"];
+                CrowdControlTracker.Menu = Menu2.AddMenu(ref menu, new LeagueSharp.SDK.Core.UI.IMenu.Menu("SAssembliesTrackerCrowdControl", Language.GetString("TRACKERS_CROWDCONTROL_MAIN")));
                 CrowdControlTracker.CreateActiveMenuItem("SAssembliesTrackerCrowdControlActive");
 
                 MainMenu2.CrowdControlTracker = CrowdControlTracker;

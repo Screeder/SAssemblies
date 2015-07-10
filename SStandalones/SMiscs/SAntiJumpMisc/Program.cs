@@ -104,7 +104,7 @@ namespace SAssemblies
             //http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
             try
             {
-                LeagueSharp.SDK.Core.UI.Menu menu = Menu2.CreateMainMenu();
+                var menu = Menu2.CreateMainMenu();
                 Menu2.CreateGlobalMenuItems(menu);
 
                 //MainMenu.Misc = Misc.SetupMenu(menu);
@@ -112,8 +112,7 @@ namespace SAssemblies
 
                 Menu2.MenuItemSettings AntiJumpMisc = new Menu2.MenuItemSettings(typeof(AntiJump));
 
-                menu.Add(new LeagueSharp.SDK.Core.UI.Menu("SAssembliesMiscsAntiJump", Language.GetString("MISCS_ANTIJUMP_MAIN")));
-                AntiJumpMisc.Menu = (LeagueSharp.SDK.Core.UI.Menu)menu["SAssembliesMiscsAntiJump"];
+                AntiJumpMisc.Menu = Menu2.AddMenu(ref menu, new LeagueSharp.SDK.Core.UI.IMenu.Menu("SAssembliesMiscsAntiJump", Language.GetString("MISCS_ANTIJUMP_MAIN")));
                 AntiJumpMisc.CreateActiveMenuItem("SAssembliesMiscsAntiJumpActive");
 
                 MainMenu2.AntiJumpMisc = AntiJumpMisc;

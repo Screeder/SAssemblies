@@ -13,7 +13,6 @@ using Menu = SAssemblies.Menu;
 using System.Drawing;
 using LeagueSharp.SDK.Core.Events;
 using LeagueSharp.SDK.Core.UI;
-using LeagueSharp.SDK.Core.UI.Values;
 
 namespace SAssemblies
 {
@@ -106,7 +105,7 @@ namespace SAssemblies
             //http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
             try
             {
-                LeagueSharp.SDK.Core.UI.Menu menu = Menu2.CreateMainMenu();
+                var menu = Menu2.CreateMainMenu();
                 Menu2.CreateGlobalMenuItems(menu);
 
                 //MainMenu.Range = Range.SetupMenu(menu);
@@ -114,19 +113,15 @@ namespace SAssemblies
 
                 Menu2.MenuItemSettings ExperienceRange = new Menu2.MenuItemSettings(typeof(Experience));
 
-                menu.Add(new LeagueSharp.SDK.Core.UI.Menu("SAssembliesRangesExperience", Language.GetString("RANGES_EXPERIENCE_MAIN")));
-                ExperienceRange.Menu = (LeagueSharp.SDK.Core.UI.Menu)menu["SAssembliesRangesExperience"];
-                ExperienceRange.Menu.Add(new MenuItem<MenuList<String>>("SAssembliesRangesExperienceMode", Language.GetString("RANGES_ALL_MODE"))
-                {
-                    Value = new MenuList<string>(new[]
+                ExperienceRange.Menu = Menu2.AddMenu(ref menu, new LeagueSharp.SDK.Core.UI.IMenu.Menu("SAssembliesRangesExperience", Language.GetString("RANGES_EXPERIENCE_MAIN")));
+                Menu2.AddComponent(ref ExperienceRange.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuList<String>("SAssembliesRangesExperienceMode", Language.GetString("RANGES_ALL_MODE"), new[]
                 {
                     Language.GetString("RANGES_ALL_MODE_ME"), 
                     Language.GetString("RANGES_ALL_MODE_ENEMY"), 
                     Language.GetString("RANGES_ALL_MODE_BOTH"),  
-                })
-                });
-                ExperienceRange.Menu.Add(new MenuItem<MenuColor>("SAssembliesRangesExperienceColorMe", Language.GetString("RANGES_ALL_COLORME")) { Value = new MenuColor(SharpDX.Color.LawnGreen) });
-                ExperienceRange.Menu.Add(new MenuItem<MenuColor>("SAssembliesRangesExperienceColorEnemy", Language.GetString("RANGES_ALL_COLORENEMY")) { Value = new MenuColor(SharpDX.Color.IndianRed) });
+                }));
+                Menu2.AddComponent(ref ExperienceRange.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuColor("SAssembliesRangesExperienceColorMe", Language.GetString("RANGES_ALL_COLORME"), SharpDX.Color.LawnGreen));
+                Menu2.AddComponent(ref ExperienceRange.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuColor("SAssembliesRangesExperienceColorEnemy", Language.GetString("RANGES_ALL_COLORENEMY"), SharpDX.Color.IndianRed));
                 ExperienceRange.CreateActiveMenuItem("SAssembliesRangesExperienceActive");
 
                 MainMenu2.ExperienceRange = ExperienceRange;

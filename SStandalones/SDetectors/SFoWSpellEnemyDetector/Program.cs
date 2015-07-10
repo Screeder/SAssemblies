@@ -5,7 +5,6 @@ using System.Reflection;
 using System.Threading;
 using LeagueSharp.Common;
 using LeagueSharp.SDK.Core.UI;
-using LeagueSharp.SDK.Core.UI.Values;
 using SAssemblies.Detectors;
 
 namespace SAssemblies
@@ -117,7 +116,7 @@ namespace SAssemblies
                 //    new MenuItem("By Screeder", "By Screeder V" + Assembly.GetExecutingAssembly().GetName().Version));
                 //menu.AddToMainMenu();
 
-                LeagueSharp.SDK.Core.UI.Menu menu = Menu2.CreateMainMenu();
+                var menu = Menu2.CreateMainMenu();
                 Menu2.CreateGlobalMenuItems(menu);
 
                 //MainMenu.Detector = Detector.SetupMenu(menu, true);
@@ -125,8 +124,7 @@ namespace SAssemblies
 
                 Menu2.MenuItemSettings FoWSpellEnemyDetector = new Menu2.MenuItemSettings(typeof(FoWSpellEnemy));
 
-                menu.Add(new LeagueSharp.SDK.Core.UI.Menu("SAssembliesDetectorsFoWSpellEnemy", Language.GetString("DETECTORS_FOWSPELLENEMY_MAIN")));
-                FoWSpellEnemyDetector.Menu = (LeagueSharp.SDK.Core.UI.Menu)menu["SAssembliesDetectorsFoWSpellEnemy"];
+                FoWSpellEnemyDetector.Menu = Menu2.AddMenu(ref menu, new LeagueSharp.SDK.Core.UI.IMenu.Menu("SAssembliesDetectorsFoWSpellEnemy", Language.GetString("DETECTORS_FOWSPELLENEMY_MAIN")));
                 FoWSpellEnemyDetector.CreateActiveMenuItem("SAssembliesDetectorsFoWSpellEnemyActive");
 
                 MainMenu2.FoWSpellEnemyDetector = FoWSpellEnemyDetector;

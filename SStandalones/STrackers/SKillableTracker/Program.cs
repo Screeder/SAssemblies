@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using LeagueSharp;
 using LeagueSharp.Common;
 using LeagueSharp.SDK.Core.UI;
-using LeagueSharp.SDK.Core.UI.Values;
 using SAssemblies.Trackers;
 
 namespace SAssemblies
@@ -102,7 +101,7 @@ namespace SAssemblies
             //http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
             try
             {
-                LeagueSharp.SDK.Core.UI.Menu menu = Menu2.CreateMainMenu();
+                var menu = Menu2.CreateMainMenu();
                 Menu2.CreateGlobalMenuItems(menu);
 
                 //MainMenu.Tracker = Tracker.SetupMenu(menu);
@@ -110,9 +109,8 @@ namespace SAssemblies
 
                 Menu2.MenuItemSettings KillableTracker = new Menu2.MenuItemSettings(typeof(Killable));
 
-                menu.Add(new LeagueSharp.SDK.Core.UI.Menu("SAssembliesTrackersKillable", Language.GetString("TRACKERS_KILLABLE_MAIN")));
-                KillableTracker.Menu = (LeagueSharp.SDK.Core.UI.Menu)menu["SAssembliesTrackersKillable"];
-                KillableTracker.Menu.Add(new MenuItem<MenuBool>("SAssembliesTrackersKillableSpeech", Language.GetString("GLOBAL_VOICE")) { Value = new MenuBool() });
+                KillableTracker.Menu = Menu2.AddMenu(ref menu, new LeagueSharp.SDK.Core.UI.IMenu.Menu("SAssembliesTrackersKillable", Language.GetString("TRACKERS_KILLABLE_MAIN")));
+                Menu2.AddComponent(ref KillableTracker.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuBool("SAssembliesTrackersKillableSpeech", Language.GetString("GLOBAL_VOICE")));
                 KillableTracker.CreateActiveMenuItem("SAssembliesTrackersKillableActive");
 
                 MainMenu2.KillableTracker = KillableTracker;

@@ -13,7 +13,6 @@ using Menu = SAssemblies.Menu;
 using System.Drawing;
 using LeagueSharp.SDK.Core.Events;
 using LeagueSharp.SDK.Core.UI;
-using LeagueSharp.SDK.Core.UI.Values;
 
 namespace SAssemblies
 {
@@ -106,7 +105,7 @@ namespace SAssemblies
             //http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
             try
             {
-                LeagueSharp.SDK.Core.UI.Menu menu = Menu2.CreateMainMenu();
+                var menu = Menu2.CreateMainMenu();
                 Menu2.CreateGlobalMenuItems(menu);
 
                 //MainMenu.Range = Range.SetupMenu(menu);
@@ -114,19 +113,15 @@ namespace SAssemblies
 
                 Menu2.MenuItemSettings ShopRange = new Menu2.MenuItemSettings(typeof(Shop));
 
-                menu.Add(new LeagueSharp.SDK.Core.UI.Menu("SAssembliesRangesShop", Language.GetString("RANGES_SHOP_MAIN")));
-                ShopRange.Menu = (LeagueSharp.SDK.Core.UI.Menu)menu["SAssembliesRangesShop"];
-                ShopRange.Menu.Add(new MenuItem<MenuList<String>>("SAssembliesRangesShopMode", Language.GetString("RANGES_ALL_MODE"))
-                {
-                    Value = new MenuList<string>(new[]
+                ShopRange.Menu = Menu2.AddMenu(ref menu, new LeagueSharp.SDK.Core.UI.IMenu.Menu("SAssembliesRangesShop", Language.GetString("RANGES_SHOP_MAIN")));
+                Menu2.AddComponent(ref ShopRange.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuList<String>("SAssembliesRangesShopMode", Language.GetString("RANGES_ALL_MODE"), new[]
                 {
                     Language.GetString("RANGES_ALL_MODE_ME"), 
                     Language.GetString("RANGES_ALL_MODE_ENEMY"), 
                     Language.GetString("RANGES_ALL_MODE_BOTH"),  
-                })
-                });
-                ShopRange.Menu.Add(new MenuItem<MenuColor>("SAssembliesRangesShopColorMe", Language.GetString("RANGES_ALL_COLORME")) { Value = new MenuColor(SharpDX.Color.LawnGreen) });
-                ShopRange.Menu.Add(new MenuItem<MenuColor>("SAssembliesRangesShopColorEnemy", Language.GetString("RANGES_ALL_COLORENEMY")) { Value = new MenuColor(SharpDX.Color.IndianRed) });
+                }));
+                Menu2.AddComponent(ref ShopRange.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuColor("SAssembliesRangesShopColorMe", Language.GetString("RANGES_ALL_COLORME"), SharpDX.Color.LawnGreen));
+                Menu2.AddComponent(ref ShopRange.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuColor("SAssembliesRangesShopColorEnemy", Language.GetString("RANGES_ALL_COLORENEMY"), SharpDX.Color.IndianRed));
                 ShopRange.CreateActiveMenuItem("SAssembliesRangesShopActive");
 
                 MainMenu2.ShopRange = ShopRange;

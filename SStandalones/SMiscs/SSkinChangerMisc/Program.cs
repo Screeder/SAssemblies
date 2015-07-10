@@ -11,7 +11,6 @@ using SAssemblies.Miscs;
 using Menu = SAssemblies.Menu;
 using System.Drawing;
 using LeagueSharp.SDK.Core.UI;
-using LeagueSharp.SDK.Core.UI.Values;
 
 namespace SAssemblies
 {
@@ -105,7 +104,7 @@ namespace SAssemblies
             //http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
             try
             {
-                LeagueSharp.SDK.Core.UI.Menu menu = Menu2.CreateMainMenu();
+                var menu = Menu2.CreateMainMenu();
                 Menu2.CreateGlobalMenuItems(menu);
 
                 //MainMenu.Misc = Misc.SetupMenu(menu);
@@ -113,11 +112,11 @@ namespace SAssemblies
 
                 Menu2.MenuItemSettings SkinChangerMisc = new Menu2.MenuItemSettings(typeof(SkinChanger));
 
-                menu.Add(new LeagueSharp.SDK.Core.UI.Menu("SAssembliesMiscsSkinChanger", Language.GetString("MISCS_SKINCHANGER_MAIN")));
-                SkinChangerMisc.Menu = (LeagueSharp.SDK.Core.UI.Menu)menu["SAssembliesMiscsSkinChanger"];
-                SkinChangerMisc.Menu.Add(new MenuItem<MenuList<String>>("SAssembliesMiscsSkinChangerSkinName" + ObjectManager.Player.ChampionName, Language.GetString("MISCS_SKINCHANGER_SKIN")) { Value = new MenuList<String>(new[] { "dummy" }) /*GetSkins().ToArray()*/ });
-                SkinChangerMisc.Menu.Add(new MenuItem<MenuBool>("SAssembliesMiscsSkinChangerSkinNameLoading", Language.GetString("MISCS_SKINCHANGER_SKIN_LOADING")) { Value = new MenuBool() });
-                SkinChangerMisc.Menu.Add(new MenuItem<MenuBool>("SAssembliesMiscsSkinChangerSkinNameSplash", Language.GetString("MISCS_SKINCHANGER_SKIN_SPLASH")) { Value = new MenuBool() });
+                SkinChangerMisc.Menu = Menu2.AddMenu(ref menu, new LeagueSharp.SDK.Core.UI.IMenu.Menu("SAssembliesMiscsSkinChanger", Language.GetString("MISCS_SKINCHANGER_MAIN")));
+                Menu2.AddComponent(ref SkinChangerMisc.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuList<String>("SAssembliesMiscsSkinChangerSkinName" + ObjectManager.Player.ChampionName, 
+                    Language.GetString("MISCS_SKINCHANGER_SKIN"), new[] { "dummy" /*GetSkins().ToArray()*/}));
+                Menu2.AddComponent(ref SkinChangerMisc.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuBool("SAssembliesMiscsSkinChangerSkinNameLoading", Language.GetString("MISCS_SKINCHANGER_SKIN_LOADING")));
+                Menu2.AddComponent(ref SkinChangerMisc.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuBool("SAssembliesMiscsSkinChangerSkinNameSplash", Language.GetString("MISCS_SKINCHANGER_SKIN_SPLASH")));
                 SkinChangerMisc.CreateActiveMenuItem("SAssembliesMiscsSkinChangerActive");
 
                 MainMenu2.SkinChangerMisc = SkinChangerMisc;

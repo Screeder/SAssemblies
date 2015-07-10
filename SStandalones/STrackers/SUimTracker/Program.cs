@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using LeagueSharp;
 using LeagueSharp.Common;
 using LeagueSharp.SDK.Core.UI;
-using LeagueSharp.SDK.Core.UI.Values;
 using SAssemblies.Trackers;
 
 namespace SAssemblies
@@ -102,7 +101,7 @@ namespace SAssemblies
             //http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
             try
             {
-                LeagueSharp.SDK.Core.UI.Menu menu = Menu2.CreateMainMenu();
+                var menu = Menu2.CreateMainMenu();
                 Menu2.CreateGlobalMenuItems(menu);
 
                 //MainMenu.Tracker = Tracker.SetupMenu(menu);
@@ -110,10 +109,9 @@ namespace SAssemblies
 
                 Menu2.MenuItemSettings UimTracker = new Menu2.MenuItemSettings(typeof(Uim));
 
-                menu.Add(new LeagueSharp.SDK.Core.UI.Menu("SAssembliesTrackersUim", Language.GetString("TRACKERS_UIM_MAIN")));
-                UimTracker.Menu = (LeagueSharp.SDK.Core.UI.Menu)menu["SAssembliesTrackersUim"];
-                UimTracker.Menu.Add(new MenuItem<MenuSlider>("SAssembliesTrackersUimScale", Language.GetString("TRACKERS_UIM_SCALE")) { Value = new MenuSlider(100, 0, 100) });
-                UimTracker.Menu.Add(new MenuItem<MenuBool>("SAssembliesTrackersUimShowSS", Language.GetString("TRACKERS_UIM_TIME")) { Value = new MenuBool() });
+                UimTracker.Menu = Menu2.AddMenu(ref menu, new LeagueSharp.SDK.Core.UI.IMenu.Menu("SAssembliesTrackersUim", Language.GetString("TRACKERS_UIM_MAIN")));
+                Menu2.AddComponent(ref UimTracker.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuSlider("SAssembliesTrackersUimScale", Language.GetString("TRACKERS_UIM_SCALE"), 100));
+                Menu2.AddComponent(ref UimTracker.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuBool("SAssembliesTrackersUimShowSS", Language.GetString("TRACKERS_UIM_TIME")));
                 UimTracker.CreateActiveMenuItem("SAssembliesTrackersUimActive");
 
                 MainMenu2.UimTracker = UimTracker;

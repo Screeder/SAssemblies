@@ -12,9 +12,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using LeagueSharp.SDK.Core.Enumerations;
 using LeagueSharp.SDK.Core.UI;
-using LeagueSharp.SDK.Core.UI.Values;
 using Menu = SAssemblies.Menu;
-using MenuItem = LeagueSharp.SDK.Core.UI.MenuItem;
 
 namespace SAssemblies
 {
@@ -106,7 +104,7 @@ namespace SAssemblies
             //http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
             try
             {
-                LeagueSharp.SDK.Core.UI.Menu menu = Menu2.CreateMainMenu();
+                var menu = Menu2.CreateMainMenu();
                 Menu2.CreateGlobalMenuItems(menu);
 
                 //MainMenu.Wards = Wards.Ward.SetupMenu(menu);
@@ -114,9 +112,8 @@ namespace SAssemblies
 
                 Menu2.MenuItemSettings BushRevealerWard = new Menu2.MenuItemSettings(typeof(BushRevealer));
 
-                menu.Add(new LeagueSharp.SDK.Core.UI.Menu("SAssembliesWardsBushRevealer", Language.GetString("WARDS_BUSHREVEALER_MAIN")));
-                BushRevealerWard.Menu = (LeagueSharp.SDK.Core.UI.Menu)menu["SAssembliesWardsBushRevealer"];
-                BushRevealerWard.Menu.Add(new MenuItem<MenuKeyBind>("SAssembliesWardsBushRevealerKey", Language.GetString("GLOBAL_KEY")) { Value = new MenuKeyBind(Keys.T, KeyBindType.Press) });
+                BushRevealerWard.Menu = Menu2.AddMenu(ref menu, new LeagueSharp.SDK.Core.UI.IMenu.Menu("SAssembliesWardsBushRevealer", Language.GetString("WARDS_BUSHREVEALER_MAIN")));
+                Menu2.AddComponent(ref BushRevealerWard.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuKeyBind("SAssembliesWardsBushRevealerKey", Language.GetString("GLOBAL_KEY"), Keys.T, KeyBindType.Press));
                 BushRevealerWard.CreateActiveMenuItem("SAssembliesWardsBushRevealerActive");
 
                 MainMenu2.BushRevealerWard = BushRevealerWard;

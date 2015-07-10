@@ -100,7 +100,7 @@ namespace SAssemblies
             //http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
             try
             {
-                LeagueSharp.SDK.Core.UI.Menu menu = Menu2.CreateMainMenu();
+                var menu = Menu2.CreateMainMenu();
                 Menu2.CreateGlobalMenuItems(menu);
 
                 //MainMenu.Tracker = Tracker.SetupMenu(menu);
@@ -108,8 +108,7 @@ namespace SAssemblies
 
                 Menu2.MenuItemSettings JunglerTracker = new Menu2.MenuItemSettings(typeof(Jungler));
 
-                menu.Add(new LeagueSharp.SDK.Core.UI.Menu("SAssembliesTrackersJungler", Language.GetString("TRACKERS_JUNGLER_MAIN")));
-                JunglerTracker.Menu = (LeagueSharp.SDK.Core.UI.Menu)menu["SAssembliesTrackersJungler"];
+                JunglerTracker.Menu = Menu2.AddMenu(ref menu, new LeagueSharp.SDK.Core.UI.IMenu.Menu("SAssembliesTrackersJungler", Language.GetString("TRACKERS_JUNGLER_MAIN")));
                 JunglerTracker.CreateActiveMenuItem("SAssembliesTrackersJunglerActive");
 
                 MainMenu2.JunglerTracker = JunglerTracker;

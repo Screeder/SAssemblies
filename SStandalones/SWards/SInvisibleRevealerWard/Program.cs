@@ -12,9 +12,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using LeagueSharp.SDK.Core.Enumerations;
 using LeagueSharp.SDK.Core.UI;
-using LeagueSharp.SDK.Core.UI.Values;
 using Menu = SAssemblies.Menu;
-using MenuItem = LeagueSharp.SDK.Core.UI.MenuItem;
 
 namespace SAssemblies
 {
@@ -106,7 +104,7 @@ namespace SAssemblies
             //http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
             try
             {
-                LeagueSharp.SDK.Core.UI.Menu menu = Menu2.CreateMainMenu();
+                var menu = Menu2.CreateMainMenu();
                 Menu2.CreateGlobalMenuItems(menu);
 
                 //MainMenu.Wards = Wards.Ward.SetupMenu(menu);
@@ -114,17 +112,13 @@ namespace SAssemblies
 
                 Menu2.MenuItemSettings InvisibleRevealerWard = new Menu2.MenuItemSettings(typeof(InvisibleRevealer));
 
-                menu.Add(new LeagueSharp.SDK.Core.UI.Menu("SAssembliesWardsInvisibleRevealer", Language.GetString("WARDS_INVISIBLEREVEALER_MAIN")));
-                InvisibleRevealerWard.Menu = (LeagueSharp.SDK.Core.UI.Menu)menu["SAssembliesWardsInvisibleRevealer"];
-                InvisibleRevealerWard.Menu.Add(new MenuItem<MenuList<String>>("SAssembliesWardsInvisibleRevealerMode", Language.GetString("GLOBAL_MODE"))
-                {
-                    Value = new MenuList<string>(new[]
+                InvisibleRevealerWard.Menu = Menu2.AddMenu(ref menu, new LeagueSharp.SDK.Core.UI.IMenu.Menu("SAssembliesWardsInvisibleRevealer", Language.GetString("WARDS_INVISIBLEREVEALER_MAIN")));
+                Menu2.AddComponent(ref InvisibleRevealerWard.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuList<String>("SAssembliesWardsInvisibleRevealerMode", Language.GetString("GLOBAL_MODE"), new[]
                 {
                     Language.GetString("GLOBAL_MODE_MANUAL"), 
                     Language.GetString("GLOBAL_MODE_AUTOMATIC"), 
-                })
-                });
-                InvisibleRevealerWard.Menu.Add(new MenuItem<MenuKeyBind>("SAssembliesWardsInvisibleRevealerKey", Language.GetString("GLOBAL_KEY")) { Value = new MenuKeyBind(Keys.T, KeyBindType.Press) });
+                }));
+                Menu2.AddComponent(ref InvisibleRevealerWard.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuKeyBind("SAssembliesWardsInvisibleRevealerKey", Language.GetString("GLOBAL_KEY"), Keys.T, KeyBindType.Press));
                 InvisibleRevealerWard.CreateActiveMenuItem("SAssembliesWardsInvisibleRevealerActive");
 
                 MainMenu2.InvisibleRevealerWard = InvisibleRevealerWard;

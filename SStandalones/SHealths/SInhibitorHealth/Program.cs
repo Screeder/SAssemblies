@@ -9,12 +9,9 @@ using System.Threading.Tasks;
 using LeagueSharp;
 using LeagueSharp.Common;
 using LeagueSharp.SDK.Core.UI;
-using LeagueSharp.SDK.Core.UI.Abstracts;
-using LeagueSharp.SDK.Core.UI.Values;
 using SAssemblies;
 using SAssemblies.Healths;
 using Menu = SAssemblies.Menu;
-using MenuItem = LeagueSharp.SDK.Core.UI.MenuItem;
 
 namespace SAssemblies
 {
@@ -108,7 +105,7 @@ namespace SAssemblies
             //http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
             try
             {
-                LeagueSharp.SDK.Core.UI.Menu menu = Menu2.CreateMainMenu();
+                var menu = Menu2.CreateMainMenu();
                 Menu2.CreateGlobalMenuItems(menu);
 
                 //MainMenu.Health = Healths.Health.SetupMenu(menu);
@@ -116,8 +113,7 @@ namespace SAssemblies
 
                 Menu2.MenuItemSettings InhibitorHealth = new Menu2.MenuItemSettings(typeof(Inhibitor));
 
-                menu.Add(new LeagueSharp.SDK.Core.UI.Menu("SAssembliesHealthsInhibitor", Language.GetString("HEALTHS_INHIBITOR_MAIN")));
-                InhibitorHealth.Menu = (LeagueSharp.SDK.Core.UI.Menu)menu["SAssembliesHealthsInhibitor"];
+                InhibitorHealth.Menu = Menu2.AddMenu(ref menu, new LeagueSharp.SDK.Core.UI.IMenu.Menu("SAssembliesHealthsInhibitor", Language.GetString("HEALTHS_INHIBITOR_MAIN")));
                 InhibitorHealth.CreateActiveMenuItem("SAssembliesHealthsInhibitorActive");
 
                 MainMenu2.InhibitorHealth = InhibitorHealth;

@@ -13,7 +13,6 @@ using Menu = SAssemblies.Menu;
 using System.Drawing;
 using LeagueSharp.SDK.Core.Events;
 using LeagueSharp.SDK.Core.UI;
-using LeagueSharp.SDK.Core.UI.Values;
 
 namespace SAssemblies
 {
@@ -106,7 +105,7 @@ namespace SAssemblies
             //http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
             try
             {
-                LeagueSharp.SDK.Core.UI.Menu menu = Menu2.CreateMainMenu();
+                var menu = Menu2.CreateMainMenu();
                 Menu2.CreateGlobalMenuItems(menu);
 
                 //MainMenu.Range = Range.SetupMenu(menu);
@@ -114,20 +113,16 @@ namespace SAssemblies
 
                 Menu2.MenuItemSettings SpellWRange = new Menu2.MenuItemSettings(typeof(SpellW));
 
-                menu.Add(new LeagueSharp.SDK.Core.UI.Menu("SAssembliesRangesSpellW", Language.GetString("RANGES_SPELLW_MAIN")));
-                SpellWRange.Menu = (LeagueSharp.SDK.Core.UI.Menu)menu["SAssembliesRangesSpellW"];
-                SpellWRange.Menu.Add(new MenuItem<MenuList<String>>("SAssembliesRangesSpellWMode", Language.GetString("RANGES_ALL_MODE"))
-                {
-                    Value = new MenuList<string>(new[]
+                SpellWRange.Menu = Menu2.AddMenu(ref menu, new LeagueSharp.SDK.Core.UI.IMenu.Menu("SAssembliesRangesSpellW", Language.GetString("RANGES_SPELLW_MAIN")));
+                Menu2.AddComponent(ref SpellWRange.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuList<String>("SAssembliesRangesSpellWMode", Language.GetString("RANGES_ALL_MODE"), new[]
                 {
                     Language.GetString("RANGES_ALL_MODE_ME"), 
                     Language.GetString("RANGES_ALL_MODE_ENEMY"), 
                     Language.GetString("RANGES_ALL_MODE_BOTH"),  
-                })
-                });
-                SpellWRange.Menu.Add(new MenuItem<MenuColor>("SAssembliesRangesSpellWColorMe", Language.GetString("RANGES_ALL_COLORME")) { Value = new MenuColor(SharpDX.Color.LawnGreen) });
-                SpellWRange.Menu.Add(new MenuItem<MenuColor>("SAssembliesRangesSpellWColorEnemy", Language.GetString("RANGES_ALL_COLORENEMY")) { Value = new MenuColor(SharpDX.Color.IndianRed) });
-                SpellWRange.CreateActiveMenuItem("SAssembliesRangesSpellWActive");
+                }));
+                Menu2.AddComponent(ref SpellWRange.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuColor("SAssembliesRangesSpellWColorMe", Language.GetString("RANGES_ALL_COLORME"), SharpDX.Color.LawnGreen));
+                Menu2.AddComponent(ref SpellWRange.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuColor("SAssembliesRangesSpellWColorEnemy", Language.GetString("RANGES_ALL_COLORENEMY"), SharpDX.Color.IndianRed));
+                SpellWRange.CreateActiveMenuItem("SAssembliesRangesSpellRActive");
 
                 MainMenu2.SpellWRange = SpellWRange;
             }

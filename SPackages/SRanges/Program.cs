@@ -135,7 +135,7 @@ namespace SAssemblies
             //http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
             try
             {
-                LeagueSharp.SDK.Core.UI.Menu menu = Menu2.CreateMainMenu();
+                var menu = Menu2.CreateMainMenu();
                 Menu2.CreateGlobalMenuItems(menu);
 
                 //MainMenu.Range = Range.SetupMenu(menu);
@@ -151,8 +151,7 @@ namespace SAssemblies
 
                 Menu2.MenuItemSettings Ranges = new Menu2.MenuItemSettings();
 
-                menu.Add(new LeagueSharp.SDK.Core.UI.Menu("SAwarenessRanges", Language.GetString("RANGES_RANGE_MAIN")));
-                Ranges.Menu = (LeagueSharp.SDK.Core.UI.Menu)menu["SAwarenessRanges"];
+                Ranges.Menu = Menu2.AddMenu(ref menu, new LeagueSharp.SDK.Core.UI.IMenu.Menu("SAwarenessRanges", Language.GetString("RANGES_RANGE_MAIN")));
                 Ranges.CreateActiveMenuItem("SAwarenessRangesActive");
 
                 MainMenu2.Range = Ranges;

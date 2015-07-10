@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using LeagueSharp;
 using LeagueSharp.Common;
 using LeagueSharp.SDK.Core.UI;
-using LeagueSharp.SDK.Core.UI.Values;
 using SAssemblies.Trackers;
 
 namespace SAssemblies
@@ -102,7 +101,7 @@ namespace SAssemblies
             //http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
             try
             {
-                LeagueSharp.SDK.Core.UI.Menu menu = Menu2.CreateMainMenu();
+                var menu = Menu2.CreateMainMenu();
                 Menu2.CreateGlobalMenuItems(menu);
 
                 //MainMenu.Tracker = Tracker.SetupMenu(menu);
@@ -119,13 +118,12 @@ namespace SAssemblies
 
                 Menu2.MenuItemSettings GankTracker = new Menu2.MenuItemSettings(typeof(Gank));
 
-                menu.Add(new LeagueSharp.SDK.Core.UI.Menu("SAssembliesTrackersGank", Language.GetString("TRACKERS_GANK_MAIN")));
-                GankTracker.Menu = (LeagueSharp.SDK.Core.UI.Menu)menu["SAssembliesTrackersGank"];
-                GankTracker.Menu.Add(new MenuItem<MenuSlider>("SAssembliesTrackersGankTrackRange", Language.GetString("TRACKERS_GANK_RANGE")) { Value = new MenuSlider(1, 1, 20000) });
-                GankTracker.Menu.Add(new MenuItem<MenuBool>("SAssembliesTrackersGankKillable", Language.GetString("TRACKERS_GANK_KILLABLE")) { Value = new MenuBool() });
-                GankTracker.Menu.Add(new MenuItem<MenuBool>("SAssembliesTrackersGankDraw", Language.GetString("TRACKERS_GANK_LINES")) { Value = new MenuBool() });
-                GankTracker.Menu.Add(new MenuItem<MenuBool>("SAssembliesTrackersGankPing", Language.GetString("TRACKERS_GANK_PING")) { Value = new MenuBool() });
-                GankTracker.Menu.Add(new MenuItem<MenuBool>("SAssembliesTrackersGankVoice", Language.GetString("GLOBAL_VOICE")) { Value = new MenuBool() });
+                GankTracker.Menu = Menu2.AddMenu(ref menu, new LeagueSharp.SDK.Core.UI.IMenu.Menu("SAssembliesTrackersGank", Language.GetString("TRACKERS_GANK_MAIN")));
+                Menu2.AddComponent(ref GankTracker.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuSlider("SAssembliesTrackersGankTrackRange", Language.GetString("TRACKERS_GANK_RANGE"), 1, 1, 20000));
+                Menu2.AddComponent(ref GankTracker.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuBool("SAssembliesTrackersGankKillable", Language.GetString("TRACKERS_GANK_KILLABLE")));
+                Menu2.AddComponent(ref GankTracker.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuBool("SAssembliesTrackersGankDraw", Language.GetString("TRACKERS_GANK_LINES")));
+                Menu2.AddComponent(ref GankTracker.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuBool("SAssembliesTrackersGankPing", Language.GetString("TRACKERS_GANK_PING")));
+                Menu2.AddComponent(ref GankTracker.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuBool("SAssembliesTrackersGankVoice", Language.GetString("GLOBAL_VOICE")));
                 GankTracker.CreateActiveMenuItem("SAssembliesTrackersGankActive");
 
                 MainMenu2.GankTracker = GankTracker;

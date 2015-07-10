@@ -9,12 +9,10 @@ using System.Threading.Tasks;
 using LeagueSharp;
 using LeagueSharp.Common;
 using LeagueSharp.SDK.Core.UI;
-using LeagueSharp.SDK.Core.UI.Abstracts;
-using LeagueSharp.SDK.Core.UI.Values;
+using LeagueSharp.SDK.Core.UI.IMenu.Values;
 using SAssemblies;
 using SAssemblies.Healths;
 using Menu = SAssemblies.Menu;
-using MenuItem = LeagueSharp.SDK.Core.UI.MenuItem;
 
 namespace SAssemblies
 {
@@ -112,7 +110,7 @@ namespace SAssemblies
             //http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
             try
             {
-                LeagueSharp.SDK.Core.UI.Menu menu = Menu2.CreateMainMenu();
+                var menu = Menu2.CreateMainMenu();
                 Menu2.CreateGlobalMenuItems(menu);
 
                 //MainMenu.Health = Healths.Health.SetupMenu(menu);
@@ -121,9 +119,8 @@ namespace SAssemblies
 
                 Menu2.MenuItemSettings Healths = new Menu2.MenuItemSettings();
 
-                menu.Add(new LeagueSharp.SDK.Core.UI.Menu("SAssembliesHealths", Language.GetString("HEALTHS_HEALTH_MAIN")));
-                Healths.Menu = (LeagueSharp.SDK.Core.UI.Menu)menu["SAssembliesHealths"];
-                Healths.Menu.Add(new MenuItem<MenuList<String>>("SAssembliesHealthsMode", Language.GetString("GLOBAL_MODE")) { Value = new MenuList<string>(new[] { Language.GetString("GLOBAL_MODE_PERCENT"), Language.GetString("GLOBAL_MODE_VALUE") }) });
+                Healths.Menu = Menu2.AddMenu(ref menu, new LeagueSharp.SDK.Core.UI.IMenu.Menu("SAssembliesHealths", Language.GetString("HEALTHS_HEALTH_MAIN")));
+                Menu2.AddComponent(ref Healths.Menu, new MenuList<String>("SAssembliesHealthsMode", Language.GetString("GLOBAL_MODE"), new[] { Language.GetString("GLOBAL_MODE_PERCENT"), Language.GetString("GLOBAL_MODE_VALUE") }));
                 Healths.CreateActiveMenuItem("SAssembliesHealthsActive");
 
                 MainMenu2.Health = Healths;

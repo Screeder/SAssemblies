@@ -104,7 +104,7 @@ namespace SAssemblies
             //http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
             try
             {
-                LeagueSharp.SDK.Core.UI.Menu menu = Menu2.CreateMainMenu();
+                var menu = Menu2.CreateMainMenu();
                 Menu2.CreateGlobalMenuItems(menu);
 
                 //MainMenu.Misc = Misc.SetupMenu(menu);
@@ -112,8 +112,7 @@ namespace SAssemblies
 
                 Menu2.MenuItemSettings AntiVisualScreenStealthMisc = new Menu2.MenuItemSettings(typeof(AntiVisualScreenStealth));
 
-                menu.Add(new LeagueSharp.SDK.Core.UI.Menu("SAssembliesMiscsAntiVisualScreenStealth", Language.GetString("MISCS_ANTIVISUALSCREENSTEALTH_MAIN")));
-                AntiVisualScreenStealthMisc.Menu = (LeagueSharp.SDK.Core.UI.Menu)menu["SAssembliesMiscsAntiVisualScreenStealth"];
+                AntiVisualScreenStealthMisc.Menu = Menu2.AddMenu(ref menu, new LeagueSharp.SDK.Core.UI.IMenu.Menu("SAssembliesMiscsAntiVisualScreenStealth", Language.GetString("MISCS_ANTIVISUALSCREENSTEALTH_MAIN")));
                 AntiVisualScreenStealthMisc.CreateActiveMenuItem("SAssembliesMiscsAntiVisualScreenStealthActive");
 
                 MainMenu2.AntiVisualScreenStealthMisc = AntiVisualScreenStealthMisc;

@@ -13,7 +13,6 @@ using Menu = SAssemblies.Menu;
 using System.Drawing;
 using LeagueSharp.SDK.Core.Events;
 using LeagueSharp.SDK.Core.UI;
-using LeagueSharp.SDK.Core.UI.Values;
 
 namespace SAssemblies
 {
@@ -106,7 +105,7 @@ namespace SAssemblies
             //http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
             try
             {
-                LeagueSharp.SDK.Core.UI.Menu menu = Menu2.CreateMainMenu();
+                var menu = Menu2.CreateMainMenu();
                 Menu2.CreateGlobalMenuItems(menu);
 
                 //MainMenu.Range = Range.SetupMenu(menu);
@@ -114,24 +113,20 @@ namespace SAssemblies
 
                 Menu2.MenuItemSettings VisionRange = new Menu2.MenuItemSettings(typeof(Vision));
 
-                menu.Add(new LeagueSharp.SDK.Core.UI.Menu("SAssembliesRangesVision", Language.GetString("RANGES_VISION_MAIN")));
-                VisionRange.Menu = (LeagueSharp.SDK.Core.UI.Menu)menu["SAssembliesRangesVision"];
-                VisionRange.Menu.Add(new MenuItem<MenuList<String>>("SAssembliesRangesVisionMode", Language.GetString("RANGES_ALL_MODE"))
-                {
-                    Value = new MenuList<string>(new[]
+                VisionRange.Menu = Menu2.AddMenu(ref menu, new LeagueSharp.SDK.Core.UI.IMenu.Menu("SAssembliesRangesVision", Language.GetString("RANGES_VISION_MAIN")));
+                Menu2.AddComponent(ref VisionRange.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuList<String>("SAssembliesRangesVisionMode", Language.GetString("RANGES_ALL_MODE"), new[]
                 {
                     Language.GetString("RANGES_ALL_MODE_ME"), 
                     Language.GetString("RANGES_ALL_MODE_ENEMY"), 
                     Language.GetString("RANGES_ALL_MODE_BOTH"),  
-                })
-                });
-                VisionRange.Menu.Add(new MenuItem<MenuBool>("SAssembliesRangesVisionDisplayMe", Language.GetString("RANGES_VISION_ME")) { Value = new MenuBool() });
-                VisionRange.Menu.Add(new MenuItem<MenuBool>("SAssembliesRangesVisionDisplayChampion", Language.GetString("RANGES_VISION_CHAMPION")) { Value = new MenuBool() });
-                VisionRange.Menu.Add(new MenuItem<MenuBool>("SAssembliesRangesVisionDisplayTurret", Language.GetString("RANGES_VISION_TURRET")) { Value = new MenuBool() });
-                VisionRange.Menu.Add(new MenuItem<MenuBool>("SAssembliesRangesVisionDisplayMinion", Language.GetString("RANGES_VISION_MINION")) { Value = new MenuBool() });
-                VisionRange.Menu.Add(new MenuItem<MenuBool>("SAssembliesRangesVisionDisplayWard", Language.GetString("RANGES_VISION_WARD")) { Value = new MenuBool() });
-                VisionRange.Menu.Add(new MenuItem<MenuColor>("SAssembliesRangesVisionColorMe", Language.GetString("RANGES_ALL_COLORME")) { Value = new MenuColor(SharpDX.Color.Indigo) });
-                VisionRange.Menu.Add(new MenuItem<MenuColor>("SAssembliesRangesVisionColorEnemy", Language.GetString("RANGES_ALL_COLORENEMY")) { Value = new MenuColor(SharpDX.Color.Indigo) });
+                }));
+                Menu2.AddComponent(ref VisionRange.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuBool("SAssembliesRangesVisionDisplayMe", Language.GetString("RANGES_VISION_ME")));
+                Menu2.AddComponent(ref VisionRange.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuBool("SAssembliesRangesVisionDisplayChampion", Language.GetString("RANGES_VISION_CHAMPION")));
+                Menu2.AddComponent(ref VisionRange.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuBool("SAssembliesRangesVisionDisplayTurret", Language.GetString("RANGES_VISION_TURRET")));
+                Menu2.AddComponent(ref VisionRange.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuBool("SAssembliesRangesVisionDisplayMinion", Language.GetString("RANGES_VISION_MINION")));
+                Menu2.AddComponent(ref VisionRange.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuBool("SAssembliesRangesVisionDisplayWard", Language.GetString("RANGES_VISION_WARD")));
+                Menu2.AddComponent(ref VisionRange.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuColor("SAssembliesRangesVisionColorMe", Language.GetString("RANGES_ALL_COLORME"), SharpDX.Color.LawnGreen));
+                Menu2.AddComponent(ref VisionRange.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuColor("SAssembliesRangesVisionColorEnemy", Language.GetString("RANGES_ALL_COLORENEMY"), SharpDX.Color.IndianRed));
                 VisionRange.CreateActiveMenuItem("SAssembliesRangesVisionActive");
 
                 MainMenu2.VisionRange = VisionRange;

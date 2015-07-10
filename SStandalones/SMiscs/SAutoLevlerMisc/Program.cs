@@ -12,7 +12,6 @@ using SAssemblies.Miscs;
 using Menu = SAssemblies.Menu;
 using System.Drawing;
 using LeagueSharp.SDK.Core.UI;
-using LeagueSharp.SDK.Core.UI.Values;
 
 namespace SAssemblies
 {
@@ -106,7 +105,7 @@ namespace SAssemblies
             //http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
             try
             {
-                LeagueSharp.SDK.Core.UI.Menu menu = Menu2.CreateMainMenu();
+                var menu = Menu2.CreateMainMenu();
                 Menu2.CreateGlobalMenuItems(menu);
 
                 //MainMenu.Misc = Misc.SetupMenu(menu);
@@ -115,20 +114,16 @@ namespace SAssemblies
                 Menu2.MenuItemSettings AutoLevlerMisc = new Menu2.MenuItemSettings(typeof(AutoLevler));
 
                 Menu2.MenuItemSettings tempSettings = new Menu2.MenuItemSettings();
-                menu.Add(new LeagueSharp.SDK.Core.UI.Menu("SAssembliesMiscsAutoLevler", Language.GetString("MISCS_AUTOLEVLER_MAIN")));
-                AutoLevlerMisc.Menu = (LeagueSharp.SDK.Core.UI.Menu)menu["SAssembliesMiscsAutoLevler"];
+                AutoLevlerMisc.Menu = Menu2.AddMenu(ref menu, new LeagueSharp.SDK.Core.UI.IMenu.Menu("SAssembliesMiscsAutoLevler", Language.GetString("MISCS_AUTOLEVLER_MAIN")));
+                Menu2.AddComponent(ref AutoLevlerMisc.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuSlider("SAssembliesTimersPingTimes", Language.GetString("GLOBAL_PING_TIMES"), 0, 0, 5));
 
-                AutoLevlerMisc.Menu.Add(new LeagueSharp.SDK.Core.UI.Menu("SAssembliesMiscsAutoLevlerPriority", Language.GetString("MISCS_AUTOLEVLER_PRIORITY_MAIN")));
-                ((LeagueSharp.SDK.Core.UI.Menu)AutoLevlerMisc.Menu["SAssembliesMiscsAutoLevlerPriority"]).Add(
-                    new MenuItem<MenuSlider>("SAssembliesMiscsAutoLevlerPrioritySliderQ", "Q") { Value = new MenuSlider(0, 0, 3) });
-                ((LeagueSharp.SDK.Core.UI.Menu)AutoLevlerMisc.Menu["SAssembliesMiscsAutoLevlerPriority"]).Add(
-                    new MenuItem<MenuSlider>("SAssembliesMiscsAutoLevlerPrioritySliderW", "W") { Value = new MenuSlider(0, 0, 3) });
-                ((LeagueSharp.SDK.Core.UI.Menu)AutoLevlerMisc.Menu["SAssembliesMiscsAutoLevlerPriority"]).Add(
-                    new MenuItem<MenuSlider>("SAssembliesMiscsAutoLevlerPrioritySliderE", "E") { Value = new MenuSlider(0, 0, 3) });
-                ((LeagueSharp.SDK.Core.UI.Menu)AutoLevlerMisc.Menu["SAssembliesMiscsAutoLevlerPriority"]).Add(
-                    new MenuItem<MenuSlider>("SAssembliesMiscsAutoLevlerPrioritySliderR", "R") { Value = new MenuSlider(0, 0, 3) });
-                ((LeagueSharp.SDK.Core.UI.Menu)AutoLevlerMisc.Menu["SAssembliesMiscsAutoLevlerPriority"]).Add(
-                    new MenuItem<MenuList<String>>("SAssembliesMiscsAutoLevlerPriorityFirstSpells", Language.GetString("MISCS_AUTOLEVLER_PRIORITY_MODE")) { Value = new MenuList<string>(new[]
+                tempSettings.Menu = Menu2.AddMenu(ref menu, new LeagueSharp.SDK.Core.UI.IMenu.Menu("SAssembliesMiscsAutoLevlerPriority", Language.GetString("MISCS_AUTOLEVLER_PRIORITY_MAIN")));
+                Menu2.AddComponent(ref tempSettings.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuSlider("SAssembliesMiscsAutoLevlerPrioritySliderQ", "Q", 0, 0, 3));
+                Menu2.AddComponent(ref tempSettings.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuSlider("SAssembliesMiscsAutoLevlerPrioritySliderW", "W", 0, 0, 3));
+                Menu2.AddComponent(ref tempSettings.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuSlider("SAssembliesMiscsAutoLevlerPrioritySliderE", "E", 0, 0, 3));
+                Menu2.AddComponent(ref tempSettings.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuSlider("SAssembliesMiscsAutoLevlerPrioritySliderR", "R", 0, 0, 3));
+                Menu2.AddComponent(ref tempSettings.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuList<String>("SAssembliesMiscsAutoLevlerPriorityFirstSpells", 
+                    Language.GetString("MISCS_AUTOLEVLER_PRIORITY_MODE"), new[]
                     {
                         "Q W E", 
                         "Q E W", 
@@ -136,39 +131,31 @@ namespace SAssemblies
                         "W E Q", 
                         "E Q W", 
                         "E W Q"
-                    })});
-                ((LeagueSharp.SDK.Core.UI.Menu)AutoLevlerMisc.Menu["SAssembliesMiscsAutoLevlerPriority"]).Add(
-                    new MenuItem<MenuBool>("SAssembliesMiscsAutoLevlerPriorityFirstSpellsActive", Language.GetString("MISCS_AUTOLEVLER_PRIORITY_MODE_ACTIVE")) { Value = new MenuBool() });
-                tempSettings.Menu = ((LeagueSharp.SDK.Core.UI.Menu) AutoLevlerMisc.Menu["SAssembliesMiscsAutoLevlerPriority"]);
+                    }));
+                Menu2.AddComponent(ref tempSettings.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuBool("SAssembliesMiscsAutoLevlerPriorityFirstSpellsActive", 
+                    Language.GetString("MISCS_AUTOLEVLER_PRIORITY_MODE_ACTIVE")));
                 tempSettings.CreateActiveMenuItem("SAssembliesMiscsAutoLevlerPriorityActive");
 
-                AutoLevlerMisc.Menu.Add(new LeagueSharp.SDK.Core.UI.Menu("SAssembliesMiscsAutoLevlerSequence", Language.GetString("MISCS_AUTOLEVLER_SEQUENCE_MAIN")));
-                ((LeagueSharp.SDK.Core.UI.Menu)AutoLevlerMisc.Menu["SAssembliesMiscsAutoLevlerSequence"]).Add(
-                    new MenuItem<MenuList<String>>("SAssembliesMiscsAutoLevlerSequenceLoadChoice", Language.GetString("MISCS_AUTOLEVLER_SEQUENCE_BUILD_CHOICE")) { Value = new MenuList<String>(new[]{"dummy"}) /*GetBuildNames()*/ });
-                ((LeagueSharp.SDK.Core.UI.Menu)AutoLevlerMisc.Menu["SAssembliesMiscsAutoLevlerSequence"]).Add(
-                    new MenuItem<MenuBool>("SAssembliesMiscsAutoLevlerSequenceShowBuild", Language.GetString("MISCS_AUTOLEVLER_SEQUENCE_BUILD_LOAD")) { Value = new MenuBool() });
-                ((LeagueSharp.SDK.Core.UI.Menu)AutoLevlerMisc.Menu["SAssembliesMiscsAutoLevlerSequence"]).Add(
-                    new MenuItem<MenuBool>("SAssembliesMiscsAutoLevlerSequenceNewBuild", Language.GetString("MISCS_AUTOLEVLER_SEQUENCE_CREATE_CHOICE")) { Value = new MenuBool() });
-                ((LeagueSharp.SDK.Core.UI.Menu)AutoLevlerMisc.Menu["SAssembliesMiscsAutoLevlerSequence"]).Add(
-                    new MenuItem<MenuBool>("SAssembliesMiscsAutoLevlerSequenceDeleteBuild", Language.GetString("MISCS_AUTOLEVLER_SEQUENCE_DELETE_CHOICE")) { Value = new MenuBool() });
-                tempSettings.Menu = ((LeagueSharp.SDK.Core.UI.Menu)AutoLevlerMisc.Menu["SAssembliesMiscsAutoLevlerSequence"]);
+                tempSettings.Menu = Menu2.AddMenu(ref menu, new LeagueSharp.SDK.Core.UI.IMenu.Menu("SAssembliesMiscsAutoLevlerSequence", Language.GetString("MISCS_AUTOLEVLER_SEQUENCE_MAIN")));
+                Menu2.AddComponent(ref tempSettings.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuList<String>("SAssembliesMiscsAutoLevlerSequenceLoadChoice", 
+                    Language.GetString("MISCS_AUTOLEVLER_SEQUENCE_BUILD_CHOICE"), new[] { "dummy" /*GetBuildNames()*/}));
+                Menu2.AddComponent(ref tempSettings.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuBool("SAssembliesMiscsAutoLevlerSequenceShowBuild", Language.GetString("MISCS_AUTOLEVLER_SEQUENCE_BUILD_LOAD")));
+                Menu2.AddComponent(ref tempSettings.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuBool("SAssembliesMiscsAutoLevlerSequenceNewBuild", Language.GetString("MISCS_AUTOLEVLER_SEQUENCE_CREATE_CHOICE")));
+                Menu2.AddComponent(ref tempSettings.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuBool("SAssembliesMiscsAutoLevlerSequenceDeleteBuild", Language.GetString("MISCS_AUTOLEVLER_SEQUENCE_DELETE_CHOICE")));
                 tempSettings.CreateActiveMenuItem("SAssembliesMiscsAutoLevlerSequenceActive");
 
-                AutoLevlerMisc.Menu.Add(
-                    new MenuItem<MenuList<String>>("SAssembliesMiscsAutoLevlerSMode", Language.GetString("GLOBAL_MODE")) { Value = new MenuList<string>(new[]
+                Menu2.AddComponent(ref tempSettings.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuList<String>("SAssembliesMiscsAutoLevlerSMode", Language.GetString("GLOBAL_MODE"), new[]
                     {
                         Language.GetString("MISCS_AUTOLEVLER_MODE_PRIORITY"), 
                         Language.GetString("MISCS_AUTOLEVLER_MODE_SEQUENCE"), 
                         Language.GetString("MISCS_AUTOLEVLER_MODE_R")
-                    })});
+                    }));
                 AutoLevlerMisc.CreateActiveMenuItem("SAssembliesMiscsAutoLevlerActive");
 
                 MainMenu2.AutoLevlerMisc = AutoLevlerMisc;
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Console.WriteLine( e);
-                throw;
             }
         }
 

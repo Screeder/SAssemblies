@@ -12,7 +12,6 @@ using Menu = SAssemblies.Menu;
 using System.Drawing;
 using System.Windows.Forms;
 using LeagueSharp.SDK.Core.UI;
-using LeagueSharp.SDK.Core.UI.Values;
 using LeagueSharp.SDK.Core.Enumerations;
 
 namespace SAssemblies
@@ -107,7 +106,7 @@ namespace SAssemblies
             //http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
             try
             {
-                LeagueSharp.SDK.Core.UI.Menu menu = Menu2.CreateMainMenu();
+                var menu = Menu2.CreateMainMenu();
                 Menu2.CreateGlobalMenuItems(menu);
 
                 //MainMenu.Misc = Misc.SetupMenu(menu);
@@ -115,9 +114,8 @@ namespace SAssemblies
 
                 Menu2.MenuItemSettings MoveToMouseMisc = new Menu2.MenuItemSettings(typeof(MoveToMouse));
 
-                menu.Add(new LeagueSharp.SDK.Core.UI.Menu("SAssembliesMiscsMoveToMouse", Language.GetString("MISCS_MOVETOMOUSE_MAIN")));
-                MoveToMouseMisc.Menu = (LeagueSharp.SDK.Core.UI.Menu)menu["SAssembliesMiscsMoveToMouse"];
-                MoveToMouseMisc.Menu.Add(new MenuItem<MenuKeyBind>("SAssembliesMiscsMoveToMouseKey", Language.GetString("GLOBAL_KEY")) { Value = new MenuKeyBind(Keys.Z, KeyBindType.Press) });
+                MoveToMouseMisc.Menu = Menu2.AddMenu(ref menu, new LeagueSharp.SDK.Core.UI.IMenu.Menu("SAssembliesMiscsMoveToMouse", Language.GetString("MISCS_MOVETOMOUSE_MAIN")));
+                Menu2.AddComponent(ref MoveToMouseMisc.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuKeyBind("SAssembliesMiscsMoveToMouseKey", Language.GetString("GLOBAL_KEY"), Keys.Z, KeyBindType.Press));
                 MoveToMouseMisc.CreateActiveMenuItem("SAssembliesMiscsMoveToMouseActive");
 
                 MainMenu2.MoveToMouseMisc = MoveToMouseMisc;

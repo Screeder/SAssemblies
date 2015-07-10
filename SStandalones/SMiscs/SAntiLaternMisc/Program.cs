@@ -13,7 +13,6 @@ using Menu = SAssemblies.Menu;
 using System.Drawing;
 using System.Windows.Forms;
 using LeagueSharp.SDK.Core.UI;
-using LeagueSharp.SDK.Core.UI.Values;
 using KeyBindType = LeagueSharp.SDK.Core.Enumerations.KeyBindType;
 
 namespace SAssemblies
@@ -108,7 +107,7 @@ namespace SAssemblies
             //http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
             try
             {
-                LeagueSharp.SDK.Core.UI.Menu menu = Menu2.CreateMainMenu();
+                var menu = Menu2.CreateMainMenu();
                 Menu2.CreateGlobalMenuItems(menu);
 
                 //MainMenu.Misc = Misc.SetupMenu(menu);
@@ -116,9 +115,8 @@ namespace SAssemblies
 
                 Menu2.MenuItemSettings AntiLaternMisc = new Menu2.MenuItemSettings(typeof(AntiLatern));
 
-                menu.Add(new LeagueSharp.SDK.Core.UI.Menu("SAssembliesMiscsAntiLatern", Language.GetString("MISCS_ANTILATERN_MAIN")));
-                AntiLaternMisc.Menu = (LeagueSharp.SDK.Core.UI.Menu)menu["SAssembliesMiscsAntiLatern"];
-                AntiLaternMisc.Menu.Add(new MenuItem<MenuKeyBind>("SAssembliesMiscsAntiLaternKey", Language.GetString("GLOBAL_KEY")) { Value = new MenuKeyBind(Keys.T, KeyBindType.Press) });
+                AntiLaternMisc.Menu = Menu2.AddMenu(ref menu, new LeagueSharp.SDK.Core.UI.IMenu.Menu("SAssembliesMiscsAntiLatern", Language.GetString("MISCS_ANTILATERN_MAIN")));
+                Menu2.AddComponent(ref AntiLaternMisc.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuKeyBind("SAssembliesMiscsAntiLaternKey", Language.GetString("GLOBAL_KEY"), Keys.T, KeyBindType.Press));
                 AntiLaternMisc.CreateActiveMenuItem("SAssembliesMiscsAntiLaternActive");
 
                 MainMenu2.AntiLaternMisc = AntiLaternMisc;

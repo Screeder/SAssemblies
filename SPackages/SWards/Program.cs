@@ -10,9 +10,7 @@ using SAssemblies;
 using SAssemblies.Wards;
 using System.Drawing;
 using LeagueSharp.SDK.Core.UI;
-using LeagueSharp.SDK.Core.UI.Values;
 using Menu = SAssemblies.Menu;
-using MenuItem = LeagueSharp.SDK.Core.UI.MenuItem;
 
 namespace SAssemblies
 {
@@ -116,7 +114,7 @@ namespace SAssemblies
             //http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
             try
             {
-                LeagueSharp.SDK.Core.UI.Menu menu = Menu2.CreateMainMenu();
+                var menu = Menu2.CreateMainMenu();
                 Menu2.CreateGlobalMenuItems(menu);
 
                 //MainMenu.Wards = Wards.Ward.SetupMenu(menu);
@@ -127,8 +125,7 @@ namespace SAssemblies
 
                 Menu2.MenuItemSettings Wards = new Menu2.MenuItemSettings();
 
-                menu.Add(new LeagueSharp.SDK.Core.UI.Menu("SAssembliesWards", Language.GetString("WARDS_WARD_MAIN")));
-                Wards.Menu = (LeagueSharp.SDK.Core.UI.Menu)menu["SAssembliesWards"];
+                Wards.Menu = Menu2.AddMenu(ref menu, new LeagueSharp.SDK.Core.UI.IMenu.Menu("SAssembliesWards", Language.GetString("WARDS_WARD_MAIN")));
                 Wards.CreateActiveMenuItem("SAssembliesWardsActive");
 
                 MainMenu2.Wards = Wards;

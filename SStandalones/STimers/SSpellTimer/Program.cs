@@ -10,7 +10,6 @@ using LeagueSharp;
 using LeagueSharp.Common;
 using LeagueSharp.SDK.Core.Math.Prediction;
 using LeagueSharp.SDK.Core.UI;
-using LeagueSharp.SDK.Core.UI.Values;
 using SAssemblies.Timers;
 using Spell = SAssemblies.Timers.Spell;
 
@@ -106,7 +105,7 @@ namespace SAssemblies
             //http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
             try
             {
-                LeagueSharp.SDK.Core.UI.Menu menu = Menu2.CreateMainMenu();
+                var menu = Menu2.CreateMainMenu();
                 Menu2.CreateGlobalMenuItems(menu);
 
                 //MainMenu.Timers = Timer.SetupMenu(menu);
@@ -114,9 +113,8 @@ namespace SAssemblies
 
                 Menu2.MenuItemSettings SpellTimer = new Menu2.MenuItemSettings(typeof(Spell));
 
-                menu.Add(new LeagueSharp.SDK.Core.UI.Menu("SAssembliesTimersSpell", Language.GetString("TIMERS_SPELL_MAIN")));
-                SpellTimer.Menu = (LeagueSharp.SDK.Core.UI.Menu)menu["SAssembliesTimersSpell"];
-                SpellTimer.Menu.Add(new MenuItem<MenuBool>("SAssembliesTimersSpellSpeech", Language.GetString("GLOBAL_VOICE")) { Value = new MenuBool() });
+                SpellTimer.Menu = Menu2.AddMenu(ref menu, new LeagueSharp.SDK.Core.UI.IMenu.Menu("SAssembliesTimersSpell", Language.GetString("TIMERS_SPELL_MAIN")));
+                Menu2.AddComponent(ref SpellTimer.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuBool("SAssembliesTimersSpellSpeech", Language.GetString("GLOBAL_VOICE")));
                 SpellTimer.CreateActiveMenuItem("SAssembliesTimersSpellActive");
 
                 MainMenu2.SpellTimer = SpellTimer;

@@ -10,9 +10,7 @@ using SAssemblies;
 using SAssemblies.Wards;
 using System.Drawing;
 using LeagueSharp.SDK.Core.UI;
-using LeagueSharp.SDK.Core.UI.Values;
 using Menu = SAssemblies.Menu;
-using MenuItem = LeagueSharp.SDK.Core.UI.MenuItem;
 
 namespace SAssemblies
 {
@@ -104,7 +102,7 @@ namespace SAssemblies
             //http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
             try
             {
-                LeagueSharp.SDK.Core.UI.Menu menu = Menu2.CreateMainMenu();
+                var menu = Menu2.CreateMainMenu();
                 Menu2.CreateGlobalMenuItems(menu);
 
                 //MainMenu.Wards = Wards.Ward.SetupMenu(menu);
@@ -112,8 +110,8 @@ namespace SAssemblies
 
                 Menu2.MenuItemSettings FowWardPlacementWard = new Menu2.MenuItemSettings(typeof(FowWardPlacement));
 
-                menu.Add(new LeagueSharp.SDK.Core.UI.Menu("SAssembliesWardsFowWardPlacement", Language.GetString("WARDS_FOWWARDPLACEMENT_MAIN")));
-                FowWardPlacementWard.Menu = (LeagueSharp.SDK.Core.UI.Menu)menu["SAssembliesWardsFowWardPlacement"];
+                FowWardPlacementWard.Menu = Menu2.AddMenu(ref menu, new LeagueSharp.SDK.Core.UI.IMenu.Menu("SAssembliesWardsFowWardPlacement", Language.GetString("WARDS_FOWWARDPLACEMENT_MAIN")));
+                Menu2.AddComponent(ref FowWardPlacementWard.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuSlider("SAssembliesTimersPingTimes", Language.GetString("GLOBAL_PING_TIMES"), 0, 0, 5));
                 FowWardPlacementWard.CreateActiveMenuItem("SAssembliesWardsFowWardPlacementActive");
 
                 MainMenu2.FowWardPlacementWard = FowWardPlacementWard;

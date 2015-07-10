@@ -11,7 +11,6 @@ using SAssemblies.Miscs;
 using Menu = SAssemblies.Menu;
 using System.Drawing;
 using LeagueSharp.SDK.Core.UI;
-using LeagueSharp.SDK.Core.UI.Values;
 
 namespace SAssemblies
 {
@@ -105,7 +104,7 @@ namespace SAssemblies
             //http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
             try
             {
-                LeagueSharp.SDK.Core.UI.Menu menu = Menu2.CreateMainMenu();
+                var menu = Menu2.CreateMainMenu();
                 Menu2.CreateGlobalMenuItems(menu);
 
                 //MainMenu.Misc = Misc.SetupMenu(menu);
@@ -113,9 +112,8 @@ namespace SAssemblies
 
                 Menu2.MenuItemSettings SafeMovementMisc = new Menu2.MenuItemSettings(typeof(SafeMovement));
 
-                menu.Add(new LeagueSharp.SDK.Core.UI.Menu("SAssembliesMiscsSafeMovement", Language.GetString("MISCS_SAFEMOVEMENT_MAIN")));
-                SafeMovementMisc.Menu = (LeagueSharp.SDK.Core.UI.Menu)menu["SAssembliesMiscsSafeMovement"];
-                SafeMovementMisc.Menu.Add(new MenuItem<MenuSlider>("SAssembliesMiscsSafeMovementBlockIntervall", Language.GetString("MISCS_SAFEMOVEMENT_BLOCKINTERVAL")) { Value = new MenuSlider(20, 0, 1000) });
+                SafeMovementMisc.Menu = Menu2.AddMenu(ref menu, new LeagueSharp.SDK.Core.UI.IMenu.Menu("SAssembliesMiscsSafeMovement", Language.GetString("MISCS_SAFEMOVEMENT_MAIN")));
+                Menu2.AddComponent(ref SafeMovementMisc.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuSlider("SAssembliesMiscsSafeMovementBlockIntervall", Language.GetString("MISCS_SAFEMOVEMENT_BLOCKINTERVAL"), 20, 0, 1000));
                 SafeMovementMisc.CreateActiveMenuItem("SAssembliesMiscsSafeMovementActive");
 
                 MainMenu2.SafeMovementMisc = SafeMovementMisc;

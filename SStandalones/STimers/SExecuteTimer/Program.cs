@@ -10,7 +10,6 @@ using LeagueSharp;
 using LeagueSharp.Common;
 using LeagueSharp.SDK.Core.Math.Prediction;
 using LeagueSharp.SDK.Core.UI;
-using LeagueSharp.SDK.Core.UI.Values;
 using SAssemblies.Timers;
 
 namespace SAssemblies
@@ -105,7 +104,7 @@ namespace SAssemblies
             //http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
             try
             {
-                LeagueSharp.SDK.Core.UI.Menu menu = Menu2.CreateMainMenu();
+                var menu = Menu2.CreateMainMenu();
                 Menu2.CreateGlobalMenuItems(menu);
 
                 //MainMenu.Timers = Timer.SetupMenu(menu);
@@ -113,8 +112,7 @@ namespace SAssemblies
 
                 Menu2.MenuItemSettings ExecuteTimer = new Menu2.MenuItemSettings(typeof(Execute));
 
-                menu.Add(new LeagueSharp.SDK.Core.UI.Menu("SAssembliesTimersExecute", Language.GetString("TIMERS_EXECUTE_MAIN")));
-                ExecuteTimer.Menu = (LeagueSharp.SDK.Core.UI.Menu)menu["SAssembliesTimersExecute"];
+                ExecuteTimer.Menu = Menu2.AddMenu(ref menu, new LeagueSharp.SDK.Core.UI.IMenu.Menu("SAssembliesTimersExecute", Language.GetString("TIMERS_EXECUTE_MAIN")));
                 ExecuteTimer.CreateActiveMenuItem("SAssembliesTimersExecuteActive");
 
                 MainMenu2.ExecuteTimer = ExecuteTimer;

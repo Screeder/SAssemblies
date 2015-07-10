@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using LeagueSharp;
 using LeagueSharp.Common;
 using LeagueSharp.SDK.Core.UI;
-using LeagueSharp.SDK.Core.UI.Values;
 using SAssemblies.Trackers;
 
 namespace SAssemblies
@@ -102,7 +101,7 @@ namespace SAssemblies
             //http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
             try
             {
-                LeagueSharp.SDK.Core.UI.Menu menu = Menu2.CreateMainMenu();
+                var menu = Menu2.CreateMainMenu();
                 Menu2.CreateGlobalMenuItems(menu);
 
                 //MainMenu.Tracker = Tracker.SetupMenu(menu);
@@ -111,92 +110,77 @@ namespace SAssemblies
                 Menu2.MenuItemSettings UiTracker = new Menu2.MenuItemSettings(typeof(Ui));
 
                 Menu2.MenuItemSettings tempSettings = new Menu2.MenuItemSettings();
-                menu.Add(new LeagueSharp.SDK.Core.UI.Menu("SAssembliesTrackersUi", Language.GetString("TRACKERS_UI_MAIN")));
-                UiTracker.Menu = (LeagueSharp.SDK.Core.UI.Menu)menu["SAssembliesTrackersUi"];
-                //UiTracker.Menu.Add(new MenuItem<MenuBool>("SAssembliesItemPanelActive", Language.GetString("TRACKERS_UI_ITEMPANEL")) { Value = new MenuBool() });
-                UiTracker.Menu.Add(new MenuItem<MenuSlider>("SAssembliesUITrackerScale", Language.GetString("TRACKERS_UI_SCALE")) { Value = new MenuSlider(100, 0, 100) });
+                UiTracker.Menu = Menu2.AddMenu(ref menu, new LeagueSharp.SDK.Core.UI.IMenu.Menu("SAssembliesTrackersUi", Language.GetString("TRACKERS_UI_MAIN")));
+                //Menu2.AddComponent(ref UiTracker.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuBool("SAssembliesItemPanelActive", Language.GetString("TRACKERS_UI_ITEMPANEL")));
+                Menu2.AddComponent(ref UiTracker.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuSlider("SAssembliesUITrackerScale", Language.GetString("TRACKERS_UI_SCALE"), 100));
 
-                UiTracker.Menu.Add(new LeagueSharp.SDK.Core.UI.Menu("SAssembliesUITrackerEnemyTracker", Language.GetString("TRACKERS_UI_ENEMY")));
-                tempSettings.Menu = ((LeagueSharp.SDK.Core.UI.Menu)UiTracker.Menu["SAssembliesUITrackerEnemyTracker"]);
-                tempSettings.Menu.Add(new MenuItem<MenuSlider>("SAssembliesUITrackerEnemyTrackerXPos", Language.GetString("TRACKERS_UI_GLOBAL_POSITION_X")) { Value = new MenuSlider((int)_screen.X, 0, Drawing.Width) });
-                tempSettings.Menu.Add(new MenuItem<MenuSlider>("SAssembliesUITrackerEnemyTrackerYPos", Language.GetString("TRACKERS_UI_GLOBAL_POSITION_Y")) { Value = new MenuSlider((int)_screen.Y, 0, Drawing.Height) });
-                tempSettings.Menu.Add(new MenuItem<MenuList<String>>("SAssembliesUITrackerEnemyTrackerMode", Language.GetString("GLOBAL_MODE"))
-                {
-                    Value = new MenuList<string>(new[]
+                tempSettings.Menu = Menu2.AddMenu(ref menu, new LeagueSharp.SDK.Core.UI.IMenu.Menu("SAssembliesUITrackerEnemyTracker", Language.GetString("TRACKERS_UI_ENEMY")));
+                Menu2.AddComponent(ref tempSettings.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuSlider("SAssembliesUITrackerEnemyTrackerXPos", 
+                    Language.GetString("TRACKERS_UI_GLOBAL_POSITION_X"), (int)_screen.X, 0, Drawing.Width));
+                Menu2.AddComponent(ref tempSettings.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuSlider("SAssembliesUITrackerEnemyTrackerYPos", 
+                    Language.GetString("TRACKERS_UI_GLOBAL_POSITION_Y"), (int)_screen.Y, 0, Drawing.Height));
+                Menu2.AddComponent(ref tempSettings.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuList<String>("SAssembliesUITrackerEnemyTrackerMode",
+                    Language.GetString("GLOBAL_MODE"), new[]
                 {
                     Language.GetString("TRACKERS_UI_GLOBAL_MODE_SIDE"), 
                     Language.GetString("TRACKERS_UI_GLOBAL_MODE_UNIT"), 
                     Language.GetString("TRACKERS_UI_GLOBAL_MODE_BOTH"),  
-                })
-                });
-                tempSettings.Menu.Add(new MenuItem<MenuList<String>>("SAssembliesUITrackerEnemyTrackerSideDisplayMode", Language.GetString("TRACKERS_UI_GLOBAL_MODE_SIDE_DISPLAY"))
-                {
-                    Value = new MenuList<string>(new[]
+                }));
+                Menu2.AddComponent(ref tempSettings.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuList<String>("SAssembliesUITrackerEnemyTrackerSideDisplayMode",
+                    Language.GetString("TRACKERS_UI_GLOBAL_MODE_SIDE_DISPLAY"), new[]
                 {
                     Language.GetString("TRACKERS_UI_GLOBAL_MODE_SIDEHEAD_DEFAULT"), 
                     Language.GetString("TRACKERS_UI_GLOBAL_MODE_SIDEHEAD_SIMPLE"), 
                     Language.GetString("TRACKERS_UI_GLOBAL_MODE_SIDEHEAD_LEAGUE"),  
-                })
-                });
-                tempSettings.Menu.Add(new MenuItem<MenuList<String>>("SAssembliesUITrackerEnemyTrackerHeadMode", Language.GetString("TRACKERS_UI_GLOBAL_MODE_UNIT_MODE"))
-                {
-                    Value = new MenuList<string>(new[]
+                }));
+                Menu2.AddComponent(ref tempSettings.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuList<String>("SAssembliesUITrackerEnemyTrackerHeadMode",
+                    Language.GetString("TRACKERS_UI_GLOBAL_MODE_UNIT_MODE"), new[]
                 {
                     Language.GetString("TRACKERS_UI_GLOBAL_MODE_HEAD_SMALL"), 
                     Language.GetString("TRACKERS_UI_GLOBAL_MODE_HEAD_BIG"), 
-                })
-                });
-                tempSettings.Menu.Add(new MenuItem<MenuList<String>>("SAssembliesUITrackerEnemyTrackerHeadDisplayMode", Language.GetString("TRACKERS_UI_GLOBAL_MODE_UNIT_DISPLAY"))
-                {
-                    Value = new MenuList<string>(new[]
+                }));
+                Menu2.AddComponent(ref tempSettings.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuList<String>("SAssembliesUITrackerEnemyTrackerHeadDisplayMode",
+                    Language.GetString("TRACKERS_UI_GLOBAL_MODE_UNIT_DISPLAY"), new[]
                 {
                     Language.GetString("TRACKERS_UI_GLOBAL_MODE_SIDEHEAD_DEFAULT"), 
                     Language.GetString("TRACKERS_UI_GLOBAL_MODE_SIDEHEAD_SIMPLE"), 
-                })
-                });
+                }));
                 tempSettings.CreateActiveMenuItem("SAssembliesUITrackerEnemyTrackerActive");
 
-                UiTracker.Menu.Add(new LeagueSharp.SDK.Core.UI.Menu("SAssembliesUITrackerAllyTracker", Language.GetString("TRACKERS_UI_ALLY")));
-                tempSettings.Menu = ((LeagueSharp.SDK.Core.UI.Menu)UiTracker.Menu["SAssembliesUITrackerAllyTracker"]);
-                tempSettings.Menu.Add(new MenuItem<MenuSlider>("SAssembliesUITrackerAllyTrackerXPos", Language.GetString("TRACKERS_UI_GLOBAL_POSITION_X")) { Value = new MenuSlider((int)_screen.X, 0, Drawing.Width) });
-                tempSettings.Menu.Add(new MenuItem<MenuSlider>("SAssembliesUITrackerAllyTrackerYPos", Language.GetString("TRACKERS_UI_GLOBAL_POSITION_Y")) { Value = new MenuSlider((int)_screen.Y, 0, Drawing.Height) });
-                tempSettings.Menu.Add(new MenuItem<MenuList<String>>("SAssembliesUITrackerAllyTrackerMode", Language.GetString("GLOBAL_MODE"))
-                {
-                    Value = new MenuList<string>(new[]
+                tempSettings.Menu = Menu2.AddMenu(ref menu, new LeagueSharp.SDK.Core.UI.IMenu.Menu("SAssembliesUITrackerAllyTracker", Language.GetString("TRACKERS_UI_ALLY")));
+                Menu2.AddComponent(ref tempSettings.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuSlider("SAssembliesUITrackerAllyTrackerXPos",
+                    Language.GetString("TRACKERS_UI_GLOBAL_POSITION_X"), (int)_screen.X, 0, Drawing.Width));
+                Menu2.AddComponent(ref tempSettings.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuSlider("SAssembliesUITrackerAllyTrackerYPos",
+                    Language.GetString("TRACKERS_UI_GLOBAL_POSITION_Y"), (int)_screen.Y, 0, Drawing.Height));
+                Menu2.AddComponent(ref tempSettings.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuList<String>("SAssembliesUITrackerAllyTrackerMode",
+                    Language.GetString("GLOBAL_MODE"), new[]
                 {
                     Language.GetString("TRACKERS_UI_GLOBAL_MODE_SIDE"), 
                     Language.GetString("TRACKERS_UI_GLOBAL_MODE_UNIT"), 
                     Language.GetString("TRACKERS_UI_GLOBAL_MODE_BOTH"),  
-                })
-                });
-                tempSettings.Menu.Add(new MenuItem<MenuList<String>>("SAssembliesUITrackerAllyTrackerSideDisplayMode", Language.GetString("TRACKERS_UI_GLOBAL_MODE_SIDE_DISPLAY"))
-                {
-                    Value = new MenuList<string>(new[]
+                }));
+                Menu2.AddComponent(ref tempSettings.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuList<String>("SAssembliesUITrackerAllyTrackerSideDisplayMode",
+                    Language.GetString("TRACKERS_UI_GLOBAL_MODE_SIDE_DISPLAY"), new[]
                 {
                     Language.GetString("TRACKERS_UI_GLOBAL_MODE_SIDEHEAD_DEFAULT"), 
                     Language.GetString("TRACKERS_UI_GLOBAL_MODE_SIDEHEAD_SIMPLE"), 
                     Language.GetString("TRACKERS_UI_GLOBAL_MODE_SIDEHEAD_LEAGUE"),  
-                })
-                });
-                tempSettings.Menu.Add(new MenuItem<MenuList<String>>("SAssembliesUITrackerAllyTrackerHeadMode", Language.GetString("TRACKERS_UI_GLOBAL_MODE_UNIT_MODE"))
-                {
-                    Value = new MenuList<string>(new[]
+                }));
+                Menu2.AddComponent(ref tempSettings.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuList<String>("SAssembliesUITrackerAllyTrackerHeadMode",
+                    Language.GetString("TRACKERS_UI_GLOBAL_MODE_UNIT_MODE"), new[]
                 {
                     Language.GetString("TRACKERS_UI_GLOBAL_MODE_HEAD_SMALL"), 
                     Language.GetString("TRACKERS_UI_GLOBAL_MODE_HEAD_BIG"), 
-                })
-                });
-                tempSettings.Menu.Add(new MenuItem<MenuList<String>>("SAssembliesUITrackerAllyTrackerHeadDisplayMode", Language.GetString("TRACKERS_UI_GLOBAL_MODE_UNIT_DISPLAY"))
-                {
-                    Value = new MenuList<string>(new[]
+                }));
+                Menu2.AddComponent(ref tempSettings.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuList<String>("SAssembliesUITrackerAllyTrackerHeadDisplayMode",
+                    Language.GetString("TRACKERS_UI_GLOBAL_MODE_UNIT_DISPLAY"), new[]
                 {
                     Language.GetString("TRACKERS_UI_GLOBAL_MODE_SIDEHEAD_DEFAULT"), 
                     Language.GetString("TRACKERS_UI_GLOBAL_MODE_SIDEHEAD_SIMPLE"), 
-                })
-                });
+                }));
                 tempSettings.CreateActiveMenuItem("SAssembliesUITrackerAllyTrackerActive");
 
-                UiTracker.Menu.Add(new MenuItem<MenuBool>("SAssembliesUITrackerPingActive", Language.GetString("TRACKERS_UI_PING")) { Value = new MenuBool() });
+                Menu2.AddComponent(ref UiTracker.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuBool("SAssembliesUITrackerPingActive", Language.GetString("TRACKERS_UI_PING")));
                 UiTracker.CreateActiveMenuItem("SAssembliesTrackersUiActive");
 
                 MainMenu2.UiTracker = UiTracker;

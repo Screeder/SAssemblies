@@ -12,9 +12,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using LeagueSharp.SDK.Core.Enumerations;
 using LeagueSharp.SDK.Core.UI;
-using LeagueSharp.SDK.Core.UI.Values;
 using Menu = SAssemblies.Menu;
-using MenuItem = LeagueSharp.SDK.Core.UI.MenuItem;
 
 namespace SAssemblies
 {
@@ -106,7 +104,7 @@ namespace SAssemblies
             //http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
             try
             {
-                LeagueSharp.SDK.Core.UI.Menu menu = Menu2.CreateMainMenu();
+                var menu = Menu2.CreateMainMenu();
                 Menu2.CreateGlobalMenuItems(menu);
 
                 //MainMenu.Wards = Wards.Ward.SetupMenu(menu);
@@ -114,9 +112,8 @@ namespace SAssemblies
 
                 Menu2.MenuItemSettings WardCorrectorWard = new Menu2.MenuItemSettings(typeof(WardCorrector));
 
-                menu.Add(new LeagueSharp.SDK.Core.UI.Menu("SAssembliesWardsWardCorrector", Language.GetString("WARDS_WARDCORRECTOR_MAIN")));
-                WardCorrectorWard.Menu = (LeagueSharp.SDK.Core.UI.Menu)menu["SAssembliesWardsWardCorrector"];
-                WardCorrectorWard.Menu.Add(new MenuItem<MenuKeyBind>("SAssembliesWardsWardCorrectorKey", Language.GetString("GLOBAL_KEY")) { Value = new MenuKeyBind(Keys.D4, KeyBindType.Press) });
+                WardCorrectorWard.Menu = Menu2.AddMenu(ref menu, new LeagueSharp.SDK.Core.UI.IMenu.Menu("SAssembliesWardsWardCorrector", Language.GetString("WARDS_WARDCORRECTOR_MAIN")));
+                Menu2.AddComponent(ref WardCorrectorWard.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuKeyBind("SAssembliesWardsWardCorrectorKey", Language.GetString("GLOBAL_KEY"), Keys.D4, KeyBindType.Press));
                 WardCorrectorWard.CreateActiveMenuItem("SAssembliesWardsWardCorrectorActive");
 
                 MainMenu2.WardCorrectorWard = WardCorrectorWard;

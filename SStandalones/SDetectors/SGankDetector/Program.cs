@@ -5,7 +5,6 @@ using System.Reflection;
 using System.Threading;
 using LeagueSharp.Common;
 using LeagueSharp.SDK.Core.UI;
-using LeagueSharp.SDK.Core.UI.Values;
 using SAssemblies.Detectors;
 
 namespace SAssemblies
@@ -116,7 +115,7 @@ namespace SAssemblies
                 //    new MenuItem("By Screeder", "By Screeder V" + Assembly.GetExecutingAssembly().GetName().Version));
                 //menu.AddToMainMenu();
 
-                LeagueSharp.SDK.Core.UI.Menu menu = Menu2.CreateMainMenu();
+                var menu = Menu2.CreateMainMenu();
                 Menu2.CreateGlobalMenuItems(menu);
 
                 //MainMenu.Detector = Detector.SetupMenu(menu, true);
@@ -124,10 +123,9 @@ namespace SAssemblies
 
                 Menu2.MenuItemSettings GankDetector = new Menu2.MenuItemSettings(typeof(Gank));
 
-                menu.Add(new LeagueSharp.SDK.Core.UI.Menu("SAssembliesDetectorsGank", Language.GetString("DETECTORS_GANK_MAIN")));
-                GankDetector.Menu = (LeagueSharp.SDK.Core.UI.Menu)menu["SAssembliesDetectorsGank"];
-                GankDetector.Menu.Add(new MenuItem<MenuSlider>("SAssembliesDetectorsGankPingTimes", Language.GetString("GLOBAL_PING_TIMES")) { Value = new MenuSlider(0, 0, 5) });
-                GankDetector.Menu.Add(new MenuItem<MenuList<String>>("SAssembliesDetectorsGankPingType", Language.GetString("GLOBAL_PING_TIMES")) { Value = new MenuList<string>(new[]
+                GankDetector.Menu = Menu2.AddMenu(ref menu, new LeagueSharp.SDK.Core.UI.IMenu.Menu("SAssembliesDetectorsGank", Language.GetString("DETECTORS_GANK_MAIN")));
+                Menu2.AddComponent(ref GankDetector.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuSlider("SAssembliesDetectorsGankPingTimes", Language.GetString("GLOBAL_PING_TIMES"), 0, 0, 5));
+                Menu2.AddComponent(ref GankDetector.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuList<String>("SAssembliesDetectorsGankPingType", Language.GetString("GLOBAL_PING_TIMES"), new[]
                 {
                     Language.GetString("GLOBAL_PING_TYPE_NORMAL"), 
                     Language.GetString("GLOBAL_PING_TYPE_DANGER"), 
@@ -135,15 +133,15 @@ namespace SAssemblies
                     Language.GetString("GLOBAL_PING_TYPE_ONMYWAY"), 
                     Language.GetString("GLOBAL_PING_TYPE_FALLBACK"), 
                     Language.GetString("GLOBAL_PING_ASSISTME") 
-                })});
-                GankDetector.Menu.Add(new MenuItem<MenuBool>("SAssembliesDetectorsGankLocalPing", Language.GetString("GLOBAL_PING_LOCAL")) { Value = new MenuBool(true) });
-                GankDetector.Menu.Add(new MenuItem<MenuBool>("SAssembliesDetectorsGankChat", Language.GetString("GLOBAL_CHAT")) { Value = new MenuBool() });
-                GankDetector.Menu.Add(new MenuItem<MenuBool>("SAssembliesDetectorsGankNotification", Language.GetString("GLOBAL_NOTIFICATION")) { Value = new MenuBool() });
-                GankDetector.Menu.Add(new MenuItem<MenuSlider>("SAssembliesDetectorsGankTrackRangeMin", Language.GetString("DETECTORS_GANK_RANGE_MIN")) { Value = new MenuSlider(1, 1, 10000) });
-                GankDetector.Menu.Add(new MenuItem<MenuSlider>("SAssembliesDetectorsGankTrackRangeMax", Language.GetString("DETECTORS_GANK_RANGE_MAX")) { Value = new MenuSlider(1, 1, 10000) });
-                GankDetector.Menu.Add(new MenuItem<MenuSlider>("SAssembliesDetectorsGankDisableTime", Language.GetString("DETECTORS_GANK_DISABLETIME")) { Value = new MenuSlider(20, 1, 180) });
-                GankDetector.Menu.Add(new MenuItem<MenuBool>("SAssembliesDetectorsGankShowJungler", Language.GetString("DETECTORS_GANK_SHOWJUNGLER")) { Value = new MenuBool() });
-                GankDetector.Menu.Add(new MenuItem<MenuBool>("SAssembliesDetectorsGankVoice", Language.GetString("GLOBAL_VOICE")) { Value = new MenuBool() });
+                }));
+                Menu2.AddComponent(ref GankDetector.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuBool("SAssembliesDetectorsGankLocalPing", Language.GetString("GLOBAL_PING_LOCAL"), true));
+                Menu2.AddComponent(ref GankDetector.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuBool("SAssembliesDetectorsGankChat", Language.GetString("GLOBAL_CHAT")));
+                Menu2.AddComponent(ref GankDetector.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuBool("SAssembliesDetectorsGankNotification", Language.GetString("GLOBAL_NOTIFICATION")));
+                Menu2.AddComponent(ref GankDetector.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuSlider("SAssembliesDetectorsGankTrackRangeMin", Language.GetString("DETECTORS_GANK_RANGE_MIN"), 1, 1, 10000));
+                Menu2.AddComponent(ref GankDetector.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuSlider("SAssembliesDetectorsGankTrackRangeMax", Language.GetString("DETECTORS_GANK_RANGE_MAX"), 1, 1, 10000));
+                Menu2.AddComponent(ref GankDetector.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuSlider("SAssembliesDetectorsGankDisableTime", Language.GetString("DETECTORS_GANK_DISABLETIME"), 20, 1, 180));
+                Menu2.AddComponent(ref GankDetector.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuBool("SAssembliesDetectorsGankShowJungler", Language.GetString("DETECTORS_GANK_SHOWJUNGLER")));
+                Menu2.AddComponent(ref GankDetector.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuBool("SAssembliesDetectorsGankVoice", Language.GetString("GLOBAL_VOICE")));
                 GankDetector.CreateActiveMenuItem("SAssembliesDetectorsGankActive");
 
                 MainMenu2.GankDetector = GankDetector;

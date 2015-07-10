@@ -103,7 +103,7 @@ namespace SAssemblies
             //http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
             try
             {
-                LeagueSharp.SDK.Core.UI.Menu menu = Menu2.CreateMainMenu();
+                var menu = Menu2.CreateMainMenu();
                 Menu2.CreateGlobalMenuItems(menu);
 
                 //MainMenu.Misc = Misc.SetupMenu(menu);
@@ -111,8 +111,7 @@ namespace SAssemblies
 
                 Menu2.MenuItemSettings SurrenderVoteMisc = new Menu2.MenuItemSettings(typeof(SurrenderVote));
 
-                menu.Add(new LeagueSharp.SDK.Core.UI.Menu("SAssembliesMiscsSurrenderVote", Language.GetString("MISCS_SURRENDERVOTE_MAIN")));
-                SurrenderVoteMisc.Menu = (LeagueSharp.SDK.Core.UI.Menu)menu["SAssembliesMiscsSurrenderVote"];
+                SurrenderVoteMisc.Menu = Menu2.AddMenu(ref menu, new LeagueSharp.SDK.Core.UI.IMenu.Menu("SAssembliesMiscsSurrenderVote", Language.GetString("MISCS_SURRENDERVOTE_MAIN")));
                 SurrenderVoteMisc.CreateActiveMenuItem("SAssembliesMiscsSurrenderVoteActive");
 
                 MainMenu2.SurrenderVoteMisc = SurrenderVoteMisc;

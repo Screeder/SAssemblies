@@ -11,7 +11,6 @@ using SAssemblies.Miscs;
 using Menu = SAssemblies.Menu;
 using System.Drawing;
 using LeagueSharp.SDK.Core.UI;
-using LeagueSharp.SDK.Core.UI.Values;
 
 namespace SAssemblies
 {
@@ -105,7 +104,7 @@ namespace SAssemblies
             //http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
             try
             {
-                LeagueSharp.SDK.Core.UI.Menu menu = Menu2.CreateMainMenu();
+                var menu = Menu2.CreateMainMenu();
                 Menu2.CreateGlobalMenuItems(menu);
 
                 //MainMenu.Misc = Misc.SetupMenu(menu);
@@ -113,14 +112,13 @@ namespace SAssemblies
 
                 Menu2.MenuItemSettings PingerNameMisc = new Menu2.MenuItemSettings(typeof(PingerName));
 
-                menu.Add(new LeagueSharp.SDK.Core.UI.Menu("SAssembliesMiscsPingerName", Language.GetString("MISCS_PINGERNAME_MAIN")));
-                PingerNameMisc.Menu = (LeagueSharp.SDK.Core.UI.Menu)menu["SAssembliesMiscsPingerName"];
+                PingerNameMisc.Menu = Menu2.AddMenu(ref menu, new LeagueSharp.SDK.Core.UI.IMenu.Menu("SAssembliesMiscsPingerName", Language.GetString("MISCS_PINGERNAME_MAIN")));
                 foreach (var hero in ObjectManager.Get<Obj_AI_Hero>())
                 {
                     if (hero.IsEnemy || hero.IsMe)
                         continue;
 
-                    PingerNameMisc.Menu.Add(new MenuItem<MenuBool>("SAssembliesMiscsPingerNameIgnore" + hero.Name, "Ignore " + hero.Name) { Value = new MenuBool() });
+                    Menu2.AddComponent(ref PingerNameMisc.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuBool("SAssembliesMiscsPingerNameIgnore" + hero.Name, "Ignore " + hero.Name));
                 }
                 PingerNameMisc.CreateActiveMenuItem("SAssembliesMiscsPingerNameActive");
 

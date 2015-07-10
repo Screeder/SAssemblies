@@ -10,7 +10,6 @@ using LeagueSharp;
 using LeagueSharp.Common;
 using LeagueSharp.SDK.Core.Math.Prediction;
 using LeagueSharp.SDK.Core.UI;
-using LeagueSharp.SDK.Core.UI.Values;
 using SAssemblies.Timers;
 
 namespace SAssemblies
@@ -105,7 +104,7 @@ namespace SAssemblies
             //http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
             try
             {
-                LeagueSharp.SDK.Core.UI.Menu menu = Menu2.CreateMainMenu();
+                var menu = Menu2.CreateMainMenu();
                 Menu2.CreateGlobalMenuItems(menu);
 
                 //MainMenu.Timers = Timer.SetupMenu(menu);
@@ -113,9 +112,8 @@ namespace SAssemblies
 
                 Menu2.MenuItemSettings JungleTimer = new Menu2.MenuItemSettings(typeof(Jungle));
 
-                menu.Add(new LeagueSharp.SDK.Core.UI.Menu("SAssembliesTimersAltar", Language.GetString("TIMERS_JUNGLE_MAIN")));
-                JungleTimer.Menu = (LeagueSharp.SDK.Core.UI.Menu)menu["SAssembliesTimersJungle"];
-                JungleTimer.Menu.Add(new MenuItem<MenuBool>("SAssembliesTimersJungleSpeech", Language.GetString("GLOBAL_VOICE")) { Value = new MenuBool() });
+                JungleTimer.Menu = Menu2.AddMenu(ref menu, new LeagueSharp.SDK.Core.UI.IMenu.Menu("SAssembliesTimersJungle", Language.GetString("TIMERS_JUNGLE_MAIN")));
+                Menu2.AddComponent(ref JungleTimer.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuBool("SAssembliesTimersJungleSpeech", Language.GetString("GLOBAL_VOICE")));
                 JungleTimer.CreateActiveMenuItem("SAssembliesTimersJungleActive");
 
                 MainMenu2.JungleTimer = JungleTimer;

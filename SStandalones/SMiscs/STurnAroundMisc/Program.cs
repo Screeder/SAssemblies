@@ -103,7 +103,7 @@ namespace SAssemblies
             //http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
             try
             {
-                LeagueSharp.SDK.Core.UI.Menu menu = Menu2.CreateMainMenu();
+                var menu = Menu2.CreateMainMenu();
                 Menu2.CreateGlobalMenuItems(menu);
 
                 //MainMenu.Misc = Misc.SetupMenu(menu);
@@ -111,8 +111,7 @@ namespace SAssemblies
 
                 Menu2.MenuItemSettings TurnAroundMisc = new Menu2.MenuItemSettings(typeof(TurnAround));
 
-                menu.Add(new LeagueSharp.SDK.Core.UI.Menu("SAssembliesMiscsTurnAround", Language.GetString("MISCS_TURNAROUND_MAIN")));
-                TurnAroundMisc.Menu = (LeagueSharp.SDK.Core.UI.Menu)menu["SAssembliesMiscsTurnAround"];
+                TurnAroundMisc.Menu = Menu2.AddMenu(ref menu, new LeagueSharp.SDK.Core.UI.IMenu.Menu("SAssembliesMiscsTurnAround", Language.GetString("MISCS_TURNAROUND_MAIN")));
                 TurnAroundMisc.CreateActiveMenuItem("SAssembliesMiscsTurnAroundActive");
 
                 MainMenu2.TurnAroundMisc = TurnAroundMisc;

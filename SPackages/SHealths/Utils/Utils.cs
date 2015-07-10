@@ -188,14 +188,33 @@ namespace SAssemblies
             AddComponent(ref GlobalSettings.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuSlider("SAssembliesGlobalSettingsVoiceVolume", "Voice Volume", 100));
         }
 
-        public static void AddComponent(ref LeagueSharp.SDK.Core.UI.IMenu.Menu menu, LeagueSharp.SDK.Core.UI.IMenu.Abstracts.AMenuComponent component)
+        public static LeagueSharp.SDK.Core.UI.IMenu.Abstracts.AMenuComponent AddComponent(ref LeagueSharp.SDK.Core.UI.IMenu.Menu menu, LeagueSharp.SDK.Core.UI.IMenu.Abstracts.AMenuComponent component)
         {
             if (menu == null)
-                return;
+                return null;
 
             if (!menu.Components.Any(x => x.Value.Name.Equals(component.Name)))
             {
-                menu.Add(component);
+                return menu.Add(component);
+            }
+            else
+            {
+                return menu[component.Name];
+            }
+        }
+
+        public static LeagueSharp.SDK.Core.UI.IMenu.Menu AddMenu(ref LeagueSharp.SDK.Core.UI.IMenu.Menu menu, LeagueSharp.SDK.Core.UI.IMenu.Menu component)
+        {
+            if (menu == null)
+                return null;
+
+            if (!menu.Components.Any(x => x.Value.Name.Equals(component.Name)))
+            {
+                return menu.Add(component);
+            }
+            else
+            {
+                return (LeagueSharp.SDK.Core.UI.IMenu.Menu)menu[component.Name];
             }
         }
 

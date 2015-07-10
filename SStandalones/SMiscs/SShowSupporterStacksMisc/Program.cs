@@ -103,7 +103,7 @@ namespace SAssemblies
             //http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
             try
             {
-                LeagueSharp.SDK.Core.UI.Menu menu = Menu2.CreateMainMenu();
+                var menu = Menu2.CreateMainMenu();
                 Menu2.CreateGlobalMenuItems(menu);
 
                 //MainMenu.Misc = Misc.SetupMenu(menu);
@@ -111,8 +111,7 @@ namespace SAssemblies
 
                 Menu2.MenuItemSettings ShowSupporterStacksMisc = new Menu2.MenuItemSettings(typeof(ShowSupporterStacks));
 
-                menu.Add(new LeagueSharp.SDK.Core.UI.Menu("SAssembliesMiscsShowSupporterStacks", Language.GetString("MISCS_SHOWSUPPORTERSTACKS_MAIN")));
-                ShowSupporterStacksMisc.Menu = (LeagueSharp.SDK.Core.UI.Menu)menu["SAssembliesMiscsShowSupporterStacks"];
+                ShowSupporterStacksMisc.Menu = Menu2.AddMenu(ref menu, new LeagueSharp.SDK.Core.UI.IMenu.Menu("SAssembliesMiscsShowSupporterStacks", Language.GetString("MISCS_SHOWSUPPORTERSTACKS_MAIN")));
                 ShowSupporterStacksMisc.CreateActiveMenuItem("SAssembliesMiscsShowSupporterStacksActive");
 
                 MainMenu2.ShowSupporterStacksMisc = ShowSupporterStacksMisc;

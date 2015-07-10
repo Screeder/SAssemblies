@@ -10,7 +10,6 @@ using LeagueSharp;
 using LeagueSharp.Common;
 using LeagueSharp.SDK.Core.Math.Prediction;
 using LeagueSharp.SDK.Core.UI;
-using LeagueSharp.SDK.Core.UI.Values;
 using SAssemblies.Timers;
 
 namespace SAssemblies
@@ -105,7 +104,7 @@ namespace SAssemblies
             //http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
             try
             {
-                LeagueSharp.SDK.Core.UI.Menu menu = Menu2.CreateMainMenu();
+                var menu = Menu2.CreateMainMenu();
                 Menu2.CreateGlobalMenuItems(menu);
 
                 //MainMenu.Timers = Timer.SetupMenu(menu);
@@ -113,9 +112,8 @@ namespace SAssemblies
 
                 Menu2.MenuItemSettings InhibitorTimer = new Menu2.MenuItemSettings(typeof(Inhibitor));
 
-                menu.Add(new LeagueSharp.SDK.Core.UI.Menu("SAssembliesTimersInhibitor", Language.GetString("TIMERS_INHIBITOR_MAIN")));
-                InhibitorTimer.Menu = (LeagueSharp.SDK.Core.UI.Menu)menu["SAssembliesTimersInhibitor"];
-                InhibitorTimer.Menu.Add(new MenuItem<MenuBool>("SAssembliesTimersInhibitorSpeech", Language.GetString("GLOBAL_VOICE")) { Value = new MenuBool() });
+                InhibitorTimer.Menu = Menu2.AddMenu(ref menu, new LeagueSharp.SDK.Core.UI.IMenu.Menu("SAssembliesTimersInhibitor", Language.GetString("TIMERS_INHIBITOR_MAIN")));
+                Menu2.AddComponent(ref InhibitorTimer.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuBool("SAssembliesTimersInhibitorSpeech", Language.GetString("GLOBAL_VOICE")));
                 InhibitorTimer.CreateActiveMenuItem("SAssembliesTimersInhibitorActive");
 
                 MainMenu2.InhibitorTimer = InhibitorTimer;

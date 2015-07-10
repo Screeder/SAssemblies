@@ -100,7 +100,7 @@ namespace SAssemblies
             //http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
             try
             {
-                LeagueSharp.SDK.Core.UI.Menu menu = Menu2.CreateMainMenu();
+                var menu = Menu2.CreateMainMenu();
                 Menu2.CreateGlobalMenuItems(menu);
 
                 //MainMenu.Tracker = Tracker.SetupMenu(menu);
@@ -108,8 +108,7 @@ namespace SAssemblies
 
                 Menu2.MenuItemSettings CloneTracker = new Menu2.MenuItemSettings(typeof(Clone));
 
-                menu.Add(new LeagueSharp.SDK.Core.UI.Menu("SAssembliesTrackersClone", Language.GetString("TRACKERS_CLONE_MAIN")));
-                CloneTracker.Menu = (LeagueSharp.SDK.Core.UI.Menu)menu["SAssembliesTrackersClone"];
+                CloneTracker.Menu = Menu2.AddMenu(ref menu, new LeagueSharp.SDK.Core.UI.IMenu.Menu("SAssembliesTrackersClone", Language.GetString("TRACKERS_CLONE_MAIN")));
                 CloneTracker.CreateActiveMenuItem("SAssembliesTrackersCloneActive");
 
                 MainMenu2.CloneTracker = CloneTracker;

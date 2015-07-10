@@ -104,7 +104,7 @@ namespace SAssemblies
             //http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
             try
             {
-                LeagueSharp.SDK.Core.UI.Menu menu = Menu2.CreateMainMenu();
+                var menu = Menu2.CreateMainMenu();
                 Menu2.CreateGlobalMenuItems(menu);
 
                 //MainMenu.Misc = Misc.SetupMenu(menu);
@@ -112,8 +112,7 @@ namespace SAssemblies
 
                 Menu2.MenuItemSettings AntiNexusTurretMisc = new Menu2.MenuItemSettings(typeof(AntiNexusTurret));
 
-                menu.Add(new LeagueSharp.SDK.Core.UI.Menu("SAssembliesMiscsAntiNexusTurret", Language.GetString("MISCS_ANTINEXUSTURRET_MAIN")));
-                AntiNexusTurretMisc.Menu = (LeagueSharp.SDK.Core.UI.Menu)menu["SAssembliesMiscsAntiNexusTurret"];
+                AntiNexusTurretMisc.Menu = Menu2.AddMenu(ref menu, new LeagueSharp.SDK.Core.UI.IMenu.Menu("SAssembliesMiscsAntiNexusTurret", Language.GetString("MISCS_ANTINEXUSTURRET_MAIN")));
                 AntiNexusTurretMisc.CreateActiveMenuItem("SAssembliesMiscsAntiNexusTurretActive");
 
                 MainMenu2.AntiNexusTurretMisc = AntiNexusTurretMisc;

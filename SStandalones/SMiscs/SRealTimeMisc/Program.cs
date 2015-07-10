@@ -103,7 +103,7 @@ namespace SAssemblies
             //http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
             try
             {
-                LeagueSharp.SDK.Core.UI.Menu menu = Menu2.CreateMainMenu();
+                var menu = Menu2.CreateMainMenu();
                 Menu2.CreateGlobalMenuItems(menu);
 
                 //MainMenu.Misc = Misc.SetupMenu(menu);
@@ -111,8 +111,7 @@ namespace SAssemblies
 
                 Menu2.MenuItemSettings RealTimeMisc = new Menu2.MenuItemSettings(typeof(RealTime));
 
-                menu.Add(new LeagueSharp.SDK.Core.UI.Menu("SAssembliesMiscsRealTime", Language.GetString("MISCS_REALTIME_MAIN")));
-                RealTimeMisc.Menu = (LeagueSharp.SDK.Core.UI.Menu)menu["SAssembliesMiscsRealTime"];
+                RealTimeMisc.Menu = Menu2.AddMenu(ref menu, new LeagueSharp.SDK.Core.UI.IMenu.Menu("SAssembliesMiscsRealTime", Language.GetString("MISCS_REALTIME_MAIN")));
                 RealTimeMisc.CreateActiveMenuItem("SAssembliesMiscsRealTimeActive");
 
                 MainMenu2.RealTimeMisc = RealTimeMisc;

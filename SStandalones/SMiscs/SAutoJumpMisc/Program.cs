@@ -13,7 +13,6 @@ using Menu = SAssemblies.Menu;
 using System.Drawing;
 using System.Windows.Forms;
 using LeagueSharp.SDK.Core.UI;
-using LeagueSharp.SDK.Core.UI.Values;
 using KeyBindType = LeagueSharp.SDK.Core.Enumerations.KeyBindType;
 
 namespace SAssemblies
@@ -108,7 +107,7 @@ namespace SAssemblies
             //http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
             try
             {
-                LeagueSharp.SDK.Core.UI.Menu menu = Menu2.CreateMainMenu();
+                var menu = Menu2.CreateMainMenu();
                 Menu2.CreateGlobalMenuItems(menu);
 
                 //MainMenu.Misc = Misc.SetupMenu(menu);
@@ -116,9 +115,8 @@ namespace SAssemblies
 
                 Menu2.MenuItemSettings AutoJumpMisc = new Menu2.MenuItemSettings(typeof(AutoJump));
 
-                menu.Add(new LeagueSharp.SDK.Core.UI.Menu("SAssembliesMiscsAutoJump", Language.GetString("MISCS_AUTOJUMP_MAIN")));
-                AutoJumpMisc.Menu = (LeagueSharp.SDK.Core.UI.Menu)menu["SAssembliesMiscsAutoJump"];
-                AutoJumpMisc.Menu.Add(new MenuItem<MenuKeyBind>("SAssembliesMiscsAutoJumpKey", Language.GetString("GLOBAL_KEY")) { Value = new MenuKeyBind(Keys.T, KeyBindType.Press) });
+                AutoJumpMisc.Menu = Menu2.AddMenu(ref menu, new LeagueSharp.SDK.Core.UI.IMenu.Menu("SAssembliesMiscsAutoJump", Language.GetString("MISCS_AUTOJUMP_MAIN")));
+                Menu2.AddComponent(ref AutoJumpMisc.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuKeyBind("SAssembliesMiscsAutoJumpKey", Language.GetString("GLOBAL_KEY"), Keys.T, KeyBindType.Press));
                 AutoJumpMisc.CreateActiveMenuItem("SAssembliesMiscsAutoJumpActive");
 
                 MainMenu2.AutoJumpMisc = AutoJumpMisc;

@@ -192,7 +192,7 @@ namespace SAssemblies
             //http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
             try
             {
-                LeagueSharp.SDK.Core.UI.Menu menu = Menu2.CreateMainMenu();
+                var menu = Menu2.CreateMainMenu();
                 Menu2.CreateGlobalMenuItems(menu);
 
                 //MainMenu.Misc = Misc.SetupMenu(menu);
@@ -222,8 +222,7 @@ namespace SAssemblies
 
                 Menu2.MenuItemSettings Miscs = new Menu2.MenuItemSettings();
 
-                menu.Add(new LeagueSharp.SDK.Core.UI.Menu("SAssembliesMiscs", Language.GetString("MISCS_MISC_MAIN")));
-                Miscs.Menu = (LeagueSharp.SDK.Core.UI.Menu)menu["SAssembliesMiscs"];
+                Miscs.Menu = Menu2.AddMenu(ref menu, new LeagueSharp.SDK.Core.UI.IMenu.Menu("SAssembliesMiscs", Language.GetString("MISCS_MISC_MAIN")));
                 Miscs.CreateActiveMenuItem("SAssembliesMiscsActive");
 
                 MainMenu2.Misc = Miscs;

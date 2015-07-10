@@ -9,12 +9,9 @@ using System.Threading.Tasks;
 using LeagueSharp;
 using LeagueSharp.Common;
 using LeagueSharp.SDK.Core.UI;
-using LeagueSharp.SDK.Core.UI.Abstracts;
-using LeagueSharp.SDK.Core.UI.Values;
 using SAssemblies;
 using SAssemblies.Healths;
 using Menu = SAssemblies.Menu;
-using MenuItem = LeagueSharp.SDK.Core.UI.MenuItem;
 
 namespace SAssemblies
 {
@@ -110,7 +107,7 @@ namespace SAssemblies
             //http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
             try
             {
-                LeagueSharp.SDK.Core.UI.Menu menu = Menu2.CreateMainMenu();
+                var menu = Menu2.CreateMainMenu();
                 Menu2.CreateGlobalMenuItems(menu);
 
                 //MainMenu.Health = Healths.Health.SetupMenu(menu);
@@ -118,8 +115,7 @@ namespace SAssemblies
 
                 Menu2.MenuItemSettings TurretHealth = new Menu2.MenuItemSettings();
 
-                menu.Add(new LeagueSharp.SDK.Core.UI.Menu("SAssembliesHealthsTurret", Language.GetString("HEALTHS_TURRET_MAIN")));
-                TurretHealth.Menu = (LeagueSharp.SDK.Core.UI.Menu)menu["SAssembliesHealthsTurret"];
+                TurretHealth.Menu = Menu2.AddMenu(ref menu, new LeagueSharp.SDK.Core.UI.IMenu.Menu("SAssembliesHealthsTurret", Language.GetString("HEALTHS_TURRET_MAIN")));
                 TurretHealth.CreateActiveMenuItem("SAssembliesHealthsTurretActive");
 
                 MainMenu2.TurretHealth = TurretHealth;

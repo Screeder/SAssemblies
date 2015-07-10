@@ -104,7 +104,7 @@ namespace SAssemblies
             //http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
             try
             {
-                LeagueSharp.SDK.Core.UI.Menu menu = Menu2.CreateMainMenu();
+                var menu = Menu2.CreateMainMenu();
                 Menu2.CreateGlobalMenuItems(menu);
 
                 //MainMenu.Misc = Misc.SetupMenu(menu);
@@ -112,8 +112,7 @@ namespace SAssemblies
 
                 Menu2.MenuItemSettings EasyRangedJungleMisc = new Menu2.MenuItemSettings(typeof(EasyRangedJungle));
 
-                menu.Add(new LeagueSharp.SDK.Core.UI.Menu("SAssembliesMiscsEasyRangedJungle", Language.GetString("MISCS_EASYRANGEDJUNGLE_MAIN")));
-                EasyRangedJungleMisc.Menu = (LeagueSharp.SDK.Core.UI.Menu)menu["SAssembliesMiscsEasyRangedJungle"];
+                EasyRangedJungleMisc.Menu = Menu2.AddMenu(ref menu, new LeagueSharp.SDK.Core.UI.IMenu.Menu("SAssembliesMiscsEasyRangedJungle", Language.GetString("MISCS_EASYRANGEDJUNGLE_MAIN")));
                 EasyRangedJungleMisc.CreateActiveMenuItem("SAssembliesMiscsEasyRangedJungleActive");
 
                 MainMenu2.EasyRangedJungleMisc = EasyRangedJungleMisc;

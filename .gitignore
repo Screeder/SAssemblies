@@ -56,7 +56,7 @@ SStandalones/SHealths/STurretHealth/bin/
 SStandalones/SHealths/STurretHealth/obj/
 SStandalones/SHealths/STurretHealth/Healths/*
 !SStandalones/SHealths/STurretHealth/Healths/Health.cs
-!SStandalones/SHealths/STurretHealth/Healths/Turre.cs
+!SStandalones/SHealths/STurretHealth/Healths/Turret.cs
 #Miscs
 SStandalones/SMiscs/SAntiJumpMisc/bin/
 SStandalones/SMiscs/SAntiJumpMisc/obj/
@@ -208,7 +208,7 @@ SStandalones/SRanges/SSpellQRange/bin/
 SStandalones/SRanges/SSpellQRange/obj/
 SStandalones/SRanges/SSpellQRange/Ranges/*
 !SStandalones/SRanges/SSpellQRange/Ranges/Range.cs
-!SStandalones/SRanges/SSpellQRange/Ranges/SpellE.cs
+!SStandalones/SRanges/SSpellQRange/Ranges/SpellQ.cs
 SStandalones/SRanges/SSpellRRange/bin/
 SStandalones/SRanges/SSpellRRange/obj/
 SStandalones/SRanges/SSpellRRange/Ranges/*
@@ -234,7 +234,7 @@ SStandalones/STimers/SAltarTimer/bin/
 SStandalones/STimers/SAltarTimer/obj/
 SStandalones/STimers/SAltarTimer/Timers/*
 !SStandalones/STimers/SAltarTimer/Timers/Timer.cs
-!SStandalones/STimers/SAltarTimer/Timers/Vision.cs
+!SStandalones/STimers/SAltarTimer/Timers/Altar.cs
 SStandalones/STimers/SExecuteTimer/bin/
 SStandalones/STimers/SExecuteTimer/obj/
 SStandalones/STimers/SExecuteTimer/Timers/*
@@ -336,22 +336,22 @@ SStandalones/SWards/SBushRevealerWard/bin/
 SStandalones/SWards/SBushRevealerWard/obj/
 SStandalones/SWards/SBushRevealerWard/Wards/*
 !SStandalones/SWards/SBushRevealerWard/Wards/Ward.cs
-!SStandalones/SWards/SBushRevealerWard/Wards/Waypoint.cs
+!SStandalones/SWards/SBushRevealerWard/Wards/BushRevealer.cs
 SStandalones/SWards/SFowWardPlacementWard/bin/
 SStandalones/SWards/SFowWardPlacementWard/obj/
 SStandalones/SWards/SFowWardPlacementWard/Wards/*
 !SStandalones/SWards/SFowWardPlacementWard/Wards/Ward.cs
-!SStandalones/SWards/SFowWardPlacementWard/Wards/Waypoint.cs
+!SStandalones/SWards/SFowWardPlacementWard/Wards/FowWardPlacement.cs
 SStandalones/SWards/SInvisibleRevealerWard/bin/
 SStandalones/SWards/SInvisibleRevealerWard/obj/
 SStandalones/SWards/SInvisibleRevealerWard/Wards/*
 !SStandalones/SWards/SInvisibleRevealerWard/Wards/Ward.cs
-!SStandalones/SWards/SInvisibleRevealerWard/Wards/Waypoint.cs
+!SStandalones/SWards/SInvisibleRevealerWard/Wards/InvisibleRevealer.cs
 SStandalones/SWards/SWardCorrectorWard/bin/
 SStandalones/SWards/SWardCorrectorWard/obj/
 SStandalones/SWards/SWardCorrectorWard/Wards/*
 !SStandalones/SWards/SWardCorrectorWard/Wards/Ward.cs
-!SStandalones/SWards/SWardCorrectorWard/Wards/Waypoint.cs
+!SStandalones/SWards/SWardCorrectorWard/Wards/WardCorrector.cs
 
 #Taken out due to not working (buggy) features
 SPackages/SActivators/*

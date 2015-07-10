@@ -116,9 +116,9 @@ namespace SAssemblies
 
                 tempSettings.Menu = Menu2.AddMenu(ref menu, new LeagueSharp.SDK.Core.UI.IMenu.Menu("SAssembliesUITrackerEnemyTracker", Language.GetString("TRACKERS_UI_ENEMY")));
                 Menu2.AddComponent(ref tempSettings.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuSlider("SAssembliesUITrackerEnemyTrackerXPos", 
-                    Language.GetString("TRACKERS_UI_GLOBAL_POSITION_X"), (int)_screen.X, 0, Drawing.Width));
+                    Language.GetString("TRACKERS_UI_GLOBAL_POSITION_X"), 1920/*(int)_screen.X*/, 0, Drawing.Width));
                 Menu2.AddComponent(ref tempSettings.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuSlider("SAssembliesUITrackerEnemyTrackerYPos", 
-                    Language.GetString("TRACKERS_UI_GLOBAL_POSITION_Y"), (int)_screen.Y, 0, Drawing.Height));
+                    Language.GetString("TRACKERS_UI_GLOBAL_POSITION_Y"), 1080/*(int)_screen.Y*/, 0, Drawing.Height));
                 Menu2.AddComponent(ref tempSettings.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuList<String>("SAssembliesUITrackerEnemyTrackerMode",
                     Language.GetString("GLOBAL_MODE"), new[]
                 {
@@ -149,9 +149,9 @@ namespace SAssemblies
 
                 tempSettings.Menu = Menu2.AddMenu(ref menu, new LeagueSharp.SDK.Core.UI.IMenu.Menu("SAssembliesUITrackerAllyTracker", Language.GetString("TRACKERS_UI_ALLY")));
                 Menu2.AddComponent(ref tempSettings.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuSlider("SAssembliesUITrackerAllyTrackerXPos",
-                    Language.GetString("TRACKERS_UI_GLOBAL_POSITION_X"), (int)_screen.X, 0, Drawing.Width));
+                    Language.GetString("TRACKERS_UI_GLOBAL_POSITION_X"), 1, 0, Drawing.Width));
                 Menu2.AddComponent(ref tempSettings.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuSlider("SAssembliesUITrackerAllyTrackerYPos",
-                    Language.GetString("TRACKERS_UI_GLOBAL_POSITION_Y"), (int)_screen.Y, 0, Drawing.Height));
+                    Language.GetString("TRACKERS_UI_GLOBAL_POSITION_Y"), 1, 0, Drawing.Height));
                 Menu2.AddComponent(ref tempSettings.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuList<String>("SAssembliesUITrackerAllyTrackerMode",
                     Language.GetString("GLOBAL_MODE"), new[]
                 {

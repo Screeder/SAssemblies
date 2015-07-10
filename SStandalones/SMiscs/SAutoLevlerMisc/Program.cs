@@ -115,7 +115,6 @@ namespace SAssemblies
 
                 Menu2.MenuItemSettings tempSettings = new Menu2.MenuItemSettings();
                 AutoLevlerMisc.Menu = Menu2.AddMenu(ref menu, new LeagueSharp.SDK.Core.UI.IMenu.Menu("SAssembliesMiscsAutoLevler", Language.GetString("MISCS_AUTOLEVLER_MAIN")));
-                Menu2.AddComponent(ref AutoLevlerMisc.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuSlider("SAssembliesTimersPingTimes", Language.GetString("GLOBAL_PING_TIMES"), 0, 0, 5));
 
                 tempSettings.Menu = Menu2.AddMenu(ref menu, new LeagueSharp.SDK.Core.UI.IMenu.Menu("SAssembliesMiscsAutoLevlerPriority", Language.GetString("MISCS_AUTOLEVLER_PRIORITY_MAIN")));
                 Menu2.AddComponent(ref tempSettings.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuSlider("SAssembliesMiscsAutoLevlerPrioritySliderQ", "Q", 0, 0, 3));

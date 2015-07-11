@@ -40,7 +40,7 @@ namespace SAssemblies.Miscs
             GameUpdate updateEvent = null;
             updateEvent = delegate
             {
-                if (Game.Mode != GameMode.Running)
+                if (Game.Mode == GameMode.Running)
                 {
                     LeagueSharp.Common.Menu.RootMenus.Remove(Assembly.GetCallingAssembly().GetName().Name + "." + WoodenPcMisc.Menu.Name);
                     Game.OnUpdate -= updateEvent;

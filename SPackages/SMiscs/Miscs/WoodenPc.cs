@@ -53,8 +53,11 @@ namespace SAssemblies.Miscs
         {
             Game.OnSendPacket -= Game_OnSendPacket;
             Game.OnWndProc -= Game_OnWndProc;
-            Notifications.RemoveNotification(notification);
-            notification.Dispose();
+            if (notification != null)
+            {
+                Notifications.RemoveNotification(notification);
+                notification.Dispose();
+            }
             if (notificationRemaining != null)
             {
                 Notifications.RemoveNotification(notificationRemaining);
@@ -82,8 +85,15 @@ namespace SAssemblies.Miscs
         {
             Game.OnSendPacket -= Game_OnSendPacket;
             Game.OnWndProc -= Game_OnWndProc;
-            Notifications.RemoveNotification(notification);
-            notification.Dispose();
+            if (packet != null)
+            {
+                Game.SendPacket(packet.ToArray(), PacketChannel.C2S, PacketProtocolFlags.Reliable);
+            }
+            if (notification != null)
+            {
+                Notifications.RemoveNotification(notification);
+                notification.Dispose();
+            }
             if (notificationRemaining != null)
             {
                 Notifications.RemoveNotification(notificationRemaining);
@@ -115,8 +125,11 @@ namespace SAssemblies.Miscs
                             Console.WriteLine((ms + (250 * 1000)) + " " + DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond);
                             Game.SendPacket(packet.ToArray(), PacketChannel.C2S, PacketProtocolFlags.Reliable);
                             packetSent = true;
-                            Notifications.RemoveNotification(notification);
-                            notification.Dispose();
+                            if (notification != null)
+                            {
+                                Notifications.RemoveNotification(notification);
+                                notification.Dispose();
+                            }
                             if (notificationRemaining != null)
                             {
                                 Notifications.RemoveNotification(notificationRemaining);
@@ -169,8 +182,11 @@ namespace SAssemblies.Miscs
                 return;
             Game.SendPacket(packet.ToArray(), PacketChannel.C2S, PacketProtocolFlags.Reliable);
             packetSent = true;
-            Notifications.RemoveNotification(notification);
-            notification.Dispose();
+            if (notification != null)
+            {
+                Notifications.RemoveNotification(notification);
+                notification.Dispose();
+            }
             if (notificationRemaining != null)
             {
                 Notifications.RemoveNotification(notificationRemaining);

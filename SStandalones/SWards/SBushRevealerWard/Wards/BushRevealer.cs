@@ -21,14 +21,14 @@ namespace SAssemblies.Wards
         public BushRevealer()
         {
             _playerInfo = ObjectManager.Get<Obj_AI_Hero>().Where(x => x.IsEnemy).Select(x => new PlayerInfo(x)).ToList();
-            ThreadHelper.GetInstance().Called += Game_OnGameUpdate;
-            //Game.OnGameUpdate += Game_OnGameUpdate;
+            //ThreadHelper.GetInstance().Called += Game_OnGameUpdate;
+            Game.OnUpdate += Game_OnGameUpdate;
         }
 
         ~BushRevealer()
         {
-            ThreadHelper.GetInstance().Called -= Game_OnGameUpdate;
-            //Game.OnGameUpdate -= Game_OnGameUpdate;
+            //ThreadHelper.GetInstance().Called -= Game_OnGameUpdate;
+            Game.OnUpdate -= Game_OnGameUpdate;
             _playerInfo = null;
         }
 
@@ -53,14 +53,13 @@ namespace SAssemblies.Wards
             BushRevealerWard.Menu = menu.AddSubMenu(new LeagueSharp.Common.Menu(Language.GetString("WARDS_BUSHREVEALER_MAIN"), "SAssembliesWardsBushRevealer"));
             BushRevealerWard.MenuItems.Add(
                 BushRevealerWard.Menu.AddItem(new MenuItem("SAssembliesWardsBushRevealerKey", Language.GetString("GLOBAL_KEY")).SetValue(new KeyBind(32, KeyBindType.Press))));
-            BushRevealerWard.MenuItems.Add(
-                BushRevealerWard.Menu.AddItem(new MenuItem("SAssembliesWardsBushRevealerActive", Language.GetString("GLOBAL_ACTIVE")).SetValue(false)));
+            BushRevealerWard.MenuItems.Add(BushRevealerWard.CreateActiveMenuItem("SAssembliesWardsBushRevealerActive", () => new BushRevealer()));
             BushRevealerWard.MenuItems.Add(
                 BushRevealerWard.Menu.AddItem(new MenuItem("By Beaving & Blm95", "By Beaving & Blm95")));
             return BushRevealerWard;
         }
 
-        private void Game_OnGameUpdate(object sender, EventArgs args)
+        private void Game_OnGameUpdate(EventArgs args)
         {
             if (!IsActive() || lastGameUpdateTime + new Random().Next(500, 1000) > Environment.TickCount)
                 return;

@@ -25,14 +25,14 @@ namespace SAssemblies.Healths
                 Game.OnUpdate -= a;
             };
             Game.OnUpdate += a;
-            //Game.OnGameUpdate += Game_OnGameUpdate;
-            ThreadHelper.GetInstance().Called += Game_OnGameUpdate;
+            Game.OnUpdate += Game_OnGameUpdate;
+            //ThreadHelper.GetInstance().Called += Game_OnGameUpdate;
         }
 
         ~Inhibitor()
         {
-            //Game.OnGameUpdate -= Game_OnGameUpdate;
-            ThreadHelper.GetInstance().Called -= Game_OnGameUpdate;
+            Game.OnUpdate -= Game_OnGameUpdate;
+            //ThreadHelper.GetInstance().Called -= Game_OnGameUpdate;
             healthConf = null;
         }
 
@@ -48,12 +48,11 @@ namespace SAssemblies.Healths
         public static Menu.MenuItemSettings SetupMenu(LeagueSharp.Common.Menu menu)
         {
             InhibitorHealth.Menu = menu.AddSubMenu(new LeagueSharp.Common.Menu(Language.GetString("HEALTHS_INHIBITOR_MAIN"), "SAssembliesHealthsInhibitor"));
-            InhibitorHealth.MenuItems.Add(
-                InhibitorHealth.Menu.AddItem(new MenuItem("SAssembliesHealthsInhibitorActive", Language.GetString("GLOBAL_ACTIVE")).SetValue(false)));
+            InhibitorHealth.MenuItems.Add(InhibitorHealth.CreateActiveMenuItem("SAssembliesHealthsInhibitorActive", () => new Inhibitor()));
             return InhibitorHealth;
         }
 
-        void Game_OnGameUpdate(object sender, EventArgs args)
+        void Game_OnGameUpdate(EventArgs args)
         {
             if (!IsActive() || lastGameUpdateTime + new Random().Next(500, 1000) > Environment.TickCount)
                 return;

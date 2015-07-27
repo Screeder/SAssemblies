@@ -53,6 +53,14 @@ namespace SAssemblies
                 { DisconnectDetector, () => new DisReconnect() }
             };
         }
+
+        public void UpdateDirEntry(ref MenuItemSettings oldMenuItem, MenuItemSettings newMenuItem)
+        {
+            var save = MenuEntries[oldMenuItem];
+            MenuEntries.Remove(oldMenuItem);
+            MenuEntries.Add(newMenuItem, save);
+            oldMenuItem = newMenuItem;
+        }
     }
 
     internal class Program
@@ -60,7 +68,7 @@ namespace SAssemblies
         private static bool threadActive = true;
         private static float lastDebugTime = 0;
         private static readonly Program instance = new Program();
-        private MainMenu mainMenu;
+        private MainMenu2 mainMenu;
 
         public static void Main(string[] args)
         {
@@ -72,7 +80,7 @@ namespace SAssemblies
 
         public void Load()
         {
-            mainMenu = new MainMenu();
+            mainMenu = new MainMenu2();
             LeagueSharp.SDK.Core.Events.Load.OnLoad += Game_OnGameLoad;
         }
 
@@ -93,42 +101,11 @@ namespace SAssemblies
         {
             try
             {
-                //Menu.MenuItemSettings tempSettings;
-                //var menu = new LeagueSharp.Common.Menu("SDisReconnectDetector", "SDisReconnectDetector", true);
-
-                //MainMenu.Detector = Detector.SetupMenu(menu, true);
-                ////mainMenu.UpdateDirEntry(ref MainMenu.DisconnectDetector, DisReconnect.SetupMenu(MainMenu.Detector.Menu));
-
-                //Menu.GlobalSettings.Menu =
-                //    menu.AddSubMenu(new LeagueSharp.Common.Menu("Global Settings", "SAssembliesGlobalSettings"));
-                //Menu.GlobalSettings.MenuItems.Add(
-                //    Menu.GlobalSettings.Menu.AddItem(
-                //        new MenuItem("SAssembliesGlobalSettingsServerChatPingActive", "Server Chat/Ping").SetValue(
-                //            false)));
-                //Menu.GlobalSettings.MenuItems.Add(
-                //    Menu.GlobalSettings.Menu.AddItem(
-                //        new MenuItem("SAssembliesGlobalSettingsVoiceVolume", "Voice Volume").SetValue(
-                //            new Slider(100, 0, 100))));
-
-                //menu.AddItem(
-                //    new MenuItem("By Screeder", "By Screeder V" + Assembly.GetExecutingAssembly().GetName().Version));
-                //menu.AddToMainMenu();
-
                 var menu = Menu2.CreateMainMenu();
                 Menu2.CreateGlobalMenuItems(menu);
 
-                //MainMenu.Detector = Detector.SetupMenu(menu, true);
-                //mainMenu.UpdateDirEntry(ref MainMenu.DisconnectDetector, DisReconnect.SetupMenu(MainMenu.Detector.Menu));
-
-                Menu2.MenuItemSettings DisReconnectDetector = new Menu2.MenuItemSettings(typeof(DisReconnect));
-
-                DisReconnectDetector.Menu = Menu2.AddMenu(ref menu, new LeagueSharp.SDK.Core.UI.IMenu.Menu("SAssembliesDetectorsDisReconnect", Language.GetString("DETECTORS_DISRECONNECT_MAIN")));
-                Menu2.AddComponent(ref DisReconnectDetector.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuBool("SAssembliesDetectorsDisReconnectChat", Language.GetString("GLOBAL_CHAT")));
-                Menu2.AddComponent(ref DisReconnectDetector.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuBool("SAssembliesDetectorsDisReconnectNotification", Language.GetString("GLOBAL_NOTIFICATION")));
-                Menu2.AddComponent(ref DisReconnectDetector.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuBool("SAssembliesDetectorsDisReconnectSpeech", Language.GetString("GLOBAL_VOICE")));
-                DisReconnectDetector.CreateActiveMenuItem("SAssembliesDetectorsDisReconnectActive");
-
-                MainMenu2.DisconnectDetector = DisReconnectDetector;
+                MainMenu2.Detector = Detector.SetupMenu(menu, true);
+                mainMenu.UpdateDirEntry(ref MainMenu2.DisconnectDetector, DisReconnect.SetupMenu(MainMenu2.Detector.Menu));
             }
             catch (Exception)
             {

@@ -25,14 +25,14 @@ namespace SAssemblies.Trackers
                 Game.OnUpdate -= a;
             };
             Game.OnUpdate += a;
-            ThreadHelper.GetInstance().Called += Game_OnGameUpdate;
-            //Game.OnGameUpdate += Game_OnGameUpdate;
+            //ThreadHelper.GetInstance().Called += Game_OnGameUpdate;
+            Game.OnUpdate += Game_OnGameUpdate;
         }
 
         ~Killable()
         {
-            ThreadHelper.GetInstance().Called -= Game_OnGameUpdate;
-            //Game.OnGameUpdate -= Game_OnGameUpdate;
+            //ThreadHelper.GetInstance().Called -= Game_OnGameUpdate;
+            Game.OnUpdate -= Game_OnGameUpdate;
             _enemies = null;
         }
 
@@ -50,8 +50,7 @@ namespace SAssemblies.Trackers
             KillableTracker.Menu = menu.AddSubMenu(new LeagueSharp.Common.Menu(Language.GetString("TRACKERS_KILLABLE_MAIN"), "SAssembliesTrackersKillable"));
             KillableTracker.MenuItems.Add(
                 KillableTracker.Menu.AddItem(new MenuItem("SAssembliesTrackersKillableSpeech", Language.GetString("GLOBAL_VOICE")).SetValue(false)));
-            KillableTracker.MenuItems.Add(
-                KillableTracker.Menu.AddItem(new MenuItem("SAssembliesTrackersKillableActive", Language.GetString("GLOBAL_ACTIVE")).SetValue(false)));
+            KillableTracker.MenuItems.Add(KillableTracker.CreateActiveMenuItem("SAssembliesTrackersKillableActive", () => new Killable()));
             return KillableTracker;
         }
 
@@ -205,7 +204,7 @@ namespace SAssemblies.Trackers
             }
         }
 
-        void Game_OnGameUpdate(object sender, EventArgs args)
+        void Game_OnGameUpdate(EventArgs args)
         {
             if (!IsActive() || lastGameUpdateTime + new Random().Next(500, 1000) > Environment.TickCount)
                 return;

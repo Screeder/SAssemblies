@@ -49,14 +49,14 @@ namespace SAssemblies.Wards
                     _wards.Add(hero, wards);
                 }
             }
-            //Game.OnGameUpdate += Game_OnGameUpdate;
-            ThreadHelper.GetInstance().Called += Game_OnGameUpdate;
+            Game.OnUpdate += Game_OnGameUpdate;
+            //ThreadHelper.GetInstance().Called += Game_OnGameUpdate;
         }
 
         ~FowWardPlacement()
         {
-            //Game.OnGameUpdate -= Game_OnGameUpdate;
-            ThreadHelper.GetInstance().Called -= Game_OnGameUpdate;
+            Game.OnUpdate -= Game_OnGameUpdate;
+            //ThreadHelper.GetInstance().Called -= Game_OnGameUpdate;
         }
 
         public bool IsActive()
@@ -78,12 +78,11 @@ namespace SAssemblies.Wards
         public static Menu.MenuItemSettings SetupMenu(LeagueSharp.Common.Menu menu)
         {
             FowWardPlacementWard.Menu = menu.AddSubMenu(new LeagueSharp.Common.Menu(Language.GetString("WARDS_FOWWARDPLACEMENT_MAIN"), "SAssembliesWardsFowWardPlacement"));
-            FowWardPlacementWard.MenuItems.Add(
-                FowWardPlacementWard.Menu.AddItem(new MenuItem("SAssembliesWardsFowWardPlacementActive", Language.GetString("GLOBAL_ACTIVE")).SetValue(false)));
+            FowWardPlacementWard.MenuItems.Add(FowWardPlacementWard.CreateActiveMenuItem("SAssembliesWardsFowWardPlacementActive", () => new FowWardPlacement()));
             return FowWardPlacementWard;
         }
 		
-		private void Game_OnGameUpdate(object sender, EventArgs args)
+		private void Game_OnGameUpdate(EventArgs args)
         {
             if (!IsActive() || lastGameUpdateTime + new Random().Next(500, 1000) > Environment.TickCount)
                 return;

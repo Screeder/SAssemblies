@@ -16,13 +16,15 @@ namespace SAssemblies.Miscs
         public AntiNexusTurret()
         {
             Obj_AI_Base.OnNewPath += Obj_AI_Hero_OnNewPath;
-            ThreadHelper.GetInstance().Called += Game_OnGameUpdate;
+            Game.OnUpdate += Game_OnGameUpdate;
+            //ThreadHelper.GetInstance().Called += Game_OnGameUpdate;
         }
 
         ~AntiNexusTurret()
         {
             Obj_AI_Base.OnNewPath -= Obj_AI_Hero_OnNewPath;
-            ThreadHelper.GetInstance().Called -= Game_OnGameUpdate;
+            Game.OnUpdate -= Game_OnGameUpdate;
+            //ThreadHelper.GetInstance().Called -= Game_OnGameUpdate;
         }
 
         public bool IsActive()
@@ -37,12 +39,11 @@ namespace SAssemblies.Miscs
         public static Menu.MenuItemSettings SetupMenu(LeagueSharp.Common.Menu menu)
         {
             AntiNexusTurretMisc.Menu = menu.AddSubMenu(new LeagueSharp.Common.Menu(Language.GetString("MISCS_ANTINEXUSTURRET_MAIN"), "SAssembliesMiscsAntiNexusTurret"));
-            AntiNexusTurretMisc.MenuItems.Add(
-                AntiNexusTurretMisc.Menu.AddItem(new MenuItem("SAssembliesMiscsAntiNexusTurretActive", Language.GetString("GLOBAL_ACTIVE")).SetValue(false)));
+            AntiNexusTurretMisc.MenuItems.Add(AntiNexusTurretMisc.CreateActiveMenuItem("SAssembliesMiscsAntiNexusTurretActive", () => new AntiNexusTurret()));
             return AntiNexusTurretMisc;
         }
 
-        void Game_OnGameUpdate(object sender, EventArgs args)
+        void Game_OnGameUpdate(EventArgs args)
         {
             if (!IsActive())
                 return;

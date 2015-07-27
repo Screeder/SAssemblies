@@ -10,7 +10,7 @@ namespace SAssemblies.Ranges
 {
     internal class Range
     {
-        public static Menu.MenuItemSettings Ranges = new Menu.MenuItemSettings();
+        public static Menu2.MenuItemSettings Ranges = new Menu2.MenuItemSettings();
 
         private Range()
         {
@@ -24,17 +24,16 @@ namespace SAssemblies.Ranges
 
         private static void SetupMainMenu()
         {
-            var menu = new LeagueSharp.Common.Menu("SRanges", "SAssembliesSRanges", true);
+            var menu = Menu2.CreateMainMenu("SAssembliesSRanges", "SRanges");
             SetupMenu(menu);
-            menu.AddToMainMenu();
         }
 
-        public static Menu.MenuItemSettings SetupMenu(LeagueSharp.Common.Menu menu, bool useExisitingMenu = false)
+        public static Menu2.MenuItemSettings SetupMenu(LeagueSharp.SDK.Core.UI.IMenu.Menu menu, bool useExisitingMenu = false)
         {
             Language.SetLanguage();
             if (!useExisitingMenu)
             {
-                Ranges.Menu = menu.AddSubMenu(new LeagueSharp.Common.Menu(Language.GetString("RANGES_RANGE_MAIN"), "SAssembliesRanges"));
+                Ranges.Menu = Menu2.AddMenu(ref menu, new LeagueSharp.SDK.Core.UI.IMenu.Menu("SAssembliesRanges", Language.GetString("RANGES_RANGE_MAIN")));
             }
             else
             {
@@ -42,7 +41,7 @@ namespace SAssemblies.Ranges
             }
             if (!useExisitingMenu)
             {
-                Ranges.MenuItems.Add(Ranges.CreateActiveMenuItem("SAssembliesRangesActive"));
+                Ranges.CreateActiveMenuItem("SAssembliesRangesActive");
             }
             return Ranges;
         }

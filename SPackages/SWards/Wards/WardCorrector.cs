@@ -96,8 +96,8 @@ namespace SAssemblies.Wards
             WardSpots.Add(new WardSpot("Purple Inner Turret Jungle", new Vector3(8122.0f, 13206.0f, 52.84f), new Vector3(8128.53f, 12658.41f, 52.84f), new Vector3(8323.9f, 12457.76f, 56.48f), new Vector3(8122.0f, 13206.0f, 52.84f)));
 
             Drawing.OnDraw += Drawing_OnDraw;
-            //Game.OnGameUpdate += Game_OnGameUpdate;
-            ThreadHelper.GetInstance().Called += Game_OnGameUpdate;
+            Game.OnUpdate += Game_OnGameUpdate;
+            //ThreadHelper.GetInstance().Called += Game_OnGameUpdate;
             Game.OnWndProc += Game_OnWndProc;
             //Game.OnGameSendPacket += Game_OnGameSendPacket;
             Spellbook.OnCastSpell += Spellbook_OnCastSpell;
@@ -106,8 +106,8 @@ namespace SAssemblies.Wards
         ~WardCorrector()
         {
             Game.OnWndProc -= Game_OnWndProc;
-            //Game.OnGameUpdate -= Game_OnGameUpdate;
-            ThreadHelper.GetInstance().Called -= Game_OnGameUpdate;
+            Game.OnUpdate -= Game_OnGameUpdate;
+            //ThreadHelper.GetInstance().Called -= Game_OnGameUpdate;
             //Game.OnGameSendPacket -= Game_OnGameSendPacket;
             Drawing.OnDraw -= Drawing_OnDraw;
             Spellbook.OnCastSpell -= Spellbook_OnCastSpell;
@@ -138,8 +138,7 @@ namespace SAssemblies.Wards
             WardCorrectorWard.Menu = menu.AddSubMenu(new LeagueSharp.Common.Menu(Language.GetString("WARDS_WARDCORRECTOR_MAIN"), "SAssembliesWardsWardCorrector"));
             WardCorrectorWard.MenuItems.Add(
                 WardCorrectorWard.Menu.AddItem(new MenuItem("SAssembliesWardsWardCorrectorKey", Language.GetString("WARDS_WARDCORRECTOR_TRINKET")).SetValue(new KeyBind(52, KeyBindType.Press))));
-            WardCorrectorWard.MenuItems.Add(
-                WardCorrectorWard.Menu.AddItem(new MenuItem("SAssembliesWardsWardCorrectorActive", Language.GetString("GLOBAL_ACTIVE")).SetValue(false)));
+            WardCorrectorWard.MenuItems.Add(WardCorrectorWard.CreateActiveMenuItem("SAssembliesWardsWardCorrectorActive", () => new WardCorrector()));
             return WardCorrectorWard;
         }
 
@@ -402,7 +401,7 @@ namespace SAssemblies.Wards
             }
         }
 
-        private void Game_OnGameUpdate(object sender, EventArgs args)
+        private void Game_OnGameUpdate(EventArgs args)
         {
             if (!IsActive() || lastGameUpdateTime + new Random().Next(500, 1000) > Environment.TickCount)
                 return;

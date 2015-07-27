@@ -7,15 +7,13 @@ using System.Text;
 using System.Threading.Tasks;
 using LeagueSharp;
 using LeagueSharp.Common;
+using LeagueSharp.SDK.Core.UI.IMenu.Values;
 
 namespace SAssemblies.Detectors
 {
     class DisReconnect
     {
-        public static Menu.MenuItemSettings DisReconnectDetector = new Menu.MenuItemSettings(typeof(DisReconnect));
-
-        private Dictionary<Obj_AI_Hero, bool> _disconnects = new Dictionary<Obj_AI_Hero, bool>();
-        private Dictionary<Obj_AI_Hero, bool> _reconnects = new Dictionary<Obj_AI_Hero, bool>();
+        public static Menu2.MenuItemSettings DisReconnectDetector = new Menu2.MenuItemSettings(typeof(DisReconnect));
 
         public DisReconnect()
         {
@@ -25,8 +23,6 @@ namespace SAssemblies.Detectors
         ~DisReconnect()
         {
             Game.OnProcessPacket -= Game_OnGameProcessPacket;
-            _disconnects = null;
-            _reconnects = null;
         }
 
         public bool IsActive()
@@ -38,17 +34,13 @@ namespace SAssemblies.Detectors
 #endif
         }
 
-        public static Menu.MenuItemSettings SetupMenu(LeagueSharp.Common.Menu menu)
+        public static Menu2.MenuItemSettings SetupMenu(LeagueSharp.SDK.Core.UI.IMenu.Menu menu)
         {
-            DisReconnectDetector.Menu = menu.AddSubMenu(new LeagueSharp.Common.Menu(Language.GetString("DETECTORS_DISRECONNECT_MAIN"), "SAssembliesDetectorsDisReconnect"));
-            DisReconnectDetector.MenuItems.Add(
-                DisReconnectDetector.Menu.AddItem(new MenuItem("SAssembliesDetectorsDisReconnectChat", Language.GetString("GLOBAL_CHAT")).SetValue(false)));
-            DisReconnectDetector.MenuItems.Add(
-                DisReconnectDetector.Menu.AddItem(new MenuItem("SAssembliesDetectorsDisReconnectNotification", Language.GetString("GLOBAL_NOTIFICATION")).SetValue(false)));
-            DisReconnectDetector.MenuItems.Add(
-                DisReconnectDetector.Menu.AddItem(new MenuItem("SAssembliesDetectorsDisReconnectSpeech", Language.GetString("GLOBAL_VOICE")).SetValue(false)));
-            DisReconnectDetector.MenuItems.Add(
-                DisReconnectDetector.Menu.AddItem(new MenuItem("SAssembliesDetectorsDisReconnectActive", Language.GetString("GLOBAL_ACTIVE")).SetValue(false)));
+            DisReconnectDetector.Menu = Menu2.AddMenu(ref menu, new LeagueSharp.SDK.Core.UI.IMenu.Menu("SAssembliesDetectorsDisReconnect", Language.GetString("DETECTORS_DISRECONNECT_MAIN")));
+            Menu2.AddComponent(ref DisReconnectDetector.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuBool("SAssembliesDetectorsDisReconnectChat", Language.GetString("GLOBAL_CHAT")));
+            Menu2.AddComponent(ref DisReconnectDetector.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuBool("SAssembliesDetectorsDisReconnectNotification", Language.GetString("GLOBAL_NOTIFICATION")));
+            Menu2.AddComponent(ref DisReconnectDetector.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuBool("SAssembliesDetectorsDisReconnectSpeech", Language.GetString("GLOBAL_VOICE")));
+            DisReconnectDetector.CreateActiveMenuItem("SAssembliesDetectorsDisReconnectActive");
             return DisReconnectDetector;
         }
 
@@ -56,71 +48,59 @@ namespace SAssemblies.Detectors
         {
             if (!IsActive())
                 return;
+            DetectDisconnect(args);
+            DetectReconnect(args);
+        }
+
+        private void DetectDisconnect(GamePacketEventArgs args)
+        {
             try
             {
                 var reader = new BinaryReader(new MemoryStream(args.PacketData));
                 byte packetId = reader.ReadByte(); //PacketId
-                if (packetId != Packet.S2C.PlayerDisconnect.Header)
+                if (packetId != 249 || args.PacketData.Length != 12)
                     return;
-                Packet.S2C.PlayerDisconnect.Struct disconnect = Packet.S2C.PlayerDisconnect.Decoded(args.PacketData);
-                if (disconnect.Player == null)
-                    return;
-                if (_disconnects.ContainsKey(disconnect.Player))
+                if (DisReconnectDetector.Menu["SAssembliesDetectorsDisReconnectChat"].GetValue<MenuBool>().Value &&
+                        Menu2.GlobalSettings.Menu["SAssembliesGlobalSettingsServerChatPingActive"].GetValue<MenuBool>().Value)
                 {
-                    _disconnects[disconnect.Player] = true;
+                    Game.Say("A Champion has disconnected!");
                 }
-                else
+                if (DisReconnectDetector.Menu["SAssembliesDetectorsDisReconnectSpeech"].GetValue<MenuBool>().Value)
                 {
-                    _disconnects.Add(disconnect.Player, true);
+                    Speech.Speak("A Champion has disconnected!");
                 }
-                if (DisReconnectDetector.GetMenuItem("SAssembliesDetectorsDisReconnectChat").GetValue<bool>() &&
-                        Menu.GlobalSettings.GetMenuItem("SAssembliesGlobalSettingsServerChatPingActive").GetValue<bool>())
+                if (DisReconnectDetector.Menu["SAssembliesDetectorsDisReconnectNotification"].GetValue<MenuBool>().Value)
                 {
-                    Game.Say("Champion " + disconnect.Player.ChampionName + " has disconnected!");
-                }
-                if (DisReconnectDetector.GetMenuItem("SAssembliesDetectorsDisReconnectSpeech").GetValue<bool>())
-                {
-                    Speech.Speak("Champion " + disconnect.Player.ChampionName + " has disconnected!");
-                }
-                if (DisReconnectDetector.GetMenuItem("SAssembliesDetectorsDisReconnectNotification").GetValue<bool>())
-                {
-                    Common.ShowNotification("Champion " + disconnect.Player.ChampionName + " has disconnected!", Color.LawnGreen, 3);
+                    Common.ShowNotification("A Champion has disconnected!", Color.LawnGreen, 3);
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine("DisconnectProcess: " + ex);
             }
+        }
+
+        private void DetectReconnect(GamePacketEventArgs args)
+        {
             try
             {
                 var reader = new BinaryReader(new MemoryStream(args.PacketData));
                 byte packetId = reader.ReadByte(); //PacketId
-                if (packetId != Packet.S2C.PlayerReconnected.Header)
+                if (packetId != 142 || args.PacketData.Length != 6)
                     return;
-                Packet.S2C.PlayerReconnected.Struct reconnect = Packet.S2C.PlayerReconnected.Decoded(args.PacketData);
-                if (reconnect.Player == null)
-                    return;
-                if (_reconnects.ContainsKey(reconnect.Player))
-                {
-                    _reconnects[reconnect.Player] = true;
-                }
-                else
-                {
-                    _reconnects.Add(reconnect.Player, true);
-                }
                 if (
-                    DisReconnectDetector.GetMenuItem("SAssembliesDetectorsDisReconnectChat").GetValue<bool>() &&
-                    Menu.GlobalSettings.GetMenuItem("SAssembliesGlobalSettingsServerChatPingActive").GetValue<bool>())
+                    DisReconnectDetector.Menu["SAssembliesDetectorsDisReconnectChat"].GetValue<MenuBool>().Value &&
+                    Menu2.GlobalSettings.Menu["SAssembliesGlobalSettingsServerChatPingActive"].GetValue<MenuBool>().Value)
                 {
-                    Game.Say("Champion " + reconnect.Player.ChampionName + " has reconnected!");
+                    Game.Say("A Champion has reconnected!");
                 }
-                if (DisReconnectDetector.GetMenuItem("SAssembliesDetectorsDisReconnectSpeech").GetValue<bool>())
+                if (DisReconnectDetector.Menu["SAssembliesDetectorsDisReconnectSpeech"].GetValue<MenuBool>().Value)
                 {
-                    Speech.Speak("Champion " + reconnect.Player.ChampionName + " has reconnected!");
+                    Speech.Speak("A Champion has reconnected!");
                 }
-                if (DisReconnectDetector.GetMenuItem("SAssembliesDetectorsDisReconnectNotification").GetValue<bool>())
+                if (DisReconnectDetector.Menu["SAssembliesDetectorsDisReconnectNotification"].GetValue<MenuBool>().Value)
                 {
-                    Common.ShowNotification("Champion " + reconnect.Player.ChampionName + " has reconnected!", Color.Yellow, 3);
+                    Common.ShowNotification("A Champion has reconnected!", Color.Yellow, 3);
                 }
             }
             catch (Exception ex)

@@ -25,6 +25,7 @@ namespace SAssemblies.Miscs
         private Notification notificationRemaining = null;
         private long ms = -1;
         private DrawingDraw drawingEvent = null;
+        private int delay = 420;
 
         public WoodenPc()
         {
@@ -120,9 +121,8 @@ namespace SAssemblies.Miscs
                     ms = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
                     drawingEvent = delegate
                     {
-                        if (!packetSent && (ms + (250 * 1000)) < (DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond))
+                        if (!packetSent && (ms + (delay * 1000)) < (DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond))
                         {
-                            Console.WriteLine((ms + (250 * 1000)) + " " + DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond);
                             Game.SendPacket(packet.ToArray(), PacketChannel.C2S, PacketProtocolFlags.Reliable);
                             packetSent = true;
                             if (notification != null)
@@ -145,13 +145,13 @@ namespace SAssemblies.Miscs
                                 notificationRemaining =
                                 Common.ShowNotification(
                                     "Remaining: " +
-                                    (ms + (250 * 1000) - DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond).ToString(),
-                                    Color.YellowGreen, 250 * 1000);
+                                    (ms + (delay * 1000) - DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond).ToString(),
+                                    Color.YellowGreen, delay * 1000);
                             }
                             else
                             {
                                 notificationRemaining.Text = "Remaining: " +
-                                    ((ms + (250 * 1000) - DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) / 1000).ToString() + "s";
+                                    ((ms + (delay * 1000) - DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) / 1000).ToString() + "s";
                             }
                         }
                     };

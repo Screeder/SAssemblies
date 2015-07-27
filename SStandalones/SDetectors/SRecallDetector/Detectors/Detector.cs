@@ -10,7 +10,7 @@ namespace SAssemblies.Detectors
 {
     class Detector
     {
-        public static Menu.MenuItemSettings Detectors = new Menu.MenuItemSettings();
+        public static Menu2.MenuItemSettings Detectors = new Menu2.MenuItemSettings();
 
         private Detector()
         {
@@ -24,17 +24,17 @@ namespace SAssemblies.Detectors
 
         private static void SetupMainMenu()
         {
-            var menu = new LeagueSharp.Common.Menu("SAssemblies", "SAssemblies", true);
+            var menu = Menu2.CreateMainMenu();
+            Menu2.CreateGlobalMenuItems(menu);
             SetupMenu(menu);
-            menu.AddToMainMenu();
         }
 
-        public static Menu.MenuItemSettings SetupMenu(LeagueSharp.Common.Menu menu, bool useExisitingMenu = false)
+        public static Menu2.MenuItemSettings SetupMenu(LeagueSharp.SDK.Core.UI.IMenu.Menu menu, bool useExisitingMenu = false)
         {
             Language.SetLanguage();
             if (!useExisitingMenu)
             {
-                Detectors.Menu = menu.AddSubMenu(new LeagueSharp.Common.Menu(Language.GetString("DETECTORS_DETECTOR_MAIN"), "SAssembliesDetectors"));
+                Detectors.Menu = Menu2.AddMenu(ref menu, new LeagueSharp.SDK.Core.UI.IMenu.Menu("SAssembliesDetectors", Language.GetString("DETECTORS_DETECTOR_MAIN")));
             }
             else
             {
@@ -42,7 +42,7 @@ namespace SAssemblies.Detectors
             }
             if (!useExisitingMenu)
             {
-                Detectors.MenuItems.Add(Detectors.Menu.AddItem(new MenuItem("SAssembliesDetectorsActive", Language.GetString("GLOBAL_ACTIVE")).SetValue(false)));
+                Detectors.CreateActiveMenuItem("SAssembliesDetectorsActive");
             }
             return Detectors;
         }

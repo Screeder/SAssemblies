@@ -70,7 +70,7 @@ namespace SAssemblies
     {
         private static bool threadActive = true;
         private static float lastDebugTime = 0;
-        private MainMenu mainMenu;
+        private MainMenu2 mainMenu;
         private static readonly Program instance = new Program();
 
         public static void Main(string[] args)
@@ -83,7 +83,7 @@ namespace SAssemblies
 
         public void Load()
         {
-            mainMenu = new MainMenu();
+            mainMenu = new MainMenu2();
             LeagueSharp.SDK.Core.Events.Load.OnLoad += Game_OnGameLoad;
         }
 
@@ -108,23 +108,8 @@ namespace SAssemblies
                 var menu = Menu2.CreateMainMenu();
                 Menu2.CreateGlobalMenuItems(menu);
 
-                //MainMenu.Range = Range.SetupMenu(menu);
-                //mainMenu.UpdateDirEntry(ref MainMenu.AttackRange, Attack.SetupMenu(MainMenu.Range.Menu));
-
-                Menu2.MenuItemSettings AttackRange = new Menu2.MenuItemSettings(typeof(Attack));
-
-                AttackRange.Menu = Menu2.AddMenu(ref menu, new LeagueSharp.SDK.Core.UI.IMenu.Menu("SAssembliesRangesAttack", Language.GetString("RANGES_ATTACK_MAIN")));
-                Menu2.AddComponent(ref AttackRange.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuList<String>("SAssembliesRangesAttackMode", Language.GetString("RANGES_ALL_MODE"), new[]
-                {
-                    Language.GetString("RANGES_ALL_MODE_ME"), 
-                    Language.GetString("RANGES_ALL_MODE_ENEMY"), 
-                    Language.GetString("RANGES_ALL_MODE_BOTH"),  
-                }));
-                Menu2.AddComponent(ref AttackRange.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuColor("SAssembliesRangesAttackColorMe", Language.GetString("RANGES_ALL_COLORME"), SharpDX.Color.LawnGreen));
-                Menu2.AddComponent(ref AttackRange.Menu, new LeagueSharp.SDK.Core.UI.IMenu.Values.MenuColor("SAssembliesRangesAttackColorEnemy", Language.GetString("RANGES_ALL_COLORENEMY"), SharpDX.Color.IndianRed));
-                AttackRange.CreateActiveMenuItem("SAssembliesRangesAttackActive");
-
-                MainMenu2.AttackRange = AttackRange;
+                MainMenu2.Range = Range.SetupMenu(menu);
+                mainMenu.UpdateDirEntry(ref MainMenu2.AttackRange, Attack.SetupMenu(MainMenu2.Range.Menu));
             }
             catch (Exception)
             {

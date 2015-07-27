@@ -23,8 +23,8 @@ namespace SAssemblies.Trackers
     {
         public static Menu.MenuItemSettings UiTracker = new Menu.MenuItemSettings(typeof(Ui));
 
-        public static readonly Dictionary<Obj_AI_Hero, ChampInfos> _allies = new Dictionary<Obj_AI_Hero, ChampInfos>();
-        public static readonly Dictionary<Obj_AI_Hero, ChampInfos> _enemies = new Dictionary<Obj_AI_Hero, ChampInfos>();
+        public readonly Dictionary<Obj_AI_Hero, ChampInfos> _allies = new Dictionary<Obj_AI_Hero, ChampInfos>();
+        public readonly Dictionary<Obj_AI_Hero, ChampInfos> _enemies = new Dictionary<Obj_AI_Hero, ChampInfos>();
         private static Size _backBarSize = new Size(96, 10);
         private static Size _champSize = new Size(64, 64);
         private static Size _healthManaBarSize = new Size(96, 5);
@@ -107,11 +107,9 @@ namespace SAssemblies.Trackers
             ////{
             ////    SpecUtils.GetInfo();
             ////}).Start();
-            new Thread(LoadSpritesAsync).Start();
             //ThreadHelper.GetInstance().Called += Game_OnGameUpdate;
             Game.OnUpdate += Game_OnGameUpdateAsyncSprites;
             Game.OnUpdate += Game_OnGameUpdate;
-            LoadObjectsSync();
             
             //Game.OnGameProcessPacket += Game_OnGameProcessPacket; //TODO:Enable for Gold View currently bugged packet id never received
             Game.OnWndProc += Game_OnWndProc;
@@ -215,8 +213,7 @@ namespace SAssemblies.Trackers
              //Menu.UiTracker.MenuItems.Add(Menu.UiTracker.Menu.AddItem(new LeagueSharp.Common.MenuItem("SAssembliesUITrackerCameraMoveActive", "Camera move active").SetValue(false)));
              UiTracker.MenuItems.Add(
                  UiTracker.Menu.AddItem(new MenuItem("SAssembliesUITrackerPingActive", Language.GetString("TRACKERS_UI_PING")).SetValue(false)));
-             UiTracker.MenuItems.Add(
-                 UiTracker.Menu.AddItem(new MenuItem("SAssembliesTrackersUiActive", Language.GetString("GLOBAL_ACTIVE")).SetValue(false)));
+            UiTracker.MenuItems.Add(UiTracker.CreateActiveMenuItem("SAssembliesTrackersUiActive", () => new Ui()));
              return UiTracker;
          }
 
@@ -453,6 +450,8 @@ namespace SAssemblies.Trackers
                 }
             }
             InitCustomSpells();
+            new Thread(LoadSpritesAsync).Start();
+            LoadObjectsSync();
         }
 
         //public async Task Init()

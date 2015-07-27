@@ -7,6 +7,7 @@ using LeagueSharp;
 using LeagueSharp.Common;
 using SharpDX;
 using SharpDX.Direct3D9;
+using Color = System.Drawing.Color;
 
 namespace SAssemblies.Timers
 {
@@ -50,8 +51,7 @@ namespace SAssemblies.Timers
             HealthTimer.Menu = menu.AddSubMenu(new LeagueSharp.Common.Menu(Language.GetString("TIMERS_HEALTH_MAIN"), "SAssembliesTimersHealth"));
             HealthTimer.MenuItems.Add(
                 HealthTimer.Menu.AddItem(new MenuItem("SAssembliesTimersHealthSpeech", Language.GetString("GLOBAL_VOICE")).SetValue(false)));
-            HealthTimer.MenuItems.Add(
-                HealthTimer.Menu.AddItem(new MenuItem("SAssembliesTimersHealthActive", Language.GetString("GLOBAL_ACTIVE")).SetValue(false)));
+            HealthTimer.MenuItems.Add(HealthTimer.CreateActiveMenuItem("SAssembliesTimersHealthActive", () => new Health()));
             return HealthTimer;
         }
 
@@ -173,6 +173,11 @@ namespace SAssemblies.Timers
                 if (GMap.Type == Utility.Map.MapType.HowlingAbyss)
                 {
                     MapType = Utility.Map.MapType.HowlingAbyss;
+                    RespawnTime = 40;
+                }
+                else if (GMap.Type == 0)
+                {
+                    MapType = 0;
                     RespawnTime = 40;
                 }
                 else if (GMap.Type == Utility.Map.MapType.CrystalScar)

@@ -43,6 +43,7 @@ namespace SAssemblies
 
         public class MenuItemSettings
         {
+            public event EventHandler<EventArgs> Activated;
             public bool ForceDisable;
             public dynamic Item;
             public LeagueSharp.Common.Menu Menu;
@@ -50,6 +51,7 @@ namespace SAssemblies
             public String Name;
             public List<MenuItemSettings> SubMenus = new List<MenuItemSettings>();
             public Type Type;
+            public bool Initialized = false;
 
             public MenuItemSettings(Type type, dynamic item)
             {
@@ -120,6 +122,33 @@ namespace SAssemblies
                 }
             }
 
+            public MenuItem CreateActiveMenuItem(String menuName)
+            {
+                return CreateActiveMenuItem(menuName, null);
+            }
+
+            public MenuItem CreateActiveMenuItem(String menuName, Func<dynamic> func)
+            {
+                if (Menu == null)
+                    return null;
+                MenuItem menuItem = null;
+                if (!Menu.Items.Any(x => x.DisplayName.Equals(Language.GetString("GLOBAL_ACTIVE"))))
+                {
+                    menuItem = Menu.AddItem(new MenuItem(menuName, Language.GetString("GLOBAL_ACTIVE")).SetValue(false));
+                }
+                else
+                {
+                    menuItem = Menu.Items.First(x => x.DisplayName.Equals(menuName));
+                }
+                if (func != null)
+                {
+                    Activated += delegate { if (!ForceDisable && !Initialized) { Item = func.Invoke(); Initialized = true; } };
+                    menuItem.ValueChanged += delegate (object sender, OnValueChangeEventArgs args) { if (args.GetNewValue<bool>()) { OnActivate(); } };
+                    menuItem.SetValue(menuItem.GetValue<bool>()); //Trigger OnValueChange
+                }
+                return menuItem;
+            }
+
             public MenuItem GetMenuItem(String menuName)
             {
                 if (Menu == null)
@@ -150,6 +179,16 @@ namespace SAssemblies
                 }
                 return null;
             }
+
+            public void OnActivate()
+            {
+                var target = Activated;
+                
+                if (target != null)
+                {
+                    target(this, new EventArgs());
+                }
+            }
         }
 
         //public static MenuItemSettings  = new MenuItemSettings();
@@ -160,19 +199,19 @@ namespace SAssemblies
         protected Dictionary<MenuItemSettings, Func<dynamic>> MenuEntries;
         public static MenuItemSettings GlobalSettings = new MenuItemSettings();
 
-        public static LeagueSharp.SDK.Core.UI.IMenu.Menu CreateMainMenu()
+        public static LeagueSharp.SDK.Core.UI.IMenu.Menu CreateMainMenu(string name = "SAssemblies", string displayName = "SAssemblies")
         {
             Language.SetLanguage();
             LeagueSharp.SDK.Core.UI.IMenu.Menu mainMenu;
-            if (LeagueSharp.SDK.Core.UI.IMenu.MenuManager.Instance["SAssemblies"] == null)
+            if (LeagueSharp.SDK.Core.UI.IMenu.MenuManager.Instance[name] == null)
             {
-                mainMenu = new LeagueSharp.SDK.Core.UI.IMenu.Menu("SAssemblies", "SAssemblies", true);
+                mainMenu = new LeagueSharp.SDK.Core.UI.IMenu.Menu(name, name, true);
                 mainMenu.Add(new LeagueSharp.SDK.Core.UI.IMenu.Menu("By Screeder", "By Screeder V" + Assembly.GetExecutingAssembly().GetName().Version));
                 mainMenu.Attach();
             }
             else
             {
-                mainMenu = LeagueSharp.SDK.Core.UI.IMenu.MenuManager.Instance["SAssemblies"];
+                mainMenu = LeagueSharp.SDK.Core.UI.IMenu.MenuManager.Instance[name];
             }
             return mainMenu;
         }
@@ -3770,6 +3809,28 @@ namespace SAssemblies
                     break;
             }
             UpdateLanguage(Thread.CurrentThread.CurrentUICulture.Name);
+        }
+    }
+
+    static class PacketCatcher
+    {
+        private static List<byte> exclude = new List<byte>() { 25, 178, 204, 21, 120, 225, 43, 189, 224, 37, 18, 252, 97, 91, 187, 118, 35, 65, 200, 26, 149, 24, 180, 50, 42, 246, 59, 119, 96, 195, 64, 134, 11, 174, 185, 2, 112, 68, 173, 139, 39, 74, 138, 115, 201, 30, 95, 58, 127, 38, 208, 9, 47, 1, 103, 163, 167, 122, 52, 111, 250, 5, 155, 62, };
+        private static List<byte> list = new List<byte>() { }; 
+
+        public static void Init()
+        {
+            Game.OnProcessPacket += delegate(GamePacketEventArgs eventArgs)
+            {
+                if (!list.Contains(eventArgs.PacketData[0]) && !exclude.Contains(eventArgs.PacketData[0]))
+                {
+                    list.Add(eventArgs.PacketData[0]);
+                    Console.Write("Got Packet: " + eventArgs.PacketData[0] + "; Length: " + eventArgs.PacketData.Length + "; ");
+                    Array.ForEach(eventArgs.PacketData, x => Console.Write(x + " "));
+                    Console.WriteLine();
+                }
+            };
+
+            Utility.DelayAction.Add(60000, () => list.ForEach(x => Console.Write(x + ", ")));
         }
     }
 }
